@@ -1,0 +1,1 @@
+"""Clean Payment skill package."""

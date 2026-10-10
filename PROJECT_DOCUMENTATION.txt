@@ -1,0 +1,2292 @@
+============================================================
+JARVIS PRO
+COMPLETE PROJECT TECHNICAL DOCUMENTATION
+============================================================
+
+AUDIT BASIS
+-----------
+Repository audited from the working tree at audit time: 2026-09-20.
+This document is an inventory of the code and data currently present on disk.
+Static inspection was used. No services were started, no dependencies were
+installed, no source functionality was changed, and no Git commit or push was
+performed.
+
+Secret-handling rule:
+- Secret values, API keys, OAuth contents, cookies, PINs, tokens, and credentials
+  are intentionally not reproduced.
+- Sensitive files are identified by name and role only.
+- Environment-variable names are documented; values are omitted.
+
+1. PROJECT OVERVIEW
+===================
+
+Project identity:
+    JARVIS PRO is a Windows-oriented Python desktop assistant with a native
+    pywebview HUD, a Next.js/React HUD frontend, a voice command runtime, a
+    local/remote dashboard, deterministic skill routing, AI providers, local
+    memory, browser automation, camera/vision functions, Android/ADB
+    integration, communication/media integrations, and a developer-oriented
+    code-generation/editing subsystem.
+
+Current runtime shape:
+    main.py is the application entry point.
+    run_jarvis.py is a windowless/shortcut launcher that captures startup errors.
+    The Python runtime owns command processing and skills.
+    The Next.js frontend is started as a child process in hud/web.
+    The native pywebview window displays the frontend.
+    dashboard/server.py provides the active local/LAN HTTP/WebSocket API.
+
+Architecture philosophy confirmed in source:
+    - deterministic fast routes are tried before the normal AI/planner path;
+    - skills register actions into core.registry;
+    - the dispatcher is the shared command path for microphone, HUD, and
+      remote dashboard text;
+    - optional systems fail independently where their modules handle errors;
+    - online and offline voice modes reuse the same core/action registry;
+    - HUD events are emitted through a Python event bus and consumed by the web
+      client through an SSE bridge;
+    - compatibility and legacy code remains in the tree.
+
+Major subsystems:
+    configuration, runtime startup/shutdown, core routing/dispatch,
+    action registry, skills, AI provider routing, brain/conversation,
+    clarification, memory/profile, voice/STT/TTS, browser/CDP, camera/vision,
+    Android/ADB and payment handoff, communications/media, remote dashboard,
+    HUD telemetry/events, frontend chat/cockpit, and developer automation.
+
+Current development state:
+    The repository is an active, feature-rich but mixed-generation codebase.
+    Some modules are directly wired into startup; others are imported only by
+    specific routes, tests, or compatibility paths. Source alone cannot prove
+    that every external service is configured or available on a given machine.
+
+2. CURRENT IDENTITY
+===================
+
+The requested product terminology says:
+    CURRENT USER-FACING NAME: JARVIS PRO
+    INTERNAL / LEGACY IDENTIFIERS: JARVIS / JARVIS PRO
+
+The current repository does not consistently confirm JARVIS PRO as the active runtime
+name. The authoritative settings module starts with APP_NAME = "JARVIS PRO",
+then loads data/settings/jarvis_settings.json when present. That persisted file
+currently contains a customized assistantName of "JARVIS". Therefore the
+runtime display name resolves to the persisted setting on this checkout, not
+to JARVIS PRO.
+
+JARVIS PRO evidence:
+    - offline AI instructions use the name JARVIS PRO;
+    - browser runtime messages include JARVIS PRO in some descriptions;
+    - tests and newer UI terminology refer to JARVIS PRO in places.
+
+JARVIS evidence:
+    - package/module/file names, action protocol names, dashboard constants,
+      storage filenames, prompt text, and compatibility aliases use JARVIS;
+    - settings.py defines JARVIS PRO as the built-in fallback;
+    - "jarvis" is an explicit legacy assistant alias;
+    - the persisted runtime setting currently resolves to JARVIS.
+
+Safe conclusion:
+    JARVIS PRO is a requested/new identity and appears in parts of the code, but this
+    checkout's effective persisted display name is JARVIS. JARVIS and JARVIS PRO
+    remain active technical identifiers. The name system is configurable and
+    intentionally preserves explicit compatibility aliases.
+
+3. PROJECT ROOT STRUCTURE
+=========================
+
+Root-owned source/configuration:
+    main.py, run_jarvis.py
+    ai/, brain/, chatbot/, config/, core/, dashboard/, hud/, services/,
+    skills/, tests/, tools/, voice/
+    requirements.txt, .env.example, .gitignore
+
+Sensitive or machine-local root artifacts:
+    .env, credentials.json, token.json, .spotify_cache, yolo11n.pt
+    These are not documented by value. They are ignored or intended to be local.
+
+Frontend:
+    hud/web/ contains Next.js source, package metadata, public 3D models, and
+    installed node_modules. The dependency directory is not source-audited.
+
+Runtime/generated data:
+    data/ contains faces, settings, logs/uploads/runtime data where created.
+    voice/cache/ contains generated audio cache.
+    workspace/ contains generated example/user projects and JARVIS memory/backup
+    state, not the assistant's core source.
+    hud/web/node_modules/ contains installed JavaScript dependencies.
+
+4. COMPLETE DIRECTORY TREE
+==========================
+
+The source tree below is represented by the complete file inventory in Section
+5. Large generated/dependency areas are intentionally summarized separately.
+
+JARVIS-PRO/
+|-- .env                         (local environment values; secret)
+|-- .env.example                 (safe variable-name template)
+|-- .gitignore
+|-- credentials.json             (OAuth credential artifact; secret)
+|-- main.py
+|-- README.md                    (existing; not modified)
+|-- requirements.txt
+|-- run_jarvis.py
+|-- token.json                   (OAuth token artifact; secret)
+|-- yolo11n.pt                   (local YOLO model)
+|-- ai/
+|-- brain/
+|-- chatbot/
+|-- config/
+|-- core/
+|-- dashboard/
+|-- data/
+|-- hud/
+|-- services/
+|-- skills/
+|-- tests/
+|-- tools/
+|-- voice/
+|-- workspace/
+|-- .vscode/
+|-- .pytest_cache/
+|-- __pycache__/
+
+Source package summaries:
+    ai/          AI contracts, providers, prompts, planner, and memory.
+    brain/       conversation/context/clarification plus developer subsystem.
+    chatbot/     independent dashboard AI-chat API/session/clipboard support.
+    config/      environment, settings, feature-specific configuration.
+    core/        runtime, routers, dispatcher, action registry, workers, state.
+    dashboard/   active FastAPI local/LAN dashboard server and static client.
+    hud/         event bus, state, telemetry, bridge, native window, web app.
+    services/    Android, contacts, email, files, location, remote, media, web.
+    skills/      import-time action modules grouped by capability.
+    tests/       focused routing, provider, vision, remote, and feature tests.
+    tools/       Windows integration and database utility scripts.
+    voice/       online/offline STT/TTS, Agent, queues and state.
+
+Large/derived areas:
+    hud/web/node_modules/   installed Node dependencies; not manually audited.
+    hud/web/.next/          Next build/development output if present; generated.
+    workspace/              generated projects and .jarvis memories/backups.
+    data/                   runtime/user/model data; not core source.
+    voice/cache/            generated MP3/Piper cache.
+    __pycache__/, .pytest_cache/ compiled/interpreter/test caches.
+    .git/                   repository metadata.
+
+5. FILE-BY-FILE INVENTORY
+=========================
+
+Inventory convention:
+    The Python manifest below lists every non-generated Python file outside
+    workspace/, node_modules/, .git/, .next/, and __pycache__. It reports the
+    top-level classes and functions discovered by AST inspection. Descriptions
+    and runtime roles are grouped immediately after the manifest so small
+    helpers remain readable.
+
+Python manifest:
+ai/__init__.py | classes=- | functions=-
+ai/ai_worker.py | classes=- | functions=clean_for_speech,run_chat
+ai/chat.py | classes=ChatSession | functions=ai_chat_stream,ask_chat
+ai/chat_prompt.py | classes=- | functions=-
+ai/conversation.py | classes=- | functions=set_context,get_context,clear_context,all_context
+ai/core/commands.py | classes=AICommandHandler | functions=-
+ai/core/model_manager.py | classes=ModelManager | functions=-
+ai/core/policy.py | classes=AIModelPolicy | functions=-
+ai/core/preference.py | classes=AIPreference | functions=-
+ai/core/registry.py | classes=ModelDefinition,ModelRegistry | functions=-
+ai/core/router.py | classes=AIRouter | functions=-
+ai/core/schemas.py | classes=AIRequest,AIResponse,AIStreamChunk,AIError | functions=-
+ai/core/service.py | classes=AIService | functions=-
+ai/intent.py | classes=- | functions=detect
+ai/llm.py | classes=- | functions=ask
+ai/memory.py | classes=- | functions=connect,init_memory,migrate
+ai/memory_ai.py | classes=- | functions=extract_memory,normalize
+ai/memory_answer.py | classes=- | functions=is_personal_question,_normalize_text,normalize_question,_get_memory,_format_memory,direct_answer,answer
+ai/memory_confidence.py | classes=- | functions=confidence,is_high,is_medium,is_low
+ai/memory_forget.py | classes=- | functions=forget_key,forget_category,forget_all
+ai/memory_intent.py | classes=- | functions=handle
+ai/memory_manager.py | classes=- | functions=clean_value,learn
+ai/memory_pipeline.py | classes=- | functions=learn
+ai/memory_preference.py | classes=- | functions=clean,extract
+ai/memory_profile.py | classes=- | functions=profile,profile_summary,ai_profile
+ai/memory_rank.py | classes=- | functions=parse_time,score,rank
+ai/memory_schema.py | classes=Memory | functions=now
+ai/memory_search.py | classes=- | functions=score_memory,search,search_category,format_memories,row_to_memory
+ai/memory_semantic.py | classes=- | functions=tokenize,search
+ai/memory_stats.py | classes=- | functions=total,by_category,most_used,least_used,recent,unused,stats
+ai/memory_store.py | classes=- | functions=remember,get,exists,forget,list_all,total,touch,all_memories
+ai/memory_view.py | classes=- | functions=show_all,show,show_category,pretty
+ai/planner.py | classes=- | functions=_looks_like_bare_topic,create_plan
+ai/planner_prompt.py | classes=- | functions=-
+ai/prompt_builder.py | classes=- | functions=build_conversation,build_memory,build_prompt
+ai/providers/base.py | classes=AIProvider | functions=-
+ai/providers/gemini.py | classes=GeminiProvider | functions=_is_quota_error
+ai/providers/ollama.py | classes=OllamaProvider | functions=-
+ai/providers/openai.py | classes=OpenAIProvider | functions=-
+ai/query_parser.py | classes=- | functions=normalize,extract_keywords
+ai/sentence_buffer.py | classes=- | functions=sentence_buffer
+brain/__init__.py | classes=- | functions=-
+brain/ai_pipeline.py | classes=AIPipeline | functions=-
+brain/brain.py | classes=Brain | functions=-
+brain/brain_controller.py | classes=- | functions=-
+brain/brain_router.py | classes=BrainResult,BrainRouter | functions=-
+brain/clarification_manager.py | classes=ClarificationState,ClarificationManager | functions=start,is_waiting,resolve,clear,info
+brain/context_builder.py | classes=ContextBuilder | functions=-
+brain/context_types.py | classes=AIContext | functions=-
+brain/conversation_context.py | classes=ConversationContext,ConversationContextManager | functions=get_context,get,update,clear
+brain/conversation_coordinator.py | classes=ConversationAnalysis,ConversationCoordinator | functions=-
+brain/conversation_manager.py | classes=Message,ConversationManager | functions=-
+brain/conversation_state.py | classes=ConversationState,ConversationStateManager | functions=-
+brain/conversation_understanding.py | classes=ConversationRelation,ConversationUnderstanding,ConversationUnderstandingEngine | functions=understand
+brain/developer/__init__.py | classes=- | functions=-
+brain/developer/analyzer/__init__.py | classes=- | functions=-
+brain/developer/analyzer/analyzer.py | classes=Analyzer | functions=-
+brain/developer/analyzer/detectors/__init__.py | classes=- | functions=-
+brain/developer/analyzer/detectors/base_detector.py | classes=BaseDetector | functions=-
+brain/developer/analyzer/detectors/board_detector.py | classes=BoardDetector | functions=-
+brain/developer/analyzer/detectors/framework_detector.py | classes=FrameworkDetector | functions=-
+brain/developer/analyzer/detectors/intent_detector.py | classes=IntentDetector | functions=-
+brain/developer/analyzer/detectors/language_detector.py | classes=LanguageDetector | functions=-
+brain/developer/analyzer/detectors/project_detector.py | classes=ProjectDetector | functions=-
+brain/developer/analyzer/detectors/runtime_detector.py | classes=RuntimeDetector | functions=-
+brain/developer/analyzer/detectors/workspace_detector.py | classes=WorkspaceDetector | functions=-
+brain/developer/analyzer/resolvers/__init__.py | classes=- | functions=-
+brain/developer/analyzer/resolvers/base_resolver.py | classes=BaseResolver | functions=-
+brain/developer/analyzer/resolvers/board_resolver.py | classes=BoardResolver | functions=-
+brain/developer/analyzer/resolvers/language_resolver.py | classes=LanguageResolver | functions=-
+brain/developer/analyzer/resolvers/workspace_resolver.py | classes=WorkspaceResolver | functions=-
+brain/developer/analyzer/rules/__init__.py | classes=- | functions=-
+brain/developer/analyzer/rules/board_language_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/board_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/framework_language_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/framework_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/intent_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/language_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/project_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/runtime_rules.py | classes=- | functions=-
+brain/developer/analyzer/rules/workspace_rules.py | classes=- | functions=-
+brain/developer/api/__init__.py | classes=- | functions=-
+brain/developer/config/config.py | classes=- | functions=-
+brain/developer/config.py | classes=- | functions=-
+brain/developer/constants.py | classes=- | functions=-
+brain/developer/context/__init__.py | classes=- | functions=-
+brain/developer/context/developer_context.py | classes=DeveloperContext | functions=-
+brain/developer/developer.py | classes=Developer | functions=_launch_project_assets
+brain/developer/editor/__init__.py | classes=- | functions=-
+brain/developer/editor/analyzer/__init__.py | classes=- | functions=-
+brain/developer/editor/analyzer/edit_analyzer.py | classes=EditAnalyzer | functions=-
+brain/developer/editor/analyzer/project_scanner.py | classes=ProjectScanner | functions=-
+brain/developer/editor/analyzer/target_locator.py | classes=TargetLocator | functions=-
+brain/developer/editor/editor.py | classes=Editor | functions=-
+brain/developer/editor/models/__init__.py | classes=- | functions=-
+brain/developer/editor/models/edit_context.py | classes=EditContext | functions=-
+brain/developer/editor/models/edit_plan.py | classes=EditPlan | functions=-
+brain/developer/editor/models/edit_request.py | classes=EditRequest | functions=-
+brain/developer/editor/models/edit_result.py | classes=EditResult | functions=-
+brain/developer/editor/models/patch.py | classes=Patch | functions=-
+brain/developer/editor/models/project_index.py | classes=ProjectIndex | functions=-
+brain/developer/editor/models/prompt_context.py | classes=PromptContext | functions=-
+brain/developer/editor/models/prompt_result.py | classes=PromptResult | functions=-
+brain/developer/editor/parser/__init__.py | classes=- | functions=-
+brain/developer/editor/parser/block_parser.py | classes=- | functions=-
+brain/developer/editor/parser/file_parser.py | classes=FileParser | functions=-
+brain/developer/editor/parser/response_parser.py | classes=ResponseParser | functions=-
+brain/developer/editor/planner/__init__.py | classes=- | functions=-
+brain/developer/editor/planner/dependency_analyzer.py | classes=DependencyAnalyzer | functions=-
+brain/developer/editor/planner/edit_planner.py | classes=EditPlanner | functions=-
+brain/developer/editor/planner/file_selector.py | classes=FileSelector | functions=-
+brain/developer/editor/planner/instruction_planner.py | classes=InstructionPlanner | functions=-
+brain/developer/editor/prompt_builder/__init__.py | classes=- | functions=-
+brain/developer/editor/prompt_builder/context_builder.py | classes=ContextBuilder | functions=-
+brain/developer/editor/prompt_builder/instruction_builder.py | classes=InstructionBuilder | functions=-
+brain/developer/editor/prompt_builder/prompt_builder.py | classes=PromptBuilder | functions=-
+brain/developer/editor/prompt_builder/system_builder.py | classes=SystemBuilder | functions=-
+brain/developer/editor/provider/__init__.py | classes=- | functions=-
+brain/developer/editor/provider/base_provider.py | classes=BaseProvider | functions=-
+brain/developer/editor/provider/ollama_provider.py | classes=OllamaProvider | functions=-
+brain/developer/editor/rules/__init__.py | classes=- | functions=-
+brain/developer/editor/rules/edit_rules.py | classes=- | functions=-
+brain/developer/editor/tests/__init__.py | classes=- | functions=-
+brain/developer/editor/tests/test_backup_builder.py | classes=- | functions=main
+brain/developer/editor/tests/test_editor.py | classes=- | functions=main
+brain/developer/editor/tests/test_editor_engine.py | classes=- | functions=run_test,main
+brain/developer/editor/tests/test_main.py | classes=TestCalculator | functions=-
+brain/developer/editor/tests/test_parser.py | classes=- | functions=main
+brain/developer/editor/tests/test_patch_writer.py | classes=- | functions=main
+brain/developer/editor/tests/test_rollback_manager.py | classes=- | functions=main
+brain/developer/editor/tests/test_validator.py | classes=- | functions=main
+brain/developer/editor/tests/test_web_project_editing.py | classes=- | functions=_file_response,_single_file_html,_edit_embedded_css,test_single_file_html_edit_receives_and_preserves_complete_file,test_multi_file_css_edit_changes_only_the_existing_stylesheet,test_incomplete_large_single_file_response_is_rejected,test_complete_large_single_file_response_is_accepted
+brain/developer/editor/validator/__init__.py | classes=- | functions=-
+brain/developer/editor/validator/edit_validator.py | classes=EditValidator | functions=-
+brain/developer/editor/validator/syntax_validator.py | classes=SyntaxValidator | functions=-
+brain/developer/enums/__init__.py | classes=- | functions=-
+brain/developer/enums/board.py | classes=Board | functions=-
+brain/developer/enums/framework.py | classes=Framework | functions=-
+brain/developer/enums/intent.py | classes=Intent | functions=-
+brain/developer/enums/language.py | classes=Language | functions=-
+brain/developer/enums/project_type.py | classes=ProjectType | functions=-
+brain/developer/enums/runtime.py | classes=Runtime | functions=-
+brain/developer/enums/workspace.py | classes=Workspace | functions=-
+brain/developer/exceptions.py | classes=DeveloperError,ConfigurationError,AnalysisError,PlanningError,GenerationError,ValidationError,WorkspaceError | functions=-
+brain/developer/generator/__init__.py | classes=- | functions=-
+brain/developer/generator/generator.py | classes=Generator | functions=-
+brain/developer/generator/metadata/__init__.py | classes=- | functions=-
+brain/developer/generator/metadata/metadata_builder.py | classes=MetadataBuilder | functions=-
+brain/developer/generator/models/__init__.py | classes=- | functions=-
+brain/developer/generator/models/generated_file.py | classes=GeneratedFile | functions=-
+brain/developer/generator/models/generated_project.py | classes=GeneratedProject | functions=-
+brain/developer/generator/parsers/__init__.py | classes=- | functions=-
+brain/developer/generator/parsers/markdown_parser.py | classes=MarkdownParser | functions=-
+brain/developer/generator/parsers/response_parser.py | classes=ResponseParser | functions=-
+brain/developer/generator/providers/__init__.py | classes=- | functions=-
+brain/developer/generator/providers/base_provider.py | classes=BaseProvider | functions=-
+brain/developer/generator/providers/ollama_provider.py | classes=OllamaProvider | functions=-
+brain/developer/generator/rules/__init__.py | classes=- | functions=-
+brain/developer/generator/rules/generator_rules.py | classes=- | functions=-
+brain/developer/integration/__init__.py | classes=- | functions=-
+brain/developer/integration/active_project.py | classes=ActiveProjectResolver | functions=-
+brain/developer/integration/tests/test_active_project.py | classes=- | functions=main
+brain/developer/integration/tests/test_brain_router.py | classes=- | functions=main
+brain/developer/integration/tests/test_create_integration.py | classes=ControlledProvider | functions=main
+brain/developer/integration/tests/test_developer_connection.py | classes=- | functions=main
+brain/developer/integration/tests/test_dispatcher_developer.py | classes=- | functions=main
+brain/developer/integration/tests/test_full_integration.py | classes=- | functions=main
+brain/developer/integration/tests/test_memory_integration.py | classes=- | functions=main
+brain/developer/integration/tests/test_rollback_integration.py | classes=- | functions=main
+brain/developer/logging/__init__.py | classes=- | functions=-
+brain/developer/logging/logger.py | classes=- | functions=-
+brain/developer/memory/__init__.py | classes=- | functions=-
+brain/developer/memory/developer_memory.py | classes=DeveloperMemory | functions=-
+brain/developer/memory/memory_builder.py | classes=MemoryBuilder | functions=-
+brain/developer/memory/memory_context.py | classes=MemoryContext | functions=-
+brain/developer/memory/memory_indexer.py | classes=MemoryIndexer | functions=-
+brain/developer/memory/memory_loader.py | classes=MemoryLoader | functions=-
+brain/developer/memory/memory_manager.py | classes=MemoryManager | functions=-
+brain/developer/memory/memory_saver.py | classes=MemorySaver | functions=-
+brain/developer/memory/memory_search.py | classes=MemorySearch | functions=-
+brain/developer/memory/memory_store.py | classes=MemoryStore | functions=-
+brain/developer/memory/models/__init__.py | classes=- | functions=-
+brain/developer/memory/models/dependency_record.py | classes=DependencyRecord | functions=-
+brain/developer/memory/models/edit_record.py | classes=EditRecord | functions=-
+brain/developer/memory/models/file_profile.py | classes=FileProfile | functions=-
+brain/developer/memory/models/memory_record.py | classes=MemoryRecord | functions=-
+brain/developer/memory/models/project_profile.py | classes=ProjectProfile | functions=-
+brain/developer/memory/models/session_state.py | classes=SessionState | functions=-
+brain/developer/memory/models/style_profile.py | classes=StyleProfile | functions=-
+brain/developer/memory/models/symbol_record.py | classes=SymbolRecord | functions=-
+brain/developer/memory/rules/__init__.py | classes=- | functions=-
+brain/developer/memory/rules/memory_rules.py | classes=- | functions=-
+brain/developer/memory/tests/__init__.py | classes=- | functions=-
+brain/developer/memory/tests/test_builder.py | classes=- | functions=main
+brain/developer/memory/tests/test_context.py | classes=- | functions=main
+brain/developer/memory/tests/test_indexer.py | classes=- | functions=main
+brain/developer/memory/tests/test_manager.py | classes=- | functions=main
+brain/developer/memory/tests/test_memory.py | classes=- | functions=main
+brain/developer/memory/tests/test_saver.py | classes=- | functions=main
+brain/developer/memory/tests/test_search.py | classes=- | functions=main
+brain/developer/memory/tests/test_store.py | classes=- | functions=main
+brain/developer/models/__init__.py | classes=- | functions=-
+brain/developer/models/analysis_context.py | classes=AnalysisContext | functions=-
+brain/developer/models/analysis_result.py | classes=AnalysisResult | functions=-
+brain/developer/models/developer_request.py | classes=DeveloperRequest | functions=-
+brain/developer/models/developer_result.py | classes=DeveloperResult | functions=-
+brain/developer/models/generation_result.py | classes=GenerationResult | functions=-
+brain/developer/models/project_plan.py | classes=ProjectPlan | functions=-
+brain/developer/models/validation_result.py | classes=ValidationResult | functions=-
+brain/developer/models/workspace_result.py | classes=WorkspaceResult | functions=-
+brain/developer/pipeline/__init__.py | classes=- | functions=-
+brain/developer/pipeline/developer_pipeline.py | classes=DeveloperPipeline | functions=-
+brain/developer/planner/__init__.py | classes=- | functions=-
+brain/developer/planner/models/__init__.py | classes=- | functions=-
+brain/developer/planner/models/execution_plan.py | classes=ExecutionPlan | functions=-
+brain/developer/planner/planner.py | classes=Planner | functions=-
+brain/developer/planner/planners/__init__.py | classes=- | functions=-
+brain/developer/planner/planners/arduino_planner.py | classes=ArduinoPlanner | functions=-
+brain/developer/planner/planners/base_planner.py | classes=BasePlanner | functions=-
+brain/developer/planner/planners/cpp_planner.py | classes=CppPlanner | functions=-
+brain/developer/planner/planners/esp32_planner.py | classes=ESP32Planner | functions=-
+brain/developer/planner/planners/general_planner.py | classes=GeneralPlanner | functions=-
+brain/developer/planner/planners/javascript_planner.py | classes=JavaScriptPlanner | functions=-
+brain/developer/planner/planners/python_planner.py | classes=PythonPlanner | functions=-
+brain/developer/planner/rules/__init__.py | classes=- | functions=-
+brain/developer/planner/rules/board_rules.py | classes=- | functions=-
+brain/developer/planner/rules/framework_rules.py | classes=- | functions=-
+brain/developer/planner/rules/language_rules.py | classes=- | functions=-
+brain/developer/planner/rules/planner_rules.py | classes=- | functions=-
+brain/developer/planner/templates/__init__.py | classes=- | functions=-
+brain/developer/planner/utils/__init__.py | classes=- | functions=-
+brain/developer/planner/utils/path_utils.py | classes=- | functions=-
+brain/developer/prompt_builder/__init__.py | classes=- | functions=-
+brain/developer/prompt_builder/builders/__init__.py | classes=- | functions=-
+brain/developer/prompt_builder/builders/base_builder.py | classes=BaseBuilder | functions=-
+brain/developer/prompt_builder/builders/context_builder.py | classes=ContextBuilder | functions=-
+brain/developer/prompt_builder/builders/instruction_builder.py | classes=InstructionBuilder | functions=-
+brain/developer/prompt_builder/builders/system_builder.py | classes=SystemBuilder | functions=-
+brain/developer/prompt_builder/models/__init__.py | classes=- | functions=-
+brain/developer/prompt_builder/models/prompt_context.py | classes=PromptContext | functions=-
+brain/developer/prompt_builder/models/prompt_result.py | classes=PromptResult | functions=-
+brain/developer/prompt_builder/prompt_builder.py | classes=PromptBuilder | functions=-
+brain/developer/prompt_builder/rules/__init__.py | classes=- | functions=-
+brain/developer/prompt_builder/rules/instruction_rules.py | classes=- | functions=-
+brain/developer/prompt_builder/rules/system_rules.py | classes=- | functions=-
+brain/developer/repair/__init__.py | classes=- | functions=-
+brain/developer/repair/builders/__init__.py | classes=- | functions=-
+brain/developer/repair/builders/base_builder.py | classes=BaseBuilder | functions=-
+brain/developer/repair/builders/repair_context_builder.py | classes=RepairContextBuilder | functions=-
+brain/developer/repair/builders/repair_instruction_builder.py | classes=RepairInstructionBuilder | functions=-
+brain/developer/repair/local_file_builder.py | classes=LocalFileBuilder | functions=-
+brain/developer/repair/merge_builder.py | classes=MergeBuilder | functions=-
+brain/developer/repair/models/repair_prompt.py | classes=RepairPrompt | functions=-
+brain/developer/repair/models/repair_request.py | classes=RepairRequest | functions=-
+brain/developer/repair/models/repair_result.py | classes=RepairResult | functions=-
+brain/developer/repair/prompt_builder.py | classes=RepairPromptBuilder | functions=-
+brain/developer/repair/repair.py | classes=Repair | functions=-
+brain/developer/repair/repair_builder.py | classes=RepairBuilder | functions=-
+brain/developer/repair/repair_parser.py | classes=RepairParser | functions=-
+brain/developer/repair/repair_provider.py | classes=RepairProvider | functions=-
+brain/developer/tests/__init__.py | classes=- | functions=-
+brain/developer/tests/test_analyzer.py | classes=- | functions=main
+brain/developer/tests/test_board_detector.py | classes=- | functions=main
+brain/developer/tests/test_enums.py | classes=- | functions=main
+brain/developer/tests/test_foundation.py | classes=- | functions=main
+brain/developer/tests/test_framework_detector.py | classes=- | functions=main
+brain/developer/tests/test_generator.py | classes=- | functions=main
+brain/developer/tests/test_intent_detector.py | classes=- | functions=main
+brain/developer/tests/test_language_detector.py | classes=- | functions=main
+brain/developer/tests/test_planner.py | classes=- | functions=main
+brain/developer/tests/test_project_detector.py | classes=- | functions=main
+brain/developer/tests/test_prompt_builder.py | classes=- | functions=main
+brain/developer/tests/test_repair.py | classes=- | functions=main
+brain/developer/tests/test_runtime_detector.py | classes=- | functions=main
+brain/developer/tests/test_validator.py | classes=- | functions=main
+brain/developer/tests/test_workspace.py | classes=- | functions=main
+brain/developer/tests/test_workspace_detector.py | classes=- | functions=main
+brain/developer/tools/__init__.py | classes=- | functions=-
+brain/developer/tools/scaffold.py | classes=- | functions=create_structure,main
+brain/developer/tools/templates.py | classes=- | functions=-
+brain/developer/utils/__init__.py | classes=- | functions=-
+brain/developer/validator/__init__.py | classes=- | functions=-
+brain/developer/validator/models/__init__.py | classes=- | functions=-
+brain/developer/validator/models/validation_issue.py | classes=ValidationIssue | functions=-
+brain/developer/validator/models/validation_level.py | classes=ValidationLevel | functions=-
+brain/developer/validator/models/validation_result.py | classes=ValidationResult | functions=-
+brain/developer/validator/models/validation_summary.py | classes=ValidationSummary | functions=-
+brain/developer/validator/rules/__init__.py | classes=- | functions=-
+brain/developer/validator/rules/validator_rules.py | classes=- | functions=-
+brain/developer/validator/utils/__init__.py | classes=- | functions=-
+brain/developer/validator/utils/validation_utils.py | classes=- | functions=-
+brain/developer/validator/validator.py | classes=Validator | functions=-
+brain/developer/validator/validators/__init__.py | classes=- | functions=-
+brain/developer/validator/validators/base_validator.py | classes=BaseValidator | functions=-
+brain/developer/validator/validators/content_validator.py | classes=ContentValidator | functions=-
+brain/developer/validator/validators/dependency_validator.py | classes=DependencyValidator | functions=-
+brain/developer/validator/validators/file_validator.py | classes=FileValidator | functions=-
+brain/developer/validator/validators/framework_validator.py | classes=FrameworkValidator | functions=-
+brain/developer/validator/validators/language_validator.py | classes=LanguageValidator | functions=-
+brain/developer/validator/validators/project_validator.py | classes=ProjectValidator | functions=-
+brain/developer/validator/validators/structure_validator.py | classes=StructureValidator | functions=-
+brain/developer/version.py | classes=- | functions=-
+brain/execution_context.py | classes=ExecutionContext,ExecutionContextResolver | functions=-
+brain/execution_engine.py | classes=- | functions=-
+brain/followup_execution_bridge.py | classes=FollowUpExecutionBridge | functions=-
+brain/followup_resolver.py | classes=FollowUpResolution,FollowUpResolver | functions=resolve_follow_up
+brain/goal_analyzer.py | classes=Goal,GoalAnalyzer | functions=-
+brain/intent_engine.py | classes=IntentResult,IntentEngine | functions=-
+brain/natural/__init__.py | classes=- | functions=-
+brain/natural/conversation_request.py | classes=ConversationRequest,ConversationRequestBuilder | functions=-
+brain/natural/interaction_classifier.py | classes=InteractionClassifier | functions=-
+brain/natural/interaction_decision.py | classes=InteractionDecision | functions=-
+brain/natural/interaction_mode.py | classes=InteractionMode | functions=-
+brain/natural/meaning_understanding.py | classes=MeaningUnderstanding,MeaningUnderstandingEngine | functions=-
+brain/natural/natural_bridge.py | classes=NaturalConversationBridge | functions=-
+brain/natural/natural_context.py | classes=NaturalContext,NaturalContextAggregator | functions=-
+brain/natural/natural_pipeline.py | classes=NaturalConversationPipeline | functions=-
+brain/natural/response_strategy.py | classes=ResponseMode,ResponseStrategy,ResponseStrategyEngine | functions=-
+brain/profile_manager.py | classes=ProfileManager | functions=-
+brain/prompt_builder.py | classes=PromptBuilder | functions=-
+brain/reasoning_loop.py | classes=- | functions=-
+brain/reference_resolver.py | classes=ReferenceResolution,ReferenceResolver | functions=resolve_reference
+brain/routing/base_router.py | classes=BaseRouter | functions=-
+brain/screen_context.py | classes=ScreenContextManager | functions=-
+brain/screen_followup.py | classes=- | functions=has_screen_context,is_screen_followup,info
+brain/task_planner.py | classes=- | functions=-
+brain/tests/test_clarification_flow.py | classes=ClarificationFlowTests | functions=-
+brain/tests/test_intent_engine.py | classes=- | functions=-
+brain/tool_selector.py | classes=- | functions=-
+chatbot/__init__.py | classes=- | functions=-
+chatbot/ai_chat_api.py | classes=- | functions=_session_to_dict,create_chat,list_chats,get_chat,delete_chat,rename_chat,send_message,stream_message,get_model,set_model
+chatbot/ai_chat_bot.py | classes=ChatStreamChunk,AIChatBot | functions=ask_chat
+chatbot/ai_chat_clipboard.py | classes=- | functions=copy_text_to_system_clipboard
+chatbot/ai_chat_session.py | classes=ChatMessage,ChatSessionRecord,AIChatSessionManager | functions=_utc_now,_ensure_storage,_load_data,_save_data
+config/__init__.py | classes=- | functions=-
+config/environment.py | classes=- | functions=load_environment,get_env
+config/hud_settings.py | classes=- | functions=-
+config/personal_links.py | classes=- | functions=is_safe_personal_url,configured_links,get_link,has_link
+config/settings.py | classes=- | functions=_persisted_assistant_name,get_assistant_name,get_assistant_name_lower,get_assistant_display_name,get_assistant_aliases,get_wake_words,set_assistant_name,_float_setting,_int_setting
+config/spotify.py | classes=- | functions=-
+config/whatsapp.py | classes=- | functions=-
+config/youtube.py | classes=- | functions=get_youtube,search_videos,get_first_video,get_video_list
+core/__init__.py | classes=- | functions=-
+core/action_memory.py | classes=- | functions=set_memory,get_memory,clear_memory,dump
+core/ai.py | classes=AI | functions=-
+core/app_resolver.py | classes=- | functions=resolve_app
+core/assistant.py | classes=- | functions=is_morning_brief_enabled,run
+core/assistant_name.py | classes=AssistantInvocation | functions=get_assistant_name,get_assistant_name_lower,get_assistant_aliases,is_current_assistant_name,is_legacy_assistant_alias,is_assistant_invocation,strip_assistant_invocation,_invocation_pattern,normalize_assistant_invocation
+core/browser_context.py | classes=BrowserResult,BrowserContext | functions=-
+core/browser_reference.py | classes=BrowserReferenceResolver | functions=-
+core/browser_worker.py | classes=- | functions=browser_busy,browser_start,browser_stop
+core/busy_manager.py | classes=- | functions=is_busy,start_task,finish_task,ask_switch
+core/camera_manager.py | classes=CameraManager | functions=-
+core/command_queue.py | classes=- | functions=put,get,empty,clear,size
+core/confirmation.py | classes=- | functions=ask,get,clear,waiting
+core/context.py | classes=Context | functions=set_value,get_value,add_message,get_history,clear,reset_session,update_result,show
+core/core_state.py | classes=- | functions=mark_core_ready,wait_for_core,is_core_ready
+core/dispatcher.py | classes=- | functions=dispatch
+core/executor.py | classes=- | functions=execute_ai_plan
+core/executor_worker.py | classes=- | functions=execute_plan
+core/fallback.py | classes=- | functions=fallback
+core/fast_router.py | classes=- | functions=fast_route
+core/file_selection_memory.py | classes=- | functions=set_files,get_files,clear_files
+core/hud_bridge.py | classes=HUDBridge | functions=-
+core/intent.py | classes=Intent | functions=extract_intents
+core/interrupt.py | classes=- | functions=interrupt
+core/listener.py | classes=- | functions=_dispatch,_callback,start_listener,pause_listener,resume_listener,stop_listener,request_shutdown,shutdown_requested,listener_running,listener_paused,get_command
+core/live_execution.py | classes=- | functions=is_live_execution,capture_live_response,get_live_responses,clear_live_responses,live_execution
+core/memory.py | classes=- | functions=-
+core/morning_brief.py | classes=- | functions=_clean_text,_fetch_feed,_deduplicate,fetch_news,build_brief,build_spoken_brief,publish_to_hud,get_morning_brief,_fetch_news_for_startup,start_news_fetch,shutdown
+core/path_resolver.py | classes=- | functions=resolve
+core/paths.py | classes=- | functions=-
+core/pipeline.py | classes=- | functions=-
+core/planner.py | classes=- | functions=execute_plan
+core/planner_worker.py | classes=- | functions=planner_worker
+core/plugins.py | classes=PluginManager | functions=register,execute
+core/power.py | classes=- | functions=sleep,wake,shutdown
+core/registry.py | classes=- | functions=register,unregister,get_handler,has_skill,get_skill_category,execute,list_skills,skill_count,list_skill_categories,list_skills_by_category,categorized_skills,registry_info
+core/router.py | classes=- | functions=route
+core/routers/__init__.py | classes=- | functions=-
+core/routers/android_router.py | classes=- | functions=android_route
+core/routers/automation_router.py | classes=- | functions=automation_route
+core/routers/browser_router.py | classes=- | functions=browser_route
+core/routers/contact_router.py | classes=- | functions=contact_route
+core/routers/email_router.py | classes=- | functions=email_route
+core/routers/file_router.py | classes=- | functions=file_route
+core/routers/file_selection_router.py | classes=- | functions=file_selection_route
+core/routers/greeting_router.py | classes=- | functions=_with_assistant_aliases,greeting_route
+core/routers/media_router.py | classes=- | functions=media_route
+core/routers/memory_router.py | classes=- | functions=memory_route,_parse_clock_time
+core/routers/network_router.py | classes=- | functions=network_route
+core/routers/news_router.py | classes=- | functions=news_route
+core/routers/payment_router.py | classes=- | functions=payment_route
+core/routers/phone_call_router.py | classes=- | functions=_target_data,phone_call_route
+core/routers/spotify_router.py | classes=- | functions=spotify_route
+core/routers/system_router.py | classes=- | functions=system_route
+core/routers/vision_router.py | classes=- | functions=_match_face_delete,_match_face_registration,_normalize_object,_match_object_count,_match_object_existence,_match_object_location,_match_object_target,_match_position,_match_static,vision_route
+core/routers/weather_router.py | classes=- | functions=weather_route
+core/routers/web_router.py | classes=- | functions=web_route
+core/routers/whatsapp_router.py | classes=- | functions=whatsapp_route
+core/runtime.py | classes=- | functions=handle_priority
+core/services.py | classes=- | functions=start_all,stop_all,start_remote_control
+core/skill_categories.py | classes=- | functions=action_requires_network,get_category,list_categories,list_actions_by_category
+core/speech_queue.py | classes=- | functions=worker,say
+core/spotify_controller.py | classes=- | functions=-
+core/task_manager.py | classes=TaskManager | functions=-
+core/task_queue.py | classes=- | functions=add_task,get_task,has_tasks,clear,size
+core/task_worker.py | classes=- | functions=worker,start_worker
+core/tasks.py | classes=- | functions=split_commands
+core/voice.py | classes=- | functions=speak,stop_speaking
+core/voice_queue.py | classes=- | functions=add,get,empty
+core/voice_worker.py | classes=- | functions=-
+core/wakeword.py | classes=- | functions=listen
+core/whatsapp_memory.py | classes=- | functions=set_contact,get_contact,clear_contact,set_pending_message,get_pending_message,clear_pending_message
+core/workers.py | classes=- | functions=chat_worker
+dashboard/__init__.py | classes=- | functions=-
+dashboard/server.py | classes=DashboardServer | functions=create_desktop_shortcut,_make_uploads_dir,_local_ip,_read_static,_derive_key,_decrypt_cbc,_load_english_voice,_save_english_voice
+hud/__init__.py | classes=- | functions=-
+hud/adapter.py | classes=HUDAdapter | functions=-
+hud/bus.py | classes=HUDEventBus | functions=-
+hud/desktop_window.py | classes=_WindowApi | functions=wait_for_hud,_load_nextjs_when_ready,request_jarvis_shutdown,close_native_window,run
+hud/emitter.py | classes=HUDEmitter | functions=-
+hud/event_contract.py | classes=HUDEvent | functions=-
+hud/events.py | classes=HUDEvent | functions=-
+hud/integration.py | classes=HUDIntegration | functions=-
+hud/manager.py | classes=HUDManager | functions=-
+hud/panels/__init__.py | classes=- | functions=-
+hud/runtime.py | classes=HUDRuntime | functions=-
+hud/state.py | classes=HUDState | functions=-
+hud/telemetry.py | classes=HUDTelemetry | functions=-
+hud/web_bridge.py | classes=_Client,_BridgeHandler,HUDWebBridge | functions=-
+main.py | classes=- | functions=start_web_hud,wait_for_web_hud,run_voice_engine,start_voice_engine,run_offline_voice_engine,start_offline_voice_engine,request_jarvis_shutdown,configure_hud_shutdown,start_native_hud,stop_web_hud,initialize_core_background,main
+run_jarvis.py | classes=- | functions=main
+services/android/__init__.py | classes=- | functions=get_android_manager
+services/android/adb_client.py | classes=AdbError,AdbNotFoundError,AdbDeviceError,AdbCommandError,AdbClient | functions=normalize_endpoint
+services/android/android_intents.py | classes=- | functions=normalize_app_name,standard_intent_for,package_hints_for
+services/android/device_manager.py | classes=AndroidDeviceManager | functions=-
+services/android/models.py | classes=AdbCommandResult,AndroidDevice,DeviceStatus,AndroidConnectionStatus,IntentSpec,AppLaunchResult | functions=-
+services/contact_manager.py | classes=- | functions=load_contacts,save_contacts,add_contact,get_contact,resolve_contact,remove_contact,list_contacts,contact_exists,total_contacts
+services/email_contact_manager.py | classes=- | functions=load_email_contacts,save_email_contacts,add_email_contact,get_email_contact,resolve_email_contact,remove_email_contact,list_email_contacts,email_contact_exists,total_email_contacts
+services/file_manager.py | classes=- | functions=_latest_file,latest_photo,latest_screenshot,latest_video,find_file,latest_file,search_files
+services/gmail_service.py | classes=- | functions=_get_credentials,_get_gmail_service,send_email
+services/location.py | classes=LocationService | functions=-
+services/personal_link_service.py | classes=- | functions=show_personal_links,open_personal_link
+services/remote_control.py | classes=RemoteControlServer | functions=_local_ip
+services/spotify_api.py | classes=- | functions=spotify_client,is_spotify_running,ensure_spotify,get_device,resume_playback,pause_playback,search_track,play_track,current_song
+services/web_launcher.py | classes=- | functions=open_url
+services/whatsapp_api.py | classes=- | functions=open_whatsapp,close_whatsapp,open_chat,send_message,send_photo,copy_image_to_clipboard,send_file,call_contact,video_call_contact,focus_whatsapp
+services/whatsapp_parser.py | classes=- | functions=parse_scheduled_whatsapp,parse_list_scheduled_whatsapp,parse_cancel_scheduled_whatsapp,parse_reschedule_scheduled_whatsapp,_parse_whatsapp_clock_time,_parse_schedule_time,parse_whatsapp,parse_whatsapp_call,parse_whatsapp_video_call
+services/windows_automation.py | classes=- | functions=connect_window,activate_window,activate_whatsapp
+skills/__init__.py | classes=- | functions=-
+skills/ai/__init__.py | classes=- | functions=-
+skills/ai/clarify.py | classes=- | functions=ai_clarify
+skills/android_control/__init__.py | classes=- | functions=-
+skills/android_control/android_control.py | classes=- | functions=_say,android_check_adb,android_check_device,android_device_info,android_open_app,android_launch_app
+skills/assistant/__init__.py | classes=- | functions=-
+skills/assistant/greetings.py | classes=_StartupVariant,GreetingEngine | functions=_time_context,_preferred_name,_fallback_startup,startup_greeting,_get_speaker,speak_startup_greeting,_command_text,_speak,greet,how_are_you,assistant_name,welcome,goodbye
+skills/assistant/test_greetings.py | classes=GreetingEngineTests | functions=-
+skills/automation/home_automation.py | classes=- | functions=_endpoint,control_device,get_hardware_status,home_automation
+skills/automation/init.py | classes=- | functions=-
+skills/browser/__init__.py | classes=- | functions=-
+skills/browser/browser_ai.py | classes=- | functions=ai_open,ai_google,ai_youtube,browser_open_result
+skills/browser/browser_config.py | classes=BrowserConfigurationError,BrowserSettings | functions=_local_app_data,_configured_path
+skills/browser/browser_controller.py | classes=BrowserWorker,BrowserController | functions=-
+skills/browser/browser_open.py | classes=BrowserOpen | functions=-
+skills/browser/browser_resolver.py | classes=BrowserExecutableNotFoundError | functions=_windows_roots,_candidates,_first_existing,resolve_browser_executable
+skills/browser/browser_runtime.py | classes=BrowserRuntimeError,BrowserRuntime | functions=-
+skills/browser/navigation.py | classes=NavigationEngine | functions=-
+skills/browser/youtube.py | classes=- | functions=ai_youtube,youtube_play_first,youtube_pause,youtube_resume,youtube_next,youtube_previous,youtube_play_result
+skills/browser/youtube_api.py | classes=- | functions=search_videos
+skills/browser_control/__init__.py | classes=- | functions=-
+skills/browser_control/browser_controls.py | classes=- | functions=-
+skills/camera/__init__.py | classes=- | functions=-
+skills/camera/camera.py | classes=- | functions=capture,preview,close_camera,start_recording,stop_recording,camera_status
+skills/camera/detector.py | classes=ObjectDetector | functions=-
+skills/camera/face_recognizer.py | classes=FaceRecognizer | functions=_center_inside
+skills/camera/face_registration.py | classes=FaceRegistrationFlow | functions=_speak
+skills/camera/face_registry.py | classes=FaceRegistry | functions=sanitize_name
+skills/camera/face_speech.py | classes=VisionSpeechState | functions=people_message
+skills/camera/scene_analyzer.py | classes=SceneAnalyzer | functions=-
+skills/camera/spatial_analyzer.py | classes=SpatialAnalyzer | functions=-
+skills/camera/vision.py | classes=VisionEngine | functions=-
+skills/camera/vision_analyzer.py | classes=VisionAnalyzer | functions=-
+skills/camera/vision_loop.py | classes=VisionLoop | functions=-
+skills/camera/vision_query.py | classes=VisionQuery | functions=-
+skills/camera/vision_skill.py | classes=- | functions=_start_vision,_stop_vision,vision_start,vision_stop,vision_describe,vision_count,vision_check,vision_position,vision_locate,vision_target,register_face,cancel_face_registration,delete_face
+skills/communication/__init__.py | classes=- | functions=-
+skills/communication/chatgpt.py | classes=- | functions=ai_chatgpt
+skills/communication/contact.py | classes=- | functions=remember_contact,forget_contact,show_contacts
+skills/communication/email.py | classes=- | functions=has_pending_email,clear_email_draft,start_email_draft,handle_email_reply,send_email,remember_email_contact,forget_email_contact,show_email_contacts
+skills/communication/github.py | classes=- | functions=ai_github
+skills/communication/whatsapp.py | classes=- | functions=whatsapp_open,whatsapp_close,whatsapp_send_message,_load_scheduled_whatsapp,_save_scheduled_whatsapp,schedule_whatsapp_message,list_scheduled_whatsapp,cancel_scheduled_whatsapp,reschedule_scheduled_whatsapp,_whatsapp_scheduler_worker,_start_whatsapp_scheduler,whatsapp_send_latest_photo,whatsapp_send_latest_screenshot,whatsapp_send_file,whatsapp_send_selected_file,whatsapp_wait_contact,whatsapp_wait_message,whatsapp_call,whatsapp_video_call
+skills/files/__init__.py | classes=- | functions=-
+skills/files/file_info.py | classes=- | functions=info
+skills/files/files.py | classes=- | functions=_resolve_path,_path_exists,file_action
+skills/files/recent.py | classes=- | functions=recent
+skills/files/recycle.py | classes=- | functions=recycle
+skills/files/zip_manager.py | classes=- | functions=zip_action
+skills/loader.py | classes=- | functions=load_skill,load_all,loaded_skills,failed_skills,loader_info
+skills/media/__init__.py | classes=- | functions=-
+skills/media/image_generation.py | classes=- | functions=create_image
+skills/media/media.py | classes=- | functions=ai_play
+skills/media/spotify.py | classes=- | functions=spotify_open,spotify_close,spotify_play,spotify_pause,spotify_next,spotify_previous,spotify_volume_up,spotify_volume_down,spotify_play_song
+skills/memory/__init__.py | classes=- | functions=-
+skills/memory/memory.py | classes=- | functions=_recall,_list_memory,memory_command,ai_remember,ai_recall,ai_forget
+skills/memory/notes.py | classes=- | functions=_load_notes,_save_notes,create_note,list_notes,clear_notes
+skills/memory/reminders.py | classes=- | functions=_load_reminders,_save_reminders,create_reminder,list_reminders,cancel_reminder,_reminder_worker,_start_scheduler
+skills/navigation/maps.py | classes=- | functions=maps_open,maps_directions
+skills/navigation/translate.py | classes=- | functions=translate_open,translate_text
+skills/network/__init__.py | classes=- | functions=-
+skills/network/bluetooth.py | classes=- | functions=bluetooth_action
+skills/network/weather.py | classes=- | functions=_normalize_location_name,_select_nominatim_result,_query_nominatim,_has_geographic_result,_resolve_location,_detect_current_location,_get_weather,_build_message,weather
+skills/network/wifi.py | classes=- | functions=_run,wifi_action
+skills/news/news.py | classes=- | functions=get_news
+skills/payments/__init__.py | classes=- | functions=-
+skills/payments/payments.py | classes=- | functions=_say,_configured_payment_app,make_payment
+skills/phone_call/__init__.py | classes=- | functions=-
+skills/phone_call/monitor.py | classes=CallSnapshot,PhoneCallMonitor | functions=parse_telephony_registry,get_call_monitor,start_phone_call_monitor,stop_phone_call_monitor
+skills/phone_call/phone_call.py | classes=- | functions=_say,normalize_phone_number,_normalize_contact_name,_phone_digits,_numbers_match,_spoken_contact_name,_parse_phone_contacts,_provider_field,query_phone_contacts,_find_contact,_start_call,phone_call_number,phone_call_contact,phone_call_confirmed,call_status,_recent_missed_calls,missed_calls,_manual_call_control,answer_call,reject_call,end_call
+skills/screen/__init__.py | classes=- | functions=-
+skills/screen/clipboard.py | classes=- | functions=clipboard
+skills/screen/screen_vision.py | classes=ScreenVision | functions=-
+skills/screen/screen_vision_skill.py | classes=- | functions=screen_vision_analyze
+skills/screen/screenshot.py | classes=- | functions=screenshot
+skills/screen/screenshot_ai.py | classes=- | functions=screenshot_ai
+skills/system/__init__.py | classes=- | functions=-
+skills/system/battery.py | classes=- | functions=battery,_battery_monitor,start_battery_monitor
+skills/system/brightness.py | classes=- | functions=current_brightness,set_brightness,brightness
+skills/system/process.py | classes=- | functions=_list_processes,process_action
+skills/system/system.py | classes=- | functions=_is_windows,_request_confirmation,_shutdown,_restart,_sleep,_lock,_terminate_jarvis,system_action
+skills/system/taskmanager.py | classes=- | functions=taskmanager
+skills/system/volume.py | classes=- | functions=_get_volume_interface,current,set_volume,is_muted,volume_action
+skills/utilities/__init__.py | classes=- | functions=-
+skills/utilities/calculator.py | classes=- | functions=-
+skills/utilities/search.py | classes=- | functions=search_action
+skills/utilities/time_skill.py | classes=- | functions=current_time
+skills/web/personal_links.py | classes=- | functions=personal_link_action
+tests/test_android_hud_connection.py | classes=FakeCompleted,WirelessRunner,UsbRunner,AndroidHudConnectionTests | functions=-
+tests/test_android_payment_routing.py | classes=FakeCompleted,FakeRunner,AndroidBridgeTests | functions=-
+tests/test_browser_followup_references.py | classes=BrowserFollowUpReferenceTests | functions=-
+tests/test_configuration.py | classes=ConfigurationTests | functions=-
+tests/test_face_vision.py | classes=FaceRegistryTests,FaceSpeechTests,VisionIntegrationTests | functions=-
+tests/test_offline_mode.py | classes=OfflineActionBridgeTests,OfflineCommandTests,OfflineAIProviderTests | functions=-
+tests/test_openai_provider.py | classes=OpenAIProviderTests | functions=_error_category
+tests/test_personal_website_list.py | classes=PersonalWebsiteListTests | functions=-
+tests/test_phone_call.py | classes=FakeManager,PhoneCallTests | functions=_load_phone_skill_without_optional_ai_dependencies
+tests/test_remote_event_sync.py | classes=RemoteEventSyncTests | functions=_install_optional_dependency_stubs
+tools/database_delete.py | classes=- | functions=-
+tools/windows_integration.py | classes=- | functions=_require_windows,_python_executable,_desktop_directory,create_desktop_shortcut,_startup_directory,_autostart_shortcut_path,get_autostart_status,set_autostart
+voice/__init__.py | classes=- | functions=-
+voice/interrupt.py | classes=- | functions=stop,clear,stopped
+voice/agent.py | classes=Agent | functions=_api_key,_system_prompt,send_agent_text,start_agent,stop_agent,agent_status
+voice/manager.py | classes=- | functions=_clean_tts_text,add_speech_listener,remove_speech_listener,_notify_speech_listeners,notify_speech_output,check_internet,start_speech_session,_worker,prepare_speech,play_prepared_speech,speak,wait_for_speech,stop_speaking
+voice/mode.py | classes=- | functions=internet_available,get_mode
+voice/offline/__init__.py | classes=- | functions=-
+voice/offline/offline_action_bridge.py | classes=OfflineRoute,OfflineDispatchResult,OfflineActionBridge | functions=-
+voice/offline/offline_ai.py | classes=OfflineAI | functions=get_ai,ask
+voice/offline/offline_player.py | classes=- | functions=play,stop
+voice/offline/offline_runner.py | classes=- | functions=process_command,handle_text_command,run
+voice/offline/offline_stt.py | classes=- | functions=initialize,_audio_to_array,_audio_quality,transcribe_audio,calibrate,listen_once
+voice/offline/offline_tts.py | classes=- | functions=piper_available,model_available,generate,split_sentences,prepare,play_prepared,speak
+voice/offline/offline_voice.py | classes=- | functions=print_banner,run
+voice/offline_piper.py | classes=- | functions=_piper_available,_model_available,_delete_file,generate_audio,play_audio,speak_offline
+voice/online_edge.py | classes=- | functions=_get_voice,set_english_voice,get_english_voice,_cleanup_cache,_delete_file,_generate,generate_audio,play_audio,_worker,speak_online
+voice/online_runner.py | classes=- | functions=run
+voice/player.py | classes=- | functions=play,stop,speaking
+voice/queue.py | classes=- | functions=-
+voice/runner.py | classes=- | functions=run
+voice/speech_state.py | classes=- | functions=set_speaking,is_speaking
+voice/state.py | classes=SpeechSession | functions=create_session,current_session,cancel_current,is_current,is_cancelled
+voice/tts_pipeline.py | classes=TTSPipeline | functions=-
+
+
+brain/developer/editor/workspace/__init__.py | classes=- | functions=-
+brain/developer/editor/workspace/appliers/__init__.py | classes=- | functions=-
+brain/developer/editor/workspace/appliers/base_applier.py | classes=BaseApplier | functions=-
+brain/developer/editor/workspace/appliers/python_applier.py | classes=PythonApplier | functions=-
+brain/developer/editor/workspace/appliers/text_applier.py | classes=TextApplier | functions=-
+brain/developer/editor/workspace/backup_builder.py | classes=BackupBuilder | functions=-
+brain/developer/editor/workspace/code_extractor.py | classes=CodeExtractor | functions=-
+brain/developer/editor/workspace/extractors/arduino_extractor.py | classes=- | functions=-
+brain/developer/editor/workspace/extractors/base_extractor.py | classes=BaseExtractor | functions=-
+brain/developer/editor/workspace/extractors/python_extractor.py | classes=PythonExtractor | functions=-
+brain/developer/editor/workspace/extractors/regex_extractor.py | classes=RegexExtractor | functions=-
+brain/developer/editor/workspace/file_reader.py | classes=FileReader | functions=-
+brain/developer/editor/workspace/patch_applier.py | classes=PatchApplier | functions=-
+brain/developer/editor/workspace/patch_writer.py | classes=PatchWriter | functions=-
+brain/developer/editor/workspace/rollback_manager.py | classes=RollbackManager | functions=-
+brain/developer/workspace/__init__.py | classes=- | functions=-
+brain/developer/workspace/builders/__init__.py | classes=- | functions=-
+brain/developer/workspace/builders/file_builder.py | classes=FileBuilder | functions=-
+brain/developer/workspace/builders/folder_builder.py | classes=FolderBuilder | functions=-
+brain/developer/workspace/builders/project_builder.py | classes=ProjectBuilder | functions=-
+brain/developer/workspace/builders/project_name_resolver.py | classes=ProjectNameResolver | functions=-
+brain/developer/workspace/builders/workspace_resolver.py | classes=WorkspaceResolver | functions=-
+brain/developer/workspace/models/__init__.py | classes=- | functions=-
+brain/developer/workspace/models/created_file.py | classes=CreatedFile | functions=-
+brain/developer/workspace/models/created_folder.py | classes=CreatedFolder | functions=-
+brain/developer/workspace/models/workspace_result.py | classes=WorkspaceResult | functions=-
+brain/developer/workspace/rules/__init__.py | classes=- | functions=-
+brain/developer/workspace/rules/workspace_rules.py | classes=- | functions=-
+brain/developer/workspace/workspace.py | classes=Workspace | functions=-
+brain/developer/workspace/writers/__init__.py | classes=- | functions=-
+brain/developer/workspace/writers/file_writer.py | classes=FileWriter | functions=-
+brain/developer/workspace/writers/folder_writer.py | classes=FolderWriter | functions=-
+Non-Python source/configuration manifest:
+.env.example
+brain\developer\CHANGELOG.md
+brain\developer\README.md
+brain\developer\tests\test.txt
+dashboard\static\app.html
+dashboard\static\crypto-js.min.js
+dashboard\static\login.html
+hud\web\app\ai-chat.css
+hud\web\app\globals.css
+hud\web\app\globals.css.append
+hud\web\app\layout.tsx
+hud\web\app\page.tsx
+hud\web\components\AIChatBot.tsx
+hud\web\components\HudCockpit.tsx
+hud\web\components\JarvisOrb.tsx
+hud\web\components\PhoneCallIsland.tsx
+hud\web\lib\expressiveRobot.ts
+hud\web\lib\flyingRobot.ts
+hud\web\lib\handTracker.ts
+hud\web\lib\hudBridge.ts
+hud\web\lib\jarvisAvatar.tsx
+hud\web\lib\jarvisFullBody.tsx
+hud\web\lib\orbScene.ts
+hud\web\next-env.d.ts
+hud\web\next.config.ts
+hud\web\package-lock.json
+hud\web\package.json
+hud\web\public\models\flying_robot.glb
+hud\web\public\models\jarvis.glb
+hud\web\public\models\jarvis1.glb
+hud\web\public\models\RobotExpressive.glb
+hud\web\README.md
+hud\web\tsconfig.json
+hud\web\tsconfig.tsbuildinfo
+README.md
+requirements.txt
+skills\automation\ESP CODE MARK.txt
+voice\models\en_US-lessac-medium.onnx.json
+
+Non-Python role map:
+    .env / credentials.json / token.json:
+        local secrets or OAuth artifacts; values intentionally omitted.
+    .env.example:
+        documented environment-variable template.
+    .gitignore:
+        ignore policy for Python caches, generated workspaces, secrets, models,
+        Node dependencies/build output, and local runtime state.
+    requirements.txt:
+        Python runtime dependency set.
+    hud/web/package.json and package-lock.json:
+        Next.js frontend dependency and script manifests.
+    hud/web/tsconfig.json, next.config.ts, next-env.d.ts:
+        TypeScript/Next configuration.
+    hud/web/app/*, components/*, lib/*:
+        React/TypeScript HUD pages, cockpit, chat, avatar/robot scenes, bridge,
+        and browser-side helpers.
+    hud/web/app/*.css and globals.css:
+        HUD visual styling.
+    hud/web/public/models/*.glb:
+        frontend 3D model assets.
+    dashboard/static/app.html and login.html:
+        legacy/alternate phone-friendly remote dashboard HTML clients served
+        by Python dashboard code; they are not the Next.js app.
+    README files and text files:
+        human documentation, test notes, or automation notes; not runtime
+        entry points unless explicitly imported.
+    binary model/audio/image files:
+        runtime assets or generated/local data; not source modules.
+
+Important source-file descriptions:
+    main.py:
+        Active startup coordinator. Loads configuration, selects online/offline
+        voice mode, initializes skills/memory/services in a background thread,
+        starts HUD runtime/bridge, starts Next.js, starts DashboardServer,
+        starts the voice engine, opens native pywebview, and performs shutdown.
+    run_jarvis.py:
+        Shortcut-safe wrapper around main.py; redirects output to
+        data/logs/shortcut_startup.log and preserves startup failures.
+    config/settings.py:
+        Authoritative assistant name, aliases, version/author/voice settings,
+        Ollama defaults, vision thresholds, and persisted customization.
+    config/environment.py:
+        Loads .env once and exposes environment lookup helpers.
+    core/assistant.py:
+        Legacy/online microphone-driven command loop. Handles greetings,
+        follow-ups, confirmations, interruptions, planning and dispatch.
+    core/dispatcher.py:
+        Shared command dispatcher. Normalizes invocation, gives pending
+        clarification/email/face-registration state priority, invokes fast routes,
+        BrainRouter, planner workers, registry actions, and follow-up bridges.
+    core/fast_router.py and core/routers/*:
+        Deterministic route layer. Ordered routers cover phone calls, payments,
+        memory, news, weather, personal links, automation, Spotify, browser,
+        greetings, system, network, media, vision, Android, files, email,
+        contacts, WhatsApp, and file selection.
+    core/registry.py:
+        Global action registry: register, unregister, lookup, execute, category
+        queries, and fallback handling.
+    skills/loader.py:
+        Import-time skill loader with an explicit list of 46 configured module
+        paths, loaded/failed diagnostics, and continue-on-error behavior.
+    core/services.py:
+        Starts/stops the phone-call monitor. Its optional start_remote_control
+        helper constructs services.remote_control.RemoteControlServer, but
+        main.py directly uses dashboard.server.DashboardServer.
+    ai/core/*:
+        ModelDefinition/ModelRegistry, policy/preferences, selection manager,
+        request/response schemas, AIRouter, and AIService public interface.
+    ai/providers/ollama.py:
+        Local HTTP generation/streaming against Ollama's /api/generate.
+    ai/providers/gemini.py:
+        Google GenAI generation/streaming, image/context support, quota/error
+        detection, and optional API-key-backed operation.
+    ai/providers/openai.py:
+        OpenAI generation/streaming with Windows TLS/truststore handling and
+        OPENAI_API_KEY lookup.
+    brain/brain_router.py:
+        Detects developer-like requests and routes CREATE to Developer pipeline
+        or EDIT requests through active-project resolution/editor logic.
+    brain/developer/*:
+        Large developer subsystem: analyzer/detectors/resolvers/rules, planner
+        variants, prompt builders, Ollama generators, validators, repair,
+        workspace builders/writers, editor/parser/patch/rollback tooling,
+        memory models, integration tests, and compatibility APIs.
+    brain/conversation_* / natural/*:
+        conversation state, context, intent/meaning understanding, response
+        strategy, and natural-language bridges.
+    brain/clarification_manager.py:
+        Temporary field/question/task/owner/metadata state with a 120-second
+        timeout; it records and resolves conversational clarification but does
+        not execute commands itself.
+    brain/profile_manager.py:
+        JSON-backed user profile manager used by context/prompt construction.
+    ai/memory*.py:
+        Explicit memory learning, storage, search/ranking/semantic helpers,
+        profile/preference/forget/stats/view APIs. Runtime persistence is
+        generally under ai/memory.db and related local data.
+    voice/*:
+        Online Edge TTS and SpeechRecognition path, offline Faster-Whisper,
+        Piper TTS, shared voice state/queues, and Gemini Agent.
+    services/remote_control.py:
+        Optional thin FastAPI remote service with PIN pairing and bearer token;
+        compatible with the dispatcher but not the primary object started by
+        current main.py.
+    dashboard/server.py:
+        Active FastAPI server. Serves local/remote dashboard HTML, APIs for
+        commands/settings/history/AI chat/Android/upload/customisation, WebSocket
+        event/audio channels, and pairing/authentication.
+    hud/*:
+        Python HUD state/event contracts, manager, bus, telemetry, native window,
+        and passive SSE web bridge. hud/web_bridge.py includes an older
+        commented implementation plus the active bridge.
+    services/*:
+        OS/browser-adjacent adapters: Android/ADB, email/Gmail, contacts,
+        files, location, personal links, Spotify, WhatsApp, Windows automation,
+        and web launch.
+    tests/*:
+        Top-level regression/feature tests; individual test descriptions are
+        listed in Section 30.
+    tools/*:
+        Windows integration/database maintenance helpers; development/supporting
+        rather than automatic startup components.
+
+Runtime status vocabulary:
+    Active:
+        imported by main or on the live command path.
+    Supporting:
+        used by active modules or selected conditionally.
+    Test:
+        test-only or manual validation.
+    Compatibility/legacy:
+        retained API, alternate implementation, or older architecture.
+    Generated/local:
+        runtime state, assets, caches, dependency installation, or workspace
+        output.
+    Unknown:
+        source presence alone does not prove runtime use.
+
+6. HIGH-LEVEL ARCHITECTURE
+==========================
+
+Confirmed online path:
+    USER MICROPHONE / HUD TEXT / REMOTE TEXT
+        |
+        v
+    voice listener or DashboardServer command endpoint
+        |
+        v
+    core.dispatcher.dispatch()
+        |
+        +--> assistant invocation normalization
+        +--> pending face-registration / clarification / email state
+        +--> deterministic core.fast_router.fast_route()
+        |       |
+        |       +--> core.registry.execute(action)
+        |       +--> skill/service result
+        |
+        +--> BrainRouter developer request detection
+        +--> conversation/NCI/context/follow-up handling
+        +--> planner worker / AI plan
+        +--> core.executor / registry action execution
+        |
+        v
+    response, voice manager, HUD event bus, remote event stream
+
+Confirmed offline path:
+    microphone or typed HUD text
+        -> Faster-Whisper STT (voice only)
+        -> OfflineActionBridge
+        -> local deterministic action or OfflineAI
+        -> Ollama local model for non-action conversation
+        -> Piper TTS
+        -> shared HUD/action/event systems
+
+Boundaries:
+    - Fast routes are deterministic and ordered.
+    - AI provider routing is separate from action registration.
+    - Brain developer routing is separate from normal skills.
+    - HUD receives state/events and provides text/settings interfaces; it does not
+      replace the Python dispatcher.
+    - Remote Control is a transport/UI layer over existing command handling.
+    - Vision has separate camera, YOLO scene, face-recognition, and screen-vision
+      domains.
+
+7. APPLICATION STARTUP FLOW
+============================
+
+    START
+      |
+      v
+    import config -> load .env and settings
+      |
+      v
+    get_mode() -> network probe -> "online" or "offline"
+      |
+      v
+    initialize_core_background thread:
+        load_all skills
+        init_memory
+        start_all services / phone-call monitor
+        mark_core_ready
+      |
+      +--> start HUD runtime and passive web bridge
+      +--> start Next.js HUD at http://127.0.0.1:3000
+      +--> register HUD shutdown callback
+      |
+      +--> online:
+      |       create DashboardServer on port 8765
+      |       create pairing PIN
+      |       start online voice thread
+      |
+      +--> offline:
+              set JARVIS_OFFLINE_MODE
+              create local DashboardServer on port 8765
+              start offline STT/AI/TTS voice thread
+
+      |
+      v
+    wait for Next.js readiness
+      |
+      v
+    start native pywebview HUD on the main thread
+      |
+      v
+    READY / command loop
+      |
+      v
+    native-window close, Ctrl+C, listener exit, or voice failure
+      |
+      v
+    request shutdown -> stop listener -> close native HUD
+      -> stop services/HUD bridge/Next.js -> terminate process
+
+Startup notes:
+    pywebview is deliberately run on the main thread.
+    Core initialization is backgrounded so HUD startup can proceed.
+    Offline mode changes providers, not the shared action registry/core.
+    The final main.py cleanup calls os._exit(0), so shutdown is intentionally
+    forceful after cleanup attempts.
+
+8. COMMAND PROCESSING PIPELINE
+==============================
+
+Priority established by dispatcher:
+    1. empty input / pending clarification reply
+    2. known assistant invocation normalization
+    3. pending face registration input
+    4. pending clarification resolution/cancel/new request
+    5. pending email composition reply
+    6. Agent control commands
+    7. legacy clarification contexts such as Google/YouTube/GitHub choice
+    8. screen/browser/file follow-up resolution and action memory
+    9. deterministic fast route
+    10. BrainRouter developer path
+    11. AI intent/conversation/planner path
+    12. action execution, result output, and memory/HUD updates
+
+Invocation handling:
+    normalize_assistant_invocation accepts only configured explicit aliases,
+    with optional leading "hey" or "hello". It strips the alias before routing.
+    Current configured name and the explicit legacy alias "jarvis" are supported;
+    pronunciation aliases include "JARVIS PRO" and "ashtra" in settings.
+
+Examples confirmed by routers/actions:
+    "hey jarvis ..." -> alias normalization if alias list
+    matches current settings.
+    "take a photo", "open camera", "start vision", "what do you see"
+    "open youtube", "search google ...", "play ... on youtube"
+    "make payment" / "make payment using <app>"
+    "open file", "create folder", "recent files", "zip ...", "recycle bin"
+    "wifi status", "bluetooth status", "weather", "get news"
+    "open whatsapp", "send whatsapp message", "send email"
+    "start Agent", "stop Agent"
+    "create note", "list reminders", "remember ..."
+    "volume", "brightness", "battery", "running apps", "lock", "sleep"
+    These are representative source-confirmed patterns, not a promise that
+    external dependencies or devices are available.
+
+9. ASSISTANT IDENTITY / NAME SYSTEM
+====================================
+
+Sources:
+    config/settings.py is authoritative.
+    core/assistant_name.py provides normalization and compatibility exports.
+    core/listener.py and core/dispatcher.py consume the normalized invocation.
+    dashboard and HUD replace name placeholders or load the settings API.
+
+Behavior:
+    - APP_NAME begins as JARVIS PRO.
+    - data/settings/jarvis_settings.json may override it through assistantName.
+    - PRONUNCIATION_ALIASES = ().
+    - LEGACY_ASSISTANT_ALIASES = ("jarvis",).
+    - aliases are explicit; matching is not fuzzy.
+    - runtime set_assistant_name updates APP_NAME in-process and persists settings.
+    - the dashboard customisation endpoint can change the configured identity.
+    - technical JARVIS names remain in storage/protocols/modules for compatibility.
+
+10. AI ARCHITECTURE
+===================
+
+AI control points:
+    ai/core/schemas.py       request/response/stream/error contracts
+    ai/core/registry.py      model definitions and enabled model registry
+    ai/core/policy.py        capability/provider preference policy
+    ai/core/preference.py    temporary user provider/model preference
+    ai/core/model_manager.py capability-aware model selection
+    ai/core/router.py        availability, generation, streaming, cooldown,
+                             fallback
+    ai/core/service.py        public AIService facade
+    ai/chat.py, ai/ai_worker.py, ai/llm.py
+                             compatibility/chat/background consumers
+
+Registered model families confirmed in source:
+    Ollama:
+        jarvis, qwen2.5:3b, qwen3:4b
+    Gemini:
+        gemini-3.6-flash, gemini-3.5-flash, gemini-3.5-flash-lite
+    OpenAI:
+        model definitions/provider support are present; exact runtime default
+        selection depends on registry/policy configuration.
+
+Provider summary:
+    PROVIDER: Ollama
+    MODELS: jarvis, qwen2.5:3b, qwen3:4b and configured explicit model names
+    IMPLEMENTATION: ai/providers/ollama.py; voice/offline/offline_ai.py
+    GENERATION: local HTTP POST to configured Ollama API
+    STREAMING: implemented in provider contract and provider
+    FALLBACK ROLE: local/offline provider and policy candidate
+    ERROR HANDLING: unavailable response/error, stream errors, router fallback
+    STATUS: implemented; requires a reachable local Ollama service/model.
+
+    PROVIDER: Google Gemini
+    MODELS: Gemini model names registered above; Agent also uses
+            a Gemini Live path in voice/agent.py
+    IMPLEMENTATION: ai/providers/gemini.py; voice/agent.py
+    GENERATION: Google GenAI client, including text and supported multimodal
+                context paths
+    STREAMING: implemented
+    FALLBACK ROLE: preferred model family for many capabilities in ModelManager
+    STATUS: implemented in source; requires GEMINI_API_KEY and service access.
+            Quota/rate-limit errors trigger temporary model cooldown.
+
+    PROVIDER: OpenAI
+    MODELS: provider-compatible configured models
+    IMPLEMENTATION: ai/providers/openai.py
+    GENERATION: OpenAI client
+    STREAMING: implemented
+    FALLBACK ROLE: registered/provider-compatible fallback or explicit selection
+    STATUS: implemented in source; requires OPENAI_API_KEY and a usable model.
+            Runtime availability depends on registry/policy and configuration.
+
+Fallback/cooldown:
+    AIRouter tries policy/model candidates, checks availability, catches
+    generation errors, recognizes quota/rate-limit markers such as 429 and
+    RESOURCE_EXHAUSTED, and applies a 15-minute per-router model cooldown
+    (or a longer provider retry delay when parsed). This is fallback logic,
+    not proof that all configured providers are usable.
+
+11. AGENT / BRAIN / PLANNER SYSTEM
+===================================
+
+Normal AI/planner:
+    core.dispatcher -> ai.intent / brain conversation components ->
+    planner_worker/core.planner -> core.executor -> core.registry actions.
+
+BrainRouter:
+    brain/brain_router.py detects developer vocabulary and phrases.
+    CREATE requests go to brain.developer.Developer.
+    EDIT requests resolve an active project and use developer editor behavior.
+    Results may return as BrainResult(handled,module,result).
+
+Developer subsystem:
+    brain/developer/pipeline/developer_pipeline.py composes analyzer, planner,
+    prompt builder, generator, validator, workspace, and repair stages.
+    The analyzer detects language/framework/board/project/runtime/workspace.
+    Planners include Python, JavaScript, C++, Arduino, ESP32, and general paths.
+    Editor modules support project scan, target location, edit planning, parsing,
+    patch writing, validation, backups, rollback, and workspace appliers.
+    Developer memory stores project/file/edit/style/session records.
+    Many tests cover this subsystem.
+    The source contains both newer centralized BrainRouter integration and a
+    substantial older Developer architecture; both are documented as present,
+    but presence alone does not prove every branch is used for every command.
+
+12. CONVERSATION SYSTEM
+=======================
+
+brain/conversation_manager.py:
+    maintains structured Message entries and bounded conversation history,
+    with persistence helpers.
+
+brain/conversation_context.py and conversation_state.py:
+    hold current request/context/state used by follow-up resolution.
+
+brain/context_builder.py and brain/prompt_builder.py:
+    assemble profile, conversation, memory, project/screen context and
+    instruction/prompt material for AI-facing paths.
+
+brain/natural/*:
+    natural request/meaning classification, interaction mode and response
+    strategy bridge.
+
+core/context.py and core/action_memory.py:
+    lightweight runtime values/action context used by deterministic and follow-up
+    paths.
+
+chatbot/*:
+    independent dashboard AI chat sessions/history; the HUD explicitly labels
+    this as independent Gemini chat and not the main assistant conversation.
+
+13. CLARIFICATION SYSTEM
+========================
+
+Unified conversational state:
+    brain/clarification_manager.py stores waiting, field, question, task, owner,
+    metadata, creation time, and a 120-second timeout. resolve() returns
+    structured data; the manager does not execute commands.
+
+Dispatcher interaction:
+    - pending clarification is checked before normal fast routing/AI handling;
+    - an answer may merge into the original request and re-enter planner_worker;
+    - cancellation clears the state;
+    - a new known assistant invocation preempts stale clarification;
+    - explicit new requests can clear stale state;
+    - older core.context/confirmation/memory clarification mechanisms remain
+      authoritative in their own features.
+
+Confirmed source examples:
+    generic action context can ask whether to use Google, YouTube, GitHub, or
+    ChatGPT; follow-up answers such as "google", "youtube", "github", or
+    "chatgpt" are recognized by dispatcher logic.
+    Exact natural examples like "Which file should I edit?" are not asserted
+    globally unless a relevant active module handles that field.
+
+14. MEMORY SYSTEM
+================
+
+Persistent/structured memory:
+    ai/memory_schema.py, memory_store.py, memory_manager.py, memory_search.py,
+    memory_rank.py, memory_semantic.py, memory_pipeline.py and related modules
+    implement explicit facts/preferences/profile-style memory, search/ranking,
+    confidence/forget/stats/view operations.
+    ai/memory.db is a local application database if present.
+
+Conversation context:
+    in-memory conversation messages and current request context; not the same
+    as durable explicit memory.
+
+Profile:
+    brain/profile_manager.py stores/loads user profile JSON and contributes
+    profile data to context/prompt generation.
+
+Developer memory:
+    brain/developer/memory/* stores project/file/dependency/edit/style/session
+    records and is separate from general user memory.
+
+Workspace memory:
+    generated workspace projects contain .jarvis_memory and .jarvis_backups
+    artifacts. These belong to generated projects, not necessarily the main
+    assistant database.
+
+What is actually learned:
+    explicit pattern-based memory modules recognize supported forms such as
+    "my name is", preference/favorite, contact/email/memory actions. The code
+    does not establish unrestricted autonomous learning.
+
+15. PERSONALIZATION / USER PROFILE
+==================================
+
+Settings/profile surfaces include:
+    assistant name, user name, assistant colour, selected voice, morning brief,
+    microphone/Agent toggles, HUD visibility toggles, personal links,
+    contacts, email contacts, WhatsApp contacts, and remembered facts.
+
+Persistence is split:
+    data/settings/jarvis_settings.json for UI customization;
+    profile manager storage for profile/context;
+    memory database/files for explicit memory;
+    workspace .jarvis_* directories for developer project state;
+    runtime globals/queues for temporary session state.
+
+The current settings file was inspected only for non-secret identity behavior;
+personal values are not reproduced here.
+
+16. SKILL ARCHITECTURE
+======================
+
+Skill packages present:
+    ai, android_control, assistant, automation, browser, browser_control,
+    camera, communication, files, media, memory, navigation, network, news,
+    payments, phone_call, screen, system, utilities, web.
+
+Important skill capabilities:
+    AI: clarification action.
+    Android: ADB availability/device/app launch/info.
+    Assistant: greetings, name, welcome/goodbye.
+    Automation: home automation and ESP32-oriented notes.
+    Browser: browser open/search/result and YouTube operations.
+    Browser control: tabs, navigation, scrolling, refresh/close.
+    Camera: camera capture/preview/recording/status.
+    Vision: YOLO scene actions, count/position/locate/target, face register/delete.
+    Communication: ChatGPT search, GitHub search, contacts, email, WhatsApp.
+    Files: open/create/copy/move/rename/delete, recent/recycle/zip/extract.
+    Media: generic media, image generation, Spotify.
+    Memory: notes/reminders and explicit memory actions.
+    Navigation: Maps and translation.
+    Network: Wi-Fi, Bluetooth, weather.
+    News: news retrieval.
+    Payments: Android payment-app/UPI chooser handoff only.
+    Phone call: number/contact call, monitor/status and call control boundaries.
+    Screen: clipboard, screenshot, screenshot AI, screen vision.
+    System: battery, brightness, processes, task manager, volume, shutdown/lock.
+    Utilities: file search, time.
+    Web: personal links.
+
+A skill file can exist without being loaded. The authoritative configured import
+list is skills/loader.py; modules outside that list may be supporting, legacy,
+or route-only code.
+
+17. SKILL LOADING / REGISTRATION
+================================
+
+    main.initialize_core_background()
+        -> skills.loader.load_all()
+        -> import_module("skills." + configured_name)
+        -> module-level register(...) calls
+        -> core.registry.SKILLS / SKILL_CATEGORIES
+
+The loader records configured, loaded, and failed lists and continues after a
+module import error. Registration is explicit and occurs as a side effect of
+module import. main.py adds the three Agent actions after core
+startup.
+
+Action registry behavior:
+    register(name, handler, category)
+    get_handler / has_skill / get_skill_category
+    execute(name, data)
+    list_skills / list_skill_categories / categorized_skills
+    fallback handler for missing/unavailable actions.
+
+18. BROWSER SYSTEM
+==================
+
+Current browser design:
+    skills/browser/browser_config.py resolves host/port/executable/profile.
+    Default CDP host is 127.0.0.1 and default port is 9223.
+    browser_resolver.py discovers Chrome/Edge/Chromium executables or validates
+    JARVIS_BROWSER_EXECUTABLE.
+    browser_runtime.py owns a Chromium process/profile and a verified CDP
+    endpoint with ownership/session markers; it does not adopt arbitrary
+    existing endpoints.
+    browser_controller.py uses Playwright sync API through CDP and manages
+    tabs, navigation, search, page/result context, and YouTube context.
+    browser_ai.py, browser_open.py, navigation.py and youtube.py adapt actions
+    and conversational follow-ups.
+    core/browser_context.py and browser_reference.py retain sequential result,
+    current/previous/next video, tab and search context.
+
+Browser configuration:
+    JARVIS_BROWSER_CDP_HOST, JARVIS_BROWSER_CDP_PORT,
+    JARVIS_BROWSER_EXECUTABLE, JARVIS_BROWSER_PROFILE_DIR.
+    Values are not copied from .env.
+
+19. VISION SYSTEM
+=================
+
+Camera:
+    core.camera_manager and skills/camera/camera.py own capture/preview/record
+    lifecycle.
+
+YOLO:
+    skills/camera/detector.py uses the local Ultralytics YOLO model asset
+    yolo11n.pt for object/person detection. vision.py/vision_skill.py,
+    vision_analyzer.py, scene_analyzer.py and vision_loop.py form the continuous
+    scene path. VisionLoop stabilizes scene signatures across frames.
+
+Face recognition:
+    face_recognizer.py uses YOLO person boxes to derive head/upper-body crops,
+    OpenCV LBPH recognition, a local FaceRegistry, and samples under
+    data/faces. face_registration.py handles sample capture/registration and
+    deletion/cancellation. Threshold, minimum size/quality, sample count,
+    attempts, interval, and speech cooldown are environment-backed settings.
+    This is distinct from generic object detection.
+
+Screen vision:
+    screen/screen_vision.py, screen_vision_skill.py and screenshot_ai.py provide
+    screen capture/analysis paths. Exact provider availability depends on AI
+    configuration.
+
+Hardware behavior:
+    source supports lazy optional OpenCV/vision imports; exact CPU/GPU choice is
+    not globally guaranteed from source. The bundled detector/model and installed
+    Ultralytics/OpenCV dependencies determine actual operation.
+
+20. VOICE SYSTEM
+================
+
+Online:
+    voice.mode.py probes network and selects online/offline.
+    voice.online_runner.py calls core.assistant.run.
+    core.listener.py uses SpeechRecognition/PyAudio input and dispatch callback.
+    voice.manager.py coordinates speech state, queues/listeners, interruption,
+    preparation/playback and TTS choice.
+    voice.online_edge.py uses Edge TTS with cached MP3 output and selectable
+    English/Indian/other language voice mappings.
+
+Offline:
+    voice.offline.offline_stt.py uses Faster-Whisper (small/cpu/int8 defaults)
+    for local transcription, calibration and audio-quality filtering.
+    voice.offline.offline_ai.py uses Ollama plus shared profile/conversation/
+    context/prompt components.
+    voice.offline.offline_tts.py uses Piper process/model output and playback.
+    offline_runner.py runs typed and microphone commands through the shared
+    OfflineActionBridge and avoids duplicate local-action speech.
+
+Agent:
+    voice/agent.py contains a separate Gemini Live session,
+    microphone/audio streaming, typed-to-live integration, interruption and
+    session lifecycle. main.py registers start/stop/status actions after startup.
+
+Voice status:
+    startup greeting, HUD speaking/listening/thinking/idle state, stop-speaking
+    and interruption are implemented. Actual online/offline success depends on
+    network, audio devices, model files, and service configuration.
+
+21. REMOTE CONTROL
+==================
+
+Active path:
+    main.py constructs dashboard.server.DashboardServer with core.dispatcher
+    as command_handler, a live stop handler, a generated six-character PIN,
+    and port 8765. The server is optional at runtime if dependencies fail; main
+    logs the failure and continues toward HUD/voice.
+
+DashboardServer responsibilities:
+    local/LAN URL and pairing URL, PIN lifecycle, bearer-token authorization,
+    static remote UI, command endpoints, event transport, phone microphone/audio
+    handling, upload/settings/customisation, Android status/connect/disconnect,
+    AI chat APIs, system/voice settings, and WebSocket routes.
+
+Compatibility path:
+    services/remote_control.py defines another RemoteControlServer on port 8765
+    with a similar PIN/bearer-token model and dispatcher adapter. core.services
+    exposes start_remote_control(), but current main.py uses DashboardServer
+    directly. Treat the former as alternate/compatibility infrastructure, not
+    the active object in the normal main startup path.
+
+Security/transport:
+    pairing uses short-lived PINs (600-second expiry in source), then bearer
+    authorization. The service uses FastAPI/Uvicorn and browser/WebSocket
+    clients. This is a command transport/UI, not a second brain. It is optional,
+    and payment is not implemented as dependent on remote control.
+
+22. HUD / FRONTEND
+==================
+
+Python HUD:
+    hud/events.py defines event/state names and HUDEvent.
+    hud/bus.py provides thread-safe publish/subscribe.
+    hud/manager.py mutates HUDState and emits voice/task/AI/system/activity/
+    response/error/personal-link events.
+    hud/integration.py exposes the application-facing facade.
+    hud/telemetry.py reads CPU/RAM/battery through psutil.
+    hud/runtime.py manages periodic runtime updates.
+    hud/desktop_window.py opens a 900x600 native pywebview window and requests
+    shutdown when closed.
+    hud/web_bridge.py is a passive SSE bridge at port 8766 with health/state/
+    events/shutdown behavior; an older implementation remains commented above
+    the active implementation.
+
+Next.js/React:
+    hud/web/app/page.tsx is the main client page and integrates bridge events,
+    command entry, activity log, settings, remote/Android modals, morning brief,
+    phone-call island, microphone waveform, AI chat, QR pairing and cockpit.
+    HudCockpit.tsx renders assistant state, system gauges, activity and quick
+    tools. AIChatBot.tsx provides independent chat history/model/message APIs.
+    JarvisOrb.tsx, PhoneCallIsland.tsx and lib/* provide visual/3D/hand-tracker/
+    avatar/bridge helpers.
+    package.json scripts are dev, build, start. The repo currently starts npm
+    run dev from main.py rather than an independently managed production build.
+
+23. SYSTEM MONITOR
+===================
+
+Confirmed telemetry:
+    CPU percent, RAM percent, battery percent (when psutil and a battery are
+    available), timestamp, system status, and uptime/state are emitted to HUD.
+    hud/web components format CPU/RAM/BAT gauges and uptime.
+    Missing psutil/sensors produce unavailable/null values rather than invented
+    values. Exact update cadence is controlled by hud/runtime.py and telemetry
+    calls; source confirms periodic runtime management but this document does
+    not claim a fixed interval unless the active runtime configuration changes.
+
+24. PERSONAL WEBSITES / LINKS
+============================
+
+config/personal_links.py defines named link slots backed by environment values.
+services/personal_link_service.py validates/opens or displays configured links
+through the browser controller and HUD integration. skills/web/personal_links.py
+registers open_personal_link and show_personal_links. dashboard/HUD expose link
+data and UI. URL values are not reproduced. Blank/missing links are treated as
+unavailable; source validation accepts HTTP/HTTPS URL forms.
+
+25. PAYMENT SYSTEM
+==================
+
+skills/payments/payments.py and core/routers/payment_router.py implement the
+make_payment action for "make payment" and "make payment using/with <app>".
+
+Implemented:
+    - optional ANDROID_DEFAULT_PAYMENT_APP selection;
+    - Android app launch through the shared safe ADB bridge;
+    - generic upi://pay intent to let Android choose an installed app;
+    - spoken/user-facing instructions to continue in the official app.
+
+Not implemented by this repository:
+    - automatic recipient/amount parsing into a completed transfer;
+    - QR capture/scanning flow inside JARVIS;
+    - PIN, OTP, CVV, biometric, or final authorization entry;
+    - automatic money transfer confirmation.
+
+Payment request preparation:
+    opening a selected payment app or UPI chooser is the preparation/hand-off.
+
+Actual payment authorization:
+    remains entirely inside the official Android payment application and under
+    user control. Remote Control is not required for the payment action; Android
+    connectivity/ADB is the relevant dependency for app launch.
+
+26. CONFIGURATION
+=================
+
+Primary configuration sources:
+    config/environment.py loads .env.
+    config/settings.py stores defaults and typed setting helpers.
+    config/hud_settings.py stores HUD settings.
+    config/personal_links.py, config/spotify.py, config/youtube.py,
+    config/whatsapp.py provide integration-specific settings.
+    data/settings/jarvis_settings.json stores runtime customization.
+
+Selected settings:
+    APP_NAME / assistantName:
+        identity and display; built-in default JARVIS PRO; persisted override.
+    AI_PROVIDER:
+        source default ollama; actual routing also uses model policy/registry.
+    OLLAMA_MODEL:
+        source default qwen2.5:3b in config; offline_ai retains jarvis default
+        unless OLLAMA_MODEL is explicitly set there.
+    OLLAMA_URL:
+        local Ollama API endpoint, default localhost:11434/api/generate.
+    browser:
+        CDP host/port/executable/profile overrides.
+    vision:
+        face threshold/min size/quality/registration controls.
+    dashboard:
+        source port 8765; HUD bridge source port 8766; Next HUD source port
+        3000.
+
+Configuration table:
+    SETTING / VARIABLE                         REQUIRED  SECRET  DEFAULT / NOTE
+    GEMINI_API_KEY                             no*       yes     blank; Gemini
+    OPENAI_API_KEY                             no*       yes     blank; OpenAI
+    YOUTUBE_API_KEY                            no*       yes     blank; YouTube API
+    SPOTIFY_CLIENT_ID                          no*       yes     blank; Spotify
+    SPOTIFY_CLIENT_SECRET                      no*       yes     blank; Spotify
+    SPOTIFY_REDIRECT_URI                       no        no      localhost:8888
+    OLLAMA_API_URL                             no        no      local Ollama URL
+    JARVIS_ESP32_IP                            no        no      blank
+    JARVIS_LIVE_MODEL                          no        no      blank/provider use
+    ANDROID_ADB_PATH                           no        no      PATH or C:\platform-tools\adb.exe
+    ANDROID_DEVICE_ID                          no        no      blank/selected device
+    ANDROID_DEFAULT_PAYMENT_APP                no        no      blank/chooser
+    JARVIS_VISION_FACE_RECOGNITION_THRESHOLD   no        no      75
+    JARVIS_VISION_FACE_MIN_SIZE                no        no      80
+    JARVIS_VISION_FACE_MIN_QUALITY             no        no      0.20
+    JARVIS_VISION_REGISTRATION_SAMPLE_COUNT    no        no      5
+    JARVIS_VISION_REGISTRATION_MAX_ATTEMPTS    no        no      30
+    JARVIS_VISION_REGISTRATION_SAMPLE_INTERVAL no        no      0.25
+    JARVIS_VISION_SPEECH_COOLDOWN              no        no      5
+    PERSONAL_* / JARVIS_*_URL                  no        no      blank; link slots
+    JARVIS_BROWSER_CDP_HOST                    no        no      127.0.0.1
+    JARVIS_BROWSER_CDP_PORT                    no        no      9223
+    JARVIS_BROWSER_EXECUTABLE                  no        no      auto discovery
+    JARVIS_BROWSER_PROFILE_DIR                 no        no      runtime profile
+
+*Required only for the corresponding configured feature/provider. No secret
+values are included.
+
+27. ENVIRONMENT VARIABLES
+=========================
+
+Names present in .env.example:
+    GEMINI_API_KEY, OPENAI_API_KEY, YOUTUBE_API_KEY
+    SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI
+    OLLAMA_API_URL, JARVIS_ESP32_IP, JARVIS_LIVE_MODEL
+    ANDROID_ADB_PATH, ANDROID_DEVICE_ID, ANDROID_DEFAULT_PAYMENT_APP
+    JARVIS_VISION_FACE_RECOGNITION_THRESHOLD
+    JARVIS_VISION_FACE_MIN_SIZE, JARVIS_VISION_FACE_MIN_QUALITY
+    JARVIS_VISION_REGISTRATION_SAMPLE_COUNT
+    JARVIS_VISION_REGISTRATION_MAX_ATTEMPTS
+    JARVIS_VISION_REGISTRATION_SAMPLE_INTERVAL
+    JARVIS_VISION_SPEECH_COOLDOWN
+    PERSONAL_GITHUB_URL, PERSONAL_GITHUB_PROFILE_URL,
+    PERSONAL_GITHUB_REPOSITORIES_URL, PERSONAL_FACEBOOK_URL,
+    PERSONAL_FACEBOOK_PROFILE_URL, PERSONAL_LINKEDIN_URL,
+    PERSONAL_LINKEDIN_PROFILE_URL, PERSONAL_WEBSITE_URL,
+    PERSONAL_PORTFOLIO_URL, PERSONAL_IOT_URL, PERSONAL_IOT_WEBSITE_URL,
+    IOTRIX_LAB_URL, JARVIS_GITHUB_URL, JARVIS_REPOSITORY_URL,
+    SMART_PARKING_URL, ATMERS_URL
+    JARVIS_BROWSER_CDP_HOST, JARVIS_BROWSER_CDP_PORT,
+    JARVIS_BROWSER_EXECUTABLE, JARVIS_BROWSER_PROFILE_DIR
+
+Additional runtime setting names appear in code (for example OLLAMA_MODEL,
+NEXT_PUBLIC_JARVIS_OFFLINE, NEXT_PUBLIC_JARVIS_DASHBOARD_URL, and
+NEXT_PUBLIC_JARVIS_HUD_BRIDGE_URL). Exact effective value depends on startup
+environment and dashboard settings.
+
+28. EXTERNAL SERVICES / INTEGRATIONS
+====================================
+
+SERVICE                  PURPOSE                         STATUS FROM SOURCE
+Ollama                   local AI/offline AI             implemented; local service required
+Google Gemini/GenAI      cloud text/vision/live          implemented; key/service required
+OpenAI                   cloud provider                  implemented; key/model required
+Google/YouTube APIs      YouTube search/results          implemented; key required
+Chrome/Edge/Chromium CDP browser automation              implemented conditionally
+FastAPI/Uvicorn          dashboard/remote HTTP           implemented
+Next.js/React             HUD frontend                   implemented; npm required
+SpeechRecognition/PyAudio microphone input               implemented conditionally
+Faster-Whisper            offline STT                     implemented conditionally
+Piper TTS                 offline speech                 implemented conditionally
+Edge TTS                 online speech                   implemented conditionally
+OpenCV/Ultralytics YOLO   camera/object/face support     implemented conditionally
+Android ADB               device/apps/UPI/phone bridge   implemented conditionally
+Spotify/Spotipy            desktop playback               implemented conditionally
+WhatsApp desktop           UI automation/messaging       implemented conditionally
+Gmail API/OAuth            email sending                  implemented conditionally
+Google Maps/translation    navigation/browser links      implemented conditionally
+Windows APIs/tools         system, clipboard, windowing  implemented conditionally
+MediaPipe/Three            frontend interaction/3D       frontend dependency/assets
+
+No Firebase or Google Apps Script integration was confirmed in the audited
+source paths. A service listed in code is not proof that credentials/device/
+network access is present.
+
+29. DEPENDENCIES
+================
+
+Python requirements grouped by source manifest:
+    Core/UI/voice: requests, pywebview, SpeechRecognition, PyAudio, edge-tts,
+    pygame, pyttsx3.
+    Offline voice: numpy, sounddevice, faster-whisper, piper-tts.
+    AI/Google: openai, google-genai, python-dotenv, google-api-python-client,
+    google-auth-oauthlib, google-auth-httplib2, truststore.
+    Dashboard: fastapi, uvicorn[standard], python-multipart, cryptography.
+    Browser/media: playwright, spotipy, pynput.
+    Windows: psutil, pyautogui, pyperclip, pywin32, pywinauto, comtypes,
+    pycaw, screen-brightness-control, Send2Trash, WinRT geolocation.
+    Vision: opencv-contrib-python, Pillow, ultralytics.
+
+Node dependencies:
+    Next 16, React 19, TypeScript, Three, MediaPipe tasks vision, QR code,
+    React Markdown/syntax highlighting, TanStack virtual, remark-gfm and
+    corresponding type packages. hud/web/package-lock.json is present.
+    hud/web/node_modules is installed locally and is generated dependency data.
+
+External applications commonly required:
+    Python 3, npm/Node, Ollama for local AI, Chrome/Edge/Chromium for CDP,
+    microphone/audio device, optional Android platform-tools/ADB, optional
+    WhatsApp/Spotify/desktop apps, optional camera, and Windows GUI/audio APIs.
+
+30. TESTING
+===========
+
+Observed test inventory:
+    tests/ (11 top-level files):
+        Android/HUD connection, Android payment routing, JARVIS PRO routing,
+        browser follow-up references, configuration, face vision, offline mode,
+        OpenAI provider, personal website list, phone call, remote event sync.
+    brain/tests/:
+        clarification flow, intent engine.
+    brain/developer/tests/:
+        analyzer, board/framework/intent/language/project/runtime/workspace
+        detectors, enums/foundation, generator, planner, prompt builder,
+        repair, validator, workspace.
+    brain/developer/editor/tests/:
+        backup builder, editor engine/editor, parser, patch writer, rollback,
+        validator, web project editing.
+    brain/developer/integration/tests/:
+        active project, brain router, create integration, developer connection,
+        dispatcher/developer, full integration, memory integration, rollback
+        integration.
+    skills/assistant/test_greetings.py:
+        greeting skill checks.
+
+Important validation themes:
+    TEST: test_JARVIS PRO_routing.py
+    PURPOSE: name/invocation routing behavior.
+    TEST: test_offline_mode.py
+    PURPOSE: shared offline action/runtime behavior.
+    TEST: test_face_vision.py
+    PURPOSE: face/vision detection and registration boundaries.
+    TEST: test_remote_event_sync.py
+    PURPOSE: remote event/HUD synchronization.
+    TEST: test_android_payment_routing.py
+    PURPOSE: payment route and Android handoff behavior.
+    TEST: developer test suites
+    PURPOSE: analyzer/planner/editor/repair/validation/workspace subsystem.
+
+This is an inventory, not a test report. No tests were run for this audit, so
+no pass/fail claim is made.
+
+31. CURRENTLY IMPLEMENTED CAPABILITIES
+=======================================
+
+VOICE:
+    online SpeechRecognition/Edge TTS path; offline Faster-Whisper/Piper path;
+    voice queues/state/interruption; live Gemini conversation actions.
+
+AI:
+    Ollama/Gemini/OpenAI provider classes; model registry/policy/router;
+    generation and streaming contracts; quota cooldown/fallback.
+
+CONVERSATION:
+    dispatch, context, follow-up, natural bridge, confirmations,
+    clarification state, independent dashboard AI chat.
+
+MEMORY:
+    explicit fact/preference memory, notes, reminders, search/rank/forget/stats,
+    profile and developer memory.
+
+BROWSER:
+    owned CDP runtime, browser executable resolution, Playwright control,
+    search/navigation, tab actions, YouTube integration/result references.
+
+VISION:
+    camera capture/preview/record, YOLO object/person scenes, stable scene loop,
+    local face registration/recognition, screen vision/screenshot analysis.
+
+COMMUNICATION/MEDIA:
+    WhatsApp UI automation/scheduling/calls, Gmail sending, contact stores,
+    Spotify controls, news/weather/maps/translation, GitHub/ChatGPT search.
+
+SYSTEM/FILES:
+    volume, brightness, battery, process/task manager, power actions,
+    clipboard/screenshot, file/folder/zip/recycle/recent/search actions.
+
+ANDROID/PAYMENTS:
+    ADB discovery/connect/device/app intents; payment app/UPI chooser handoff;
+    phone-call-related Android integration and monitoring boundaries.
+
+HUD/REMOTE:
+    native webview HUD, Next.js cockpit/activity/system monitor, SSE events,
+    local/LAN dashboard, pairing/PIN/bearer authorization, WebSocket/event paths.
+
+DEVELOPER/AGENT:
+    project analysis, language/framework/board/runtime detection, generation,
+    edit/patch/validation/backup/rollback/workspace pipeline.
+
+32. PARTIALLY IMPLEMENTED FEATURES
+===================================
+
+    - Online/cloud providers require external keys/services; source cannot prove
+      availability in the current environment.
+    - Face recognition, camera, offline STT/TTS, CDP, ADB, WhatsApp, Spotify,
+      Gmail, and Windows automation are dependency/hardware conditional.
+    - Some settings and frontend toggles exist but their complete behavioral
+      connection is controlled by dashboard/server implementation and external
+      runtime state.
+    - Multiple remote-control implementations exist; only DashboardServer is
+      directly constructed by main.py.
+    - AI model registry/policy lists model families broader than any single
+      configured/default provider can guarantee.
+    - Generated workspace/developer editing features are substantial but not
+      automatically active for every normal command.
+
+33. EXPERIMENTAL FEATURES
+=========================
+
+    - Gemini Agent/audio session in voice/agent.py.
+    - Offline shared-core mode with local Ollama and Piper.
+    - YOLO temporal stabilization and local LBPH identity recognition.
+    - Android wireless/ADB connection and phone-call monitor.
+    - Frontend 3D/robot/avatar/hand-tracking assets and components.
+    - AI chat history/model switching in the independent HUD chatbot.
+    - Developer editor/generator/repair migration layers.
+
+The source labels or structure indicate experimental/optional behavior, but
+this section does not claim production readiness.
+
+34. LEGACY / COMPATIBILITY FEATURES
+====================================
+
+    - JARVIS/JARVIS PRO names in protocols, filenames, prompts, and aliases.
+    - brain/developer is a large older/compatibility architecture alongside the
+      newer BrainRouter/natural conversation layers.
+    - ai/intent.py is a compatibility wrapper over the newer intent engine.
+    - services/remote_control.py is an alternate remote implementation.
+    - hud/web_bridge.py retains a commented earlier SSE implementation.
+    - core.services.start_remote_control remains available although main.py uses
+      DashboardServer directly.
+    - legacy core.context/action memory/confirmation paths coexist with the
+      newer conversation clarification system.
+    - dashboard/static HTML clients coexist with the Next.js HUD.
+
+35. UNUSED / UNCONNECTED COMPONENTS
+===================================
+
+A source file is not automatically active. The following are not confirmed as
+part of every startup:
+    - modules absent from skills.loader.SKILLS;
+    - services.remote_control.RemoteControlServer in the normal main path;
+    - compatibility wrappers and alternate client HTML;
+    - tools scripts and manual test/demo entry points;
+    - generated workspace projects and their local memories/backups;
+    - installed node_modules and compiled caches;
+    - any provider/skill that failed optional import or lacks configuration.
+
+Exact dead-code status is NOT DETERMINED FROM SOURCE for individual modules
+unless import/registration evidence exists. See the Python manifest and loader.
+
+36. NOT IMPLEMENTED / UNKNOWN AREAS
+===================================
+
+    - JARVIS PRO is not confirmed as the effective persisted display name on this
+      checkout; current persisted name is JARVIS.
+    - No automatic payment authorization or credential entry is implemented.
+    - No Firebase/Apps Script integration was confirmed.
+    - No source-only audit can confirm external service quotas, valid credentials,
+      device presence, browser installation, camera/microphone access, or model
+      downloads.
+    - Exact runtime activation of every module, frontend control, and legacy
+      path is NOT DETERMINED FROM SOURCE.
+    - No claim is made that all listed tests pass; they were not executed here.
+
+37. END-TO-END DATA FLOWS
+=========================
+
+A. Voice command:
+    microphone -> SpeechRecognition or Faster-Whisper -> text
+    -> dispatcher/OfflineActionBridge -> fast route or planner
+    -> registry action/service -> HUD response + voice TTS.
+
+B. Text command:
+    HUD/dashboard input -> DashboardServer command handler
+    -> core.dispatcher.dispatch -> same fast route/planner/action path.
+
+C. AI generation:
+    request -> AIService/AIRouter -> ModelManager/Policy/Registry
+    -> provider availability -> selected model generation/stream
+    -> quota cooldown/fallback -> AIResponse -> caller/HUD/voice.
+
+D. Clarification:
+    request lacking field -> clarification state/question
+    -> next input -> invocation/priority checks -> resolve/merge/cancel
+    -> planner or action execution.
+
+E. Browser:
+    browser action -> BrowserController -> BrowserRuntime/executable/profile
+    -> CDP -> Playwright page/tab -> result context/reference -> response.
+
+F. Vision:
+    camera -> VisionEngine/CameraManager -> YOLO detection
+    -> scene analyzer/stability loop -> describe/count/locate or face crop
+    -> optional LBPH recognition -> spoken/HUD result.
+
+G. Remote:
+    phone/web client -> pairing PIN -> bearer token
+    -> FastAPI/WebSocket command/event endpoint -> dispatcher
+    -> result/event -> client.
+
+H. HUD:
+    core/voice/service -> HUDIntegration/HUDManager
+    -> HUDState + HUDEvent -> hud_bus -> SSE bridge
+    -> HUDBridge EventSource -> React state/cockpit/activity UI.
+
+I. Skill:
+    startup loader -> import skill -> register action
+    -> router/planner emits action name -> core.registry.execute
+    -> handler/service -> response/HUD/voice.
+
+J. Payment:
+    "make payment ..." -> payment_router -> make_payment
+    -> AndroidManager ADB app launch or upi://pay chooser
+    -> user completes scan/details/auth in official app.
+
+38. ROUTERS / REGISTRIES / LOADERS / DISPATCHERS
+=================================================
+
+    core.fast_router.fast_route:
+        ordered deterministic router fan-out.
+    core.routers.*:
+        domain-specific command recognizers/planners.
+    core.dispatcher.dispatch:
+        central input priority and execution coordinator.
+    core.registry:
+        action handler/category registry.
+    skills.loader:
+        import and diagnostics for configured skill packages.
+    ai.core.ModelRegistry:
+        model metadata registry.
+    ai.core.ModelManager:
+        capability/provider-aware selection.
+    ai.core.AIRouter:
+        provider availability, streaming, fallback, cooldown.
+    brain.BrainRouter:
+        developer request boundary and active-project/editor routing.
+    dashboard.DashboardServer:
+        HTTP/WebSocket protocol/API dispatcher adapter.
+    hud.bus:
+        event bus between Python runtime and presentation.
+    voice.offline.OfflineActionBridge:
+        offline deterministic/local/network-required classification.
+    browser runtime/controller:
+        executable/CDP ownership and browser action boundary.
+
+39. ACTION INVENTORY
+====================
+
+The following are the important registered action names discovered from
+module-level register(...) calls. Handler source is shown by package/module.
+
+    AI:
+        clarify                         skills/ai/clarify.py
+    Android:
+        android_check_adb, android_check_device, android_device_info,
+        android_open_app, android_launch_app
+        skills/android_control/android_control.py
+    Assistant:
+        greet, how_are_you, assistant_name, welcome, goodbye
+        skills/assistant/greetings.py
+    Automation:
+        home_automation                  skills/automation/home_automation.py
+    Browser:
+        browser_open_result, open, google_search
+        skills/browser/browser_ai.py
+        youtube_search, youtube_play_first, youtube_pause, youtube_resume,
+        youtube_next, youtube_previous, youtube_play_result
+        skills/browser/youtube.py
+        new_tab, close_tab, forward, back, scroll_down, scroll_up, refresh, close
+        skills/browser_control/browser_controls.py
+    Camera/Vision:
+        camera_status, capture, camera_preview, camera_close,
+        start_recording, stop_recording
+        skills/camera/camera.py
+        vision_start, vision_stop, vision_describe, vision_count, vision_check,
+        vision_position, vision_locate, vision_target, register_face,
+        cancel_face_registration, delete_face
+        skills/camera/vision_skill.py
+    Communication:
+        chatgpt_search                     skills/communication/chatgpt.py
+        github_search                      skills/communication/github.py
+        remember_contact, forget_contact, show_contacts
+        skills/communication/contact.py
+        send_email, remember_email_contact, forget_email_contact,
+        show_email_contacts
+        skills/communication/email.py
+        whatsapp_open, whatsapp_close, whatsapp_send_message,
+        whatsapp_wait_message, whatsapp_send_latest_photo,
+        whatsapp_send_latest_screenshot, whatsapp_send_file,
+        whatsapp_send_selected_file, whatsapp_wait_contact,
+        schedule_whatsapp_message, list_scheduled_whatsapp,
+        cancel_scheduled_whatsapp, reschedule_scheduled_whatsapp,
+        whatsapp_call, whatsapp_video_call
+        skills/communication/whatsapp.py
+    Files:
+        file_info                           skills/files/file_info.py
+        open_file, open_folder, create_file, create_folder, copy, move,
+        rename, delete                         skills/files/files.py
+        recent_files                         skills/files/recent.py
+        recycle                             skills/files/recycle.py
+        zip, extract                        skills/files/zip_manager.py
+    Media:
+        create_image                        skills/media/image_generation.py
+        play                                skills/media/media.py
+        spotify_open, spotify_close, spotify_play, spotify_pause,
+        spotify_next, spotify_previous, spotify_volume_up,
+        spotify_volume_down, spotify_play_song
+        skills/media/spotify.py
+    Memory/Navigation:
+        create_note, list_notes, clear_notes
+        skills/memory/notes.py
+        create_reminder, list_reminders, cancel_reminder
+        skills/memory/reminders.py
+        maps_open, maps_directions       skills/navigation/maps.py
+        translate_open, translate_text  skills/navigation/translate.py
+    Network/News:
+        bluetooth_status, bluetooth_devices
+        skills/network/bluetooth.py
+        weather                             skills/network/weather.py
+        wifi_on, wifi_off, wifi_status, wifi_list
+        skills/network/wifi.py
+        get_news                            skills/news/news.py
+    Payments/Phone:
+        make_payment                        skills/payments/payments.py
+        phone_call_number, phone_call_contact, phone_call_confirmed,
+        answer_call, reject_call, end_call, call_status, missed_calls
+        skills/phone_call/phone_call.py
+    Screen/System/Utilities/Web:
+        clipboard                           skills/screen/clipboard.py
+        screen_vision_analyze               skills/screen/screen_vision_skill.py
+        screenshot                          skills/screen/screenshot.py
+        screenshot_ai                       skills/screen/screenshot_ai.py
+        battery                             skills/system/battery.py
+        brightness                          skills/system/brightness.py
+        running_apps, close_process         skills/system/process.py
+        terminate_jarvis, shutdown, restart, sleep, lock
+        skills/system/system.py
+        taskmanager                         skills/system/taskmanager.py
+        volume                              skills/system/volume.py
+        search_file                         skills/utilities/search.py
+        time                                skills/utilities/time_skill.py
+        open_personal_link, show_personal_links
+        skills/web/personal_links.py
+    Runtime-registered after core init:
+        start_agent, stop_agent,
+        agent_status            main.py
+
+40. SECURITY ARCHITECTURE
+=========================
+
+Secrets:
+    .env, credentials.json, token.json, OAuth files and API keys are local
+    sensitive material. They are ignored or treated as local and are not copied.
+
+Remote authentication:
+    pairing PIN is generated with secrets, expires after 600 seconds, invalidates
+    older sessions, and is exchanged for a bearer token. Dashboard endpoints
+    distinguish public pairing/static operations from authorized operations;
+    exact endpoint policy is in dashboard/server.py.
+
+Payment security:
+    payment skill does not receive or enter payment credentials and deliberately
+    delegates authorization to the official Android app.
+
+Browser security:
+    browser config enforces local CDP host behavior and runtime ownership/
+    session markers; browser profiles can contain cookies and user data.
+
+OS/security-sensitive actions:
+    file deletion, process termination, power actions, clipboard, ADB,
+    WhatsApp UI automation, email sending, and payment-app launch are
+    capability-bearing handlers. Source-level presence is not a security audit.
+
+41. NETWORK PORTS / SERVICES
+============================
+
+PORT: 3000
+PURPOSE: Next.js HUD dev server
+SERVICE: hud/web via npm run dev
+BIND: Next.js default/local URL used by main.py
+CLIENT: native pywebview and browser-side HUD
+CONFIG: WEB_HUD_URL in main.py
+STATUS: active startup target
+
+PORT: 8765
+PURPOSE: Dashboard/remote control HTTP/WebSocket
+SERVICE: dashboard.server.DashboardServer; alternate services.remote_control
+BIND: local/LAN IP selected by server
+CLIENT: HUD, phone/browser remote, command/audio clients
+CONFIG: PORT constant / constructor
+STATUS: active normal main path; optional if dependencies fail
+
+PORT: 8766
+PURPOSE: passive Python-to-web HUD SSE bridge
+SERVICE: hud.web_bridge.hud_web
+BIND: 127.0.0.1 by source
+CLIENT: Next.js HUDBridge EventSource
+CONFIG: bridge constructor/default
+STATUS: active HUD event path when bridge starts
+
+PORT: 9223
+PURPOSE: browser Chrome/Edge/Chromium CDP
+SERVICE: skills.browser.browser_runtime
+BIND: 127.0.0.1
+CLIENT: Playwright BrowserController
+CONFIG: JARVIS_BROWSER_CDP_* values
+STATUS: selected/owned on browser use; not always running
+
+PORT: 8888
+PURPOSE: Spotify OAuth callback
+SERVICE: config/Spotify integration
+BIND: localhost callback URI
+CLIENT: Spotipy OAuth
+STATUS: configured integration endpoint; actual use conditional
+
+42. GENERATED / CACHE / MACHINE-SPECIFIC DATA
+==============================================
+
+    .env, credentials.json, token.json:
+        secrets/OAuth artifacts; values excluded.
+    .spotify_cache:
+        Spotify OAuth/cache state.
+    ai/memory.db and related local data:
+        persistent assistant memory if created.
+    data/faces/:
+        local face samples; .gitkeep is source-control placeholder.
+    data/settings/:
+        persisted UI/identity customization.
+    data/logs/ and dashboard upload directories:
+        runtime logs/uploads created by startup/dashboard.
+    voice/cache/:
+        Edge/Piper generated audio cache.
+    yolo11n.pt:
+        local ML model asset; ignored by repository policy.
+    workspace/:
+        generated sample/user projects, .jarvis_memory, .jarvis_backups,
+        source examples and per-project runtime state.
+    hud/web/node_modules/:
+        installed third-party packages; generated/dependency data.
+    __pycache__/.pytest_cache:
+        compiled and test caches.
+    hud/web/.next/:
+        generated Next.js output if present.
+    browser profiles/CDP state:
+        machine-specific browser data; not source.
+
+Observed scale at audit:
+    hud/web/node_modules: approximately 181,397 files.
+    workspace: approximately 1,278 files.
+    data: approximately 1,190 files.
+    These areas are identified but not expanded into the manual source tree.
+
+43. GIT / REPOSITORY INFORMATION
+================================
+
+Repository root:
+    D:\MY FILES\MY-VSCODE\MY-ASSISTANT\JARVIS-PRO
+
+Branch:
+    main
+
+Remote:
+    origin is configured; credential details are intentionally omitted.
+
+Latest observed commit:
+    046536e feat(phone_call): Implement dedicated phone call skill with
+    monitoring and routing
+
+Working tree at audit start:
+    clean; no pre-existing modified/untracked changes were reported.
+    The documentation file itself is the only intended new change after creation.
+
+Ignore policy:
+    source caches, virtual environments, generated workspaces, local tools,
+    secrets/OAuth files, AI memory data, models, Node dependencies/build output,
+    and local runtime state are ignored. The exact policy is in .gitignore.
+
+44. ARCHITECTURAL RELATIONSHIPS
+================================
+
+    FAST ROUTER -> domain routers -> action plan
+    ACTION PLAN -> core.registry -> skill/service handler
+    SKILL LOADER -> module imports -> register() side effects
+    DISPATCHER -> clarification/email/follow-up/BrainRouter/planner ordering
+    AI SERVICE -> AIRouter -> ModelManager -> provider implementation
+    MODEL REGISTRY -> capability metadata -> policy-aware selection
+    BRAIN ROUTER -> Developer -> analyzer/planner/editor/generator/validator
+    BROWSER CONTROLLER -> BrowserRuntime -> owned CDP -> Playwright
+    VISION SKILL -> CameraManager/VisionEngine -> YOLO -> scene/face analysis
+    VOICE LISTENER -> dispatcher; voice manager -> Edge/Piper player
+    DASHBOARD -> dispatcher -> same core action system
+    HUD MANAGER -> event bus -> SSE bridge -> React HUDBridge -> UI
+    DASHBOARD -> WebSocket/events -> remote/mobile client
+    PAYMENT -> AndroidManager -> ADB intent -> official payment app
+    PROFILE/MEMORY -> ContextBuilder/PromptBuilder -> AI/offline AI
+    PHONE MONITOR -> service startup -> phone-call actions/HUD events
+
+45. CURRENT PROJECT STATUS
+==========================
+
+    STATUS: ACTIVE SOURCE PRESENT
+        Core startup, routers, registry, skills, AI contracts/providers, voice,
+        HUD, dashboard, browser, vision, Android, payment handoff, and tests
+        exist in the current checkout.
+
+    STATUS: CONFIGURATION/HARDWARE CONDITIONAL
+        Cloud AI, audio, camera, browser, ADB, desktop apps, OAuth APIs and
+        model assets require external conditions not proven by static inspection.
+
+    STATUS: MIXED-GENERATION ARCHITECTURE
+        Newer dispatcher/brain/AI/HUD paths coexist with legacy/compatibility
+        wrappers, alternate remote control, static clients, and large developer
+        subsystems.
+
+    STATUS: NOT A TEST REPORT
+        This audit did not execute tests or start services.
+
+    STATUS: IDENTITY DISCREPANCY
+        Requested JARVIS PRO identity is present in parts of code, but persisted
+        effective runtime name on this checkout is JARVIS.
+
+46. FINAL COMPLETE INVENTORY
+============================
+
+TOTAL SOURCE DIRECTORIES:
+    12 top-level source/package directories counted in this documentation:
+    ai, brain, chatbot, config, core, dashboard, hud, services, skills, tests,
+    tools, voice, plus generated/data/runtime directories listed separately.
+    Exact nested directory count is represented by the manifest/tree.
+
+TOTAL SOURCE FILES:
+    approximately 604 Python source files outside root generated workspace/dependency
+    areas, plus frontend/config/static source files listed in the manifests.
+
+TOTAL TEST FILES:
+    approximately 58 Python test files across tests/, brain/tests/,
+    brain/developer/tests/, brain/developer/editor/tests/,
+    brain/developer/integration/tests/, and skills/assistant/.
+
+TOTAL CONFIG FILES:
+    exact set includes .env.example, .gitignore, requirements.txt,
+    config/*.py, hud/web/package.json, package-lock.json, tsconfig.json,
+    next.config.ts, and runtime JSON/settings files.
+
+TOTAL FRONTEND FILES:
+    15 TypeScript/TSX source files under hud/web plus CSS/JSON/config/static
+    frontend assets; dependency files are excluded from this count.
+
+TOTAL SKILL MODULES:
+    87 Python files under skills/ (including package initializers); 46 explicit
+    modules are configured in skills.loader.SKILLS.
+
+TOTAL AI PROVIDERS:
+    3 provider implementations: Ollama, Gemini, OpenAI.
+
+TOTAL MAJOR SERVICES:
+    dashboard/remote, HUD bridge/runtime, voice, browser/CDP, vision/camera,
+    Android/ADB, phone-call monitor, email, WhatsApp, Spotify, location,
+    personal links, files and Windows automation; exact count is architectural.
+
+TOTAL MAJOR ROUTERS:
+    1 fast-router coordinator plus 20 domain router modules listed in
+    core/routers and additional AI/brain/browser routing boundaries.
+
+TOTAL MAJOR REGISTRIES:
+    core action registry, skill loader registry/diagnostics, AI model registry,
+    developer memory/project registries, face registry, and browser/result
+    context registries.
+
+TOTAL EXTERNAL INTEGRATIONS:
+    approximately 18 integration families listed in Section 28; availability
+    is conditional and no credentials are included.
+
+TOTAL ENTRY POINTS:
+    main.py and run_jarvis.py are confirmed application launchers; additional
+    module-level/manual test/demo entry points exist but are not all startup
+    paths.
+
+FINAL AUDIT CONFIRMATIONS
+-------------------------
+    - Documentation-only scope honored.
+    - Existing application functionality was not changed.
+    - README.md and all existing source/config/test files were not modified.
+    - No secret values were included.
+    - No services were started and no dependencies were installed.
+    - No Git commit or push was performed.
+    - The final Git status was checked after creating this file.
+    

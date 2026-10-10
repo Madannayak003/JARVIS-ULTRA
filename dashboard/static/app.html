@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>__ASSISTANT_NAME__ — Remote</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg: #030712;
+            --bg-radial: radial-gradient(circle at 50% 0%, #111827 0%, #030712 100%);
+            
+            --panel: rgba(17, 24, 39, 0.45);
+            --panel-elevated: rgba(255, 255, 255, 0.04);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --panel-border-shine: rgba(255, 255, 255, 0.18);
+
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --accent-dim: rgba(99, 102, 241, 0.12);
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+
+            --cyan-glow: rgba(6, 182, 212, 0.25);
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --text-sub: #94a3b8;
+
+            --green: #10b981;
+            --red: #f43f5e;
+            --yellow: #f59e0b;
+
+            --blur: 24px;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #02040a;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.18), transparent 70%),
+                radial-gradient(ellipse 60% 40% at 50% 120%, rgba(6, 182, 212, 0.08), transparent 70%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, transparent 1px, transparent 3px);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 660px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: rgba(8, 12, 22, 0.72);
+            backdrop-filter: blur(var(--blur));
+            -webkit-backdrop-filter: blur(var(--blur));
+            border-left: 1px solid var(--panel-border);
+            border-right: 1px solid var(--panel-border);
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.03),
+                0 25px 60px -15px rgba(0, 0, 0, 0.8),
+                0 0 80px -20px rgba(99, 102, 241, 0.15);
+        }
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+        .header {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            background: rgba(10, 15, 29, 0.7);
+            border-bottom: 1px solid var(--panel-border);
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            left: 20%;
+            right: 20%;
+            bottom: -1px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(30, 27, 75, 0.6) 100%);
+            border: 1px solid rgba(165, 180, 252, 0.25);
+            color: #c7d2fe;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 20px -4px rgba(99, 102, 241, 0.4);
+            position: relative;
+        }
+
+        .brand-mark::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 12px;
+            background: radial-gradient(circle at 30% 0%, rgba(255,255,255,0.4), transparent 70%);
+            pointer-events: none;
+        }
+
+        .brand-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 0 0 16px rgba(255,255,255,0.2);
+        }
+
+        .brand-sub {
+            margin-top: 1px;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .connection {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            color: var(--text-sub);
+            letter-spacing: 0.05em;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--red);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .dot.connected {
+            background: var(--green);
+            box-shadow: 0 0 12px var(--green);
+        }
+
+        .dot.connected::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            animation: pulse-ring 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.7); opacity: 1; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        /* =====================================================
+           STATUS BAR
+           ===================================================== */
+        .status-bar {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 22px;
+            background: rgba(3, 7, 18, 0.4);
+            border-bottom: 1px solid var(--panel-border);
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+        }
+
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            letter-spacing: 0.08em;
+        }
+
+        .status-value {
+            color: var(--text-sub);
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* =====================================================
+           FEED / CHAT
+           ===================================================== */
+        .feed-container {
+            flex: 1;
+            min-height: 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feed {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scroll-behavior: smooth;
+        }
+
+        .feed::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .feed::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .empty {
+            margin: auto;
+            text-align: center;
+            padding: 36px 28px;
+            border-radius: 20px;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03), transparent 70%);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        .empty strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.06em;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 86%;
+            animation: emerge 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes emerge {
+            from { opacity: 0; transform: translateY(8px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .message.jarvis {
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+
+        .message.system {
+            align-self: center;
+            align-items: center;
+            max-width: 90%;
+            margin: 4px 0;
+        }
+
+        .speaker {
+            margin-bottom: 6px;
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0 4px;
+        }
+
+        .bubble {
+            padding: 13px 17px;
+            border-radius: 18px;
+            font-size: 13px;
+            line-height: 1.6;
+            word-break: break-word;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .message.jarvis .bubble {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid var(--panel-border);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.06);
+            color: #f1f5f9;
+        }
+
+        .message.user .bubble {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            border: 1px solid rgba(165, 180, 252, 0.3);
+            border-bottom-right-radius: 4px;
+            color: #ffffff;
+            box-shadow: 0 8px 24px -4px rgba(79, 70, 229, 0.4), inset 0 1px 0 rgba(255,255,255,0.25);
+        }
+
+        .message.system .bubble {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 5px 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* SCROLL DOWN FLOATING BUTTON */
+        .scroll-down-btn {
+            position: absolute;
+            bottom: 18px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 16px rgba(99, 102, 241, 0.35);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px) scale(0.9);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 25;
+        }
+
+        .scroll-down-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .scroll-down-btn:hover {
+            background: rgba(99, 102, 241, 0.25);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 24px rgba(99, 102, 241, 0.6);
+        }
+
+        .scroll-down-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* =====================================================
+           CONTROLS PANEL
+           ===================================================== */
+        .controls {
+            flex: 0 0 auto;
+            padding: 18px 22px 22px;
+            background: rgba(8, 12, 22, 0.85);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border-top: 1px solid var(--panel-border);
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+            position: relative;
+        }
+
+        .controls::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 25%;
+            right: 25%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        .command-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .command-input {
+            flex: 1;
+            min-width: 0;
+            padding: 15px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--panel-border);
+            outline: none;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+            font-size: 13px;
+            font-family: inherit;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .command-input:focus {
+            border-color: rgba(99, 102, 241, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(99, 102, 241, 0.12);
+        }
+
+        .command-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        button {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .send-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: var(--accent-gradient);
+            border: 1px solid rgba(165, 180, 252, 0.35);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .send-btn:active {
+            transform: scale(0.94);
+        }
+
+        /* QUICK COMMANDS */
+        .quick-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 3px;
+            scrollbar-width: none;
+        }
+
+        .quick-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick {
+            flex: 0 0 auto;
+            padding: 8px 14px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            color: var(--text-sub);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .quick:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .quick:active {
+            transform: scale(0.95);
+            background: var(--accent-dim);
+            color: #c7d2fe;
+        }
+
+        /* ACTIONS */
+        .action-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action {
+            flex: 1;
+            padding: 11px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            color: var(--text-sub);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-align: center;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .action:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+        }
+
+        .action:active {
+            transform: scale(0.97);
+        }
+
+        .action.live {
+            color: #c7d2fe;
+            background: rgba(99, 102, 241, 0.14);
+            border-color: rgba(99, 102, 241, 0.35);
+        }
+
+        .action.live:hover {
+            background: rgba(99, 102, 241, 0.22);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: #ffffff;
+        }
+
+        .action.danger {
+            color: #fca5a5;
+            background: rgba(244, 63, 94, 0.08);
+            border-color: rgba(244, 63, 94, 0.25);
+        }
+
+        .action.danger:hover {
+            background: rgba(244, 63, 94, 0.15);
+            border-color: rgba(244, 63, 94, 0.45);
+            color: #ffffff;
+        }
+
+        /* AUDIO ACTIVE STATE */
+        .audio-state {
+            display: none;
+            padding: 11px;
+            text-align: center;
+            border-radius: 12px;
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.16), rgba(99, 102, 241, 0.04));
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            color: #a5b4fc;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .audio-state.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .wave-bars {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            height: 14px;
+        }
+
+        .wave-bars span {
+            width: 2px;
+            height: 100%;
+            background: #818cf8;
+            border-radius: 2px;
+            animation: soundwave 1.2s infinite ease-in-out;
+        }
+
+        .wave-bars span:nth-child(2) { animation-delay: 0.2s; height: 60%; }
+        .wave-bars span:nth-child(3) { animation-delay: 0.4s; height: 80%; }
+        .wave-bars span:nth-child(4) { animation-delay: 0.1s; height: 40%; }
+        .wave-bars span:nth-child(5) { animation-delay: 0.3s; height: 90%; }
+
+        @keyframes soundwave {
+            0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+
+        #fileInput {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- * HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-mark">J</div>
+            <div>
+                <div class="brand-name">__ASSISTANT_NAME__</div>
+                <div class="brand-sub">Remote Control</div>
+            </div>
+        </div>
+
+        <div class="connection">
+            <span class="dot" id="connectionDot"></span>
+            <span id="connectionText">Connecting</span>
+        </div>
+    </header>
+
+    <!-- * STATUS -->
+    <div class="status-bar">
+        <span class="status-tag">FEED</span>
+        <span class="status-value" id="statusValue">Connecting to __ASSISTANT_NAME__...</span>
+    </div>
+
+    <!-- * FEED CONTAINER -->
+    <div class="feed-container">
+        <main class="feed" id="feed">
+            <div class="empty" id="empty">
+                <strong>__ASSISTANT_NAME__ Core Online</strong>
+                Connected to neural subsystem.<br>
+                Issue a directive or audio command below.
+            </div>
+        </main>
+
+        <!-- * SCROLL TO BOTTOM BUTTON -->
+        <button id="scrollToBottomBtn" class="scroll-down-btn" type="button" aria-label="Scroll to bottom">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <!-- * CONTROLS -->
+    <section class="controls">
+        <div class="command-row">
+            <input
+                id="commandInput"
+                class="command-input"
+                type="text"
+                autocomplete="off"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="Ask me anything..."
+            >
+            <button class="send-btn" id="sendButton" type="button" aria-label="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+
+        <!-- * QUICK DIRECTIVES -->
+        <div class="quick-row">
+            <button class="quick" data-command="hey __ASSISTANT_NAME_LOWER__">Wake</button>
+            <button class="quick" data-command="current time">Time</button>
+            <button class="quick" data-command="open youtube">YouTube</button>
+            <button class="quick" data-command="open google">Google</button>
+            <button class="quick" data-command="turn on the light">Light ON</button>
+            <button class="quick" data-command="turn off the light">Light OFF</button>
+        </div>
+
+        <!-- * TELEMETRY ACTIONS -->
+        <div class="action-row">
+            <button class="action live" id="wakeButton" type="button">Wake</button>
+            <button class="action" id="micButton" type="button">Microphone</button>
+            <button class="action" id="uploadButton" type="button">Upload</button>
+            <button class="action danger" id="stopAgentButton" type="button">Stop Agent</button>
+        </div>
+
+        <div class="audio-state" id="audioState">
+            <div class="wave-bars">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            Microphone Stream Linked
+            <div class="wave-bars">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <input id="fileInput" type="file">
+    </section>
+
+</div>
+
+<!-- =========================================================
+     SCRIPTS & UNTOUCHED WORKING CODE
+     ========================================================= -->
+<script src="/static/crypto-js.min.js"></script>
+
+<script>
+/*
+=============================================================
+JARVIS PRO REMOTE CLIENT
+=============================================================
+*/
+
+// ============================================================
+// STATE
+// ============================================================
+const token = sessionStorage.getItem("jarvis_token");
+const sessionKey = sessionStorage.getItem("jarvis_key");
+
+if (!token || !sessionKey) {
+    location.replace("/login");
+}
+
+// ============================================================
+// DOM
+// ============================================================
+const feed = document.getElementById("feed");
+const empty = document.getElementById("empty");
+const input = document.getElementById("commandInput");
+const sendButton = document.getElementById("sendButton");
+const connectionDot = document.getElementById("connectionDot");
+const connectionText = document.getElementById("connectionText");
+const statusValue = document.getElementById("statusValue");
+const wakeButton = document.getElementById("wakeButton");
+const micButton = document.getElementById("micButton");
+const uploadButton = document.getElementById("uploadButton");
+const stopAgentButton = document.getElementById("stopAgentButton");
+const fileInput = document.getElementById("fileInput");
+const audioState = document.getElementById("audioState");
+const scrollToBottomBtn = document.getElementById("scrollToBottomBtn");
+
+// ============================================================
+// SCROLL-TO-BOTTOM LISTENER
+// ============================================================
+function updateScrollButton() {
+    const threshold = 80;
+    const distanceFromBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight;
+    if (distanceFromBottom > threshold) {
+        scrollToBottomBtn.classList.add("visible");
+    } else {
+        scrollToBottomBtn.classList.remove("visible");
+    }
+}
+
+feed.addEventListener("scroll", updateScrollButton);
+
+scrollToBottomBtn.addEventListener("click", function () {
+    feed.scrollTo({
+        top: feed.scrollHeight,
+        behavior: "smooth"
+    });
+});
+
+// Replay and live delivery share event IDs. Keep one page-local set so a
+// reconnect cannot render the same logical event twice.
+const seenEventIds = new Set();
+
+function acceptEvent(message) {
+    const eventId = message.event_id || message.message_id || message.id;
+    if (!eventId) {
+        return true;
+    }
+    if (seenEventIds.has(eventId)) {
+        console.debug("[REMOTE EVENT] Duplicate suppressed:", eventId);
+        return false;
+    }
+    seenEventIds.add(eventId);
+    return true;
+}
+
+// ============================================================
+// WEBSOCKET
+// ============================================================
+let ws = null;
+let reconnectTimer = null;
+let manuallyClosed = false;
+
+function websocketUrl() {
+    const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+    return protocol + "//" + location.host + "/ws?token=" + encodeURIComponent(token);
+}
+
+function connectWebSocket() {
+    if (manuallyClosed) {
+        return;
+    }
+
+    setConnection(false, "Connecting");
+
+    try {
+        ws = new WebSocket(websocketUrl());
+    } catch (error) {
+        scheduleReconnect();
+        return;
+    }
+
+    ws.onopen = function () {
+        setConnection(true, "Connected");
+        statusValue.textContent = "Remote connection active.";
+    };
+
+    ws.onmessage = function (event) {
+        try {
+            const message = JSON.parse(event.data);
+            handleMessage(message);
+        } catch (error) {
+            console.log("WebSocket message:", event.data);
+        }
+    };
+
+    ws.onclose = function () {
+        setConnection(false, "Disconnected");
+        statusValue.textContent = "Connection lost. Reconnecting...";
+        scheduleReconnect();
+    };
+
+    ws.onerror = function () {
+        setConnection(false, "Connection error");
+    };
+}
+
+function scheduleReconnect() {
+    if (reconnectTimer || manuallyClosed) {
+        return;
+    }
+    reconnectTimer = setTimeout(function () {
+        reconnectTimer = null;
+        connectWebSocket();
+    }, 2000);
+}
+
+// ============================================================
+// CONNECTION UI
+// ============================================================
+function setConnection(connected, text) {
+    connectionText.textContent = text;
+    if (connected) {
+        connectionDot.classList.add("connected");
+    } else {
+        connectionDot.classList.remove("connected");
+    }
+}
+
+// ============================================================
+// MESSAGE HANDLER
+// ============================================================
+function handleMessage(message) {
+    const type = message.type;
+
+    if (type === "log" || type === "sys" || type === "wake" || type === "file_received") {
+        if (!acceptEvent(message)) {
+            return;
+        }
+    }
+
+    if (type === "log") {
+        addMessage(message.speaker || "jarvis", message.text || "");
+        return;
+    }
+
+    if (type === "sys") {
+        addMessage("system", message.text || "");
+        statusValue.textContent = message.text || "System event.";
+        return;
+    }
+
+    if (type === "status") {
+        statusValue.textContent = message.state ? "__ASSISTANT_NAME__: " + message.state : "__ASSISTANT_NAME__ online.";
+        return;
+    }
+
+    if (type === "wake") {
+        addMessage("system", "__ASSISTANT_NAME__ wake requested.");
+        return;
+    }
+
+    if (type === "file_received") {
+        const name = message.name || "file";
+        addMessage("system", "File received: " + name);
+        return;
+    }
+}
+
+// ============================================================
+// FEED MESSAGE
+// ============================================================
+function addMessage(speaker, text) {
+    if (!text) {
+        return;
+    }
+
+    if (empty) {
+        empty.remove();
+    }
+
+    const wrapper = document.createElement("div");
+    const normalizedSpeaker =
+        speaker === "user" ? "user" : speaker === "system" || speaker === "sys" ? "system" : "jarvis";
+
+    wrapper.className = "message " + normalizedSpeaker;
+
+    const label = document.createElement("div");
+    label.className = "speaker";
+
+    if (normalizedSpeaker === "user") {
+        label.textContent = "YOU";
+    } else if (normalizedSpeaker === "system") {
+        label.textContent = "SYS";
+    } else {
+        label.textContent = "__ASSISTANT_NAME__";
+    }
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+
+    feed.appendChild(wrapper);
+    feed.scrollTop = feed.scrollHeight;
+    updateScrollButton();
+}
+
+// ============================================================
+// AES ENCRYPTION
+// ============================================================
+function encryptCommand(text) {
+    if (typeof CryptoJS === "undefined") {
+        throw new Error("CryptoJS is not loaded.");
+    }
+
+    /*
+     * JARVIS PRO server derives:
+     * SHA256(sessionKey + "JARVIS-DASHBOARD-v1")
+     */
+    const key = CryptoJS.SHA256(sessionKey + "JARVIS-DASHBOARD-v1");
+    const iv = CryptoJS.lib.WordArray.random(16);
+
+    const encrypted = CryptoJS.AES.encrypt(text, key, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    /*
+     * Server expects: IV + ciphertext
+     */
+    const combined = iv.concat(encrypted.ciphertext);
+    return CryptoJS.enc.Base64.stringify(combined);
+}
+
+// ============================================================
+// SEND COMMAND
+// ============================================================
+async function sendCommand(command) {
+    const text = String(command || "").trim();
+    if (!text) {
+        return;
+    }
+
+    input.value = "";
+
+    try {
+        const encrypted = encryptCommand(text);
+        const response = await fetch("/api/command", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({ enc: encrypted })
+        });
+
+        let data;
+        try {
+            data = await response.json();
+        } catch {
+            data = {};
+        }
+
+        if (!response.ok || !data.ok) {
+            addMessage("system", data.error || "Command failed.");
+        }
+    } catch (error) {
+        addMessage("system", "Unable to send command: " + error.message);
+    }
+}
+
+// ============================================================
+// SEND BUTTON
+// ============================================================
+sendButton.addEventListener("click", function () {
+    sendCommand(input.value);
+});
+
+// ============================================================
+// ENTER
+// ============================================================
+input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendCommand(input.value);
+    }
+});
+
+// ============================================================
+// QUICK COMMANDS
+// ============================================================
+document.querySelectorAll(".quick").forEach(function (button) {
+    button.addEventListener("click", function () {
+        sendCommand(button.dataset.command);
+    });
+});
+
+// ============================================================
+// WAKE
+// ============================================================
+wakeButton.addEventListener("click", async function () {
+    try {
+        const response = await fetch("/api/wake", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.ok) {
+            addMessage("system", data.error || "Wake failed.");
+        }
+    } catch (error) {
+        addMessage("system", "Wake request failed.");
+    }
+});
+
+// ============================================================
+// STOP LIVE
+// ============================================================
+stopAgentButton.addEventListener("click", async function () {
+    try {
+        const response = await fetch("/api/agent/stop", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.ok) {
+            addMessage("system", data.error || "Unable to stop Agent.");
+        }
+    } catch (error) {
+        addMessage("system", "Live stop request failed.");
+    }
+});
+
+// ============================================================
+// FILE UPLOAD
+// ============================================================
+uploadButton.addEventListener("click", function () {
+    fileInput.click();
+});
+
+fileInput.addEventListener("change", async function () {
+    const file = fileInput.files[0];
+    if (!file) {
+        return;
+    }
+
+    const form = new FormData();
+    form.append("file", file);
+
+    addMessage("system", "Uploading " + file.name + "...");
+
+    try {
+        const response = await fetch("/api/upload", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token
+            },
+            body: form
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.ok) {
+            addMessage("system", data.error || "Upload failed.");
+        } else {
+            addMessage("system", "Upload complete: " + (data.name || file.name));
+        }
+    } catch (error) {
+        addMessage("system", "Upload failed.");
+    }
+
+    fileInput.value = "";
+});
+
+// ============================================================
+// PHONE MICROPHONE
+// ============================================================
+let audioSocket = null;
+let audioContext = null;
+let mediaStream = null;
+let processor = null;
+
+micButton.addEventListener("click", async function () {
+    if (audioSocket && audioSocket.readyState === WebSocket.OPEN) {
+        stopPhoneMicrophone();
+    } else {
+        startPhoneMicrophone();
+    }
+});
+
+async function startPhoneMicrophone() {
+    try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+                channelCount: 1,
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+            }
+        });
+
+        const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+        audioSocket = new WebSocket(protocol + "//" + location.host + "/ws/phone-audio?token=" + encodeURIComponent(token));
+        audioSocket.binaryType = "arraybuffer";
+
+        audioSocket.onopen = async function () {
+            audioState.classList.add("active");
+            micButton.textContent = "Stop Mic";
+
+            audioContext = new (window.AudioContext || window.webkitAudioContext)({
+                sampleRate: 16000
+            });
+
+            const source = audioContext.createMediaStreamSource(mediaStream);
+            processor = audioContext.createScriptProcessor(4096, 1, 1);
+
+            processor.onaudioprocess = function (event) {
+                if (!audioSocket || audioSocket.readyState !== WebSocket.OPEN) {
+                    return;
+                }
+                const inputData = event.inputBuffer.getChannelData(0);
+                const pcm = convertFloat32ToPCM16(inputData);
+                audioSocket.send(pcm.buffer);
+            };
+
+            source.connect(processor);
+            processor.connect(audioContext.destination);
+        };
+
+        audioSocket.onclose = function () {
+            stopPhoneMicrophone(false);
+        };
+
+        audioSocket.onerror = function () {
+            addMessage("system", "Phone microphone connection error.");
+            stopPhoneMicrophone(false);
+        };
+    } catch (error) {
+        addMessage("system", "Microphone access failed: " + error.message);
+    }
+}
+
+function stopPhoneMicrophone(closeSocket = true) {
+    if (processor) {
+        try { processor.disconnect(); } catch {}
+        processor = null;
+    }
+
+    if (audioContext) {
+        try { audioContext.close(); } catch {}
+        audioContext = null;
+    }
+
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+    }
+
+    if (closeSocket && audioSocket) {
+        try { audioSocket.close(); } catch {}
+    }
+
+    audioSocket = null;
+    audioState.classList.remove("active");
+    micButton.textContent = "Microphone";
+}
+
+function convertFloat32ToPCM16(input) {
+    const output = new Int16Array(input.length);
+    for (let i = 0; i < input.length; i++) {
+        const sample = Math.max(-1, Math.min(1, input[i]));
+        output[i] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+    }
+    return output;
+}
+
+// ============================================================
+// PAGE START
+// ============================================================
+connectWebSocket();
+input.focus();
+
+/*
+ * Prevent the phone from accidentally leaving
+ * the dashboard while an audio socket is active.
+ */
+window.addEventListener("beforeunload", function () {
+    manuallyClosed = true;
+    stopPhoneMicrophone();
+});
+</script>
+
+</body>
+</html>

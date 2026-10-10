@@ -1,0 +1,39 @@
+
+.hud-bridge-status {
+  position: fixed;
+  top: 22px;
+  right: 24px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #ffcc66;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-shadow: 0 0 8px rgba(255, 170, 48, 0.65);
+  pointer-events: none;
+}
+
+.hud-bridge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #777;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.hud-bridge-dot.connected {
+  color: #63ff9a;
+  background: #63ff9a;
+}
+
+.hud-bridge-dot.connecting {
+  color: #ffcc66;
+  background: #ffcc66;
+}
+
+.hud-bridge-dot.offline {
+  color: #ff5533;
+  background: #ff5533;
+}

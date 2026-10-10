@@ -1,0 +1,63 @@
+# JARVIS PRO Python dependencies
+# Install with: python -m pip install -r requirements.txt
+# The Browser Skill controls an installed Chrome, Edge, or Chromium browser
+# through Playwright CDP; no Playwright browser download is required for it.
+
+# Core application, desktop HUD, and online voice
+requests>=2.31
+pywebview>=5
+SpeechRecognition>=3.10
+PyAudio>=0.2.14
+edge-tts>=6.1
+pygame>=2.5
+pyttsx3>=2.90
+
+# Offline voice mode
+numpy>=1.26
+sounddevice>=0.4
+faster-whisper>=1.0
+piper-tts>=1.2
+
+# AI providers and Google integrations
+openai>=1.0
+google-genai>=1.0
+python-dotenv>=1.0
+google-api-python-client>=2.0
+google-auth-oauthlib>=1.0
+google-auth-httplib2>=0.2
+
+# Remote dashboard
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+cryptography>=42
+
+# Browser, media, and web automation
+playwright>=1.45
+spotipy>=2.23
+pynput>=1.7
+
+# Windows automation and system controls
+psutil>=5.9
+pyautogui>=0.9.54
+pyperclip>=1.8
+pywin32>=306
+win10toast>=0.9; sys_platform == "win32"
+pywinauto>=0.6.8
+comtypes>=1.4
+pycaw>=20240210
+screen-brightness-control>=0.22
+Send2Trash>=1.8
+pypdf>=5.0
+python-docx>=1.1
+openpyxl>=3.1
+winrt-Windows.Devices.Geolocation>=3.2.1
+
+# Camera, vision, and image handling
+# Includes the existing cv2 API plus the local LBPH face recognizer.
+opencv-contrib-python>=4.8
+Pillow>=10.0
+ultralytics>=8.0
+
+# OpenAI provider TLS support on Windows
+truststore>=0.9
