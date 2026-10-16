@@ -35,8 +35,8 @@ Architecture philosophy confirmed in source: - deterministic fast routes
 are tried before the normal AI/planner path; - skills register actions
 into core.registry; - the dispatcher is the shared command path for
 microphone, HUD, and remote dashboard text; - optional systems fail
-independently where their modules handle errors; - online and offline
-voice modes reuse the same core/action registry; - HUD events are
+independently where their modules handle errors; - Gemini Live and retained
+speech services use the same core/action registry; - HUD events are
 emitted through a Python event bus and consumed by the web client
 through an SSE bridge; - compatibility and legacy code remains in the
 tree.
@@ -66,7 +66,7 @@ when present. That persisted file currently contains a customized
 assistantName of \"JARVIS\". Therefore the runtime display name resolves
 to the persisted setting on this checkout, not to JARVIS PRO.
 
-JARVIS PRO evidence: - offline AI instructions use the name JARVIS
+JARVIS PRO evidence: - legacy offline-AI instructions use the name JARVIS
 PRO; - browser runtime messages include JARVIS PRO in some
 descriptions; - tests and newer UI terminology refer to JARVIS PRO in
 places.
@@ -129,14 +129,14 @@ hud/ event bus, state, telemetry, bridge, native window, web app.
 services/ Android, contacts, email, files, location, remote, media, web.
 skills/ import-time action modules grouped by capability. tests/ focused
 routing, provider, vision, remote, and feature tests. tools/ Windows
-integration and database utility scripts. voice/ online/offline STT/TTS,
-Agent, queues and state.
+integration and database utility scripts. voice/ Live audio, retained Edge
+TTS, Agent, queues and state.
 
 Large/derived areas: hud/web/node*modules/ installed Node dependencies;
 not manually audited. hud/web/.next/ Next build/development output if
 present; generated. workspace/ generated projects and .jarvis
 memories/backups. data/ runtime/user/model data; not core source.
-voice/cache/ generated MP3/Piper cache. **pycache**/, .pytest*cache/
+voice/cache/ generated MP3 cache. **pycache**/, .pytest*cache/
 compiled/interpreter/test caches. .git/ repository metadata.
 
 # 5. FILE-BY-FILE INVENTORY
@@ -160,7 +160,7 @@ ai/core/registry.py \| classes=ModelDefinition,ModelRegistry \|
 functions=- ai/core/router.py \| classes=AIRouter \| functions=-
 ai/core/schemas.py \| classes=AIRequest,AIResponse,AIStreamChunk,AIError
 \| functions=- ai/core/service.py \| classes=AIService \| functions=-
-ai/intent.py \| classes=- \| functions=detect ai/llm.py \| classes=- \|
+ai/intent.py \| classes=- \| functions=detect \|
 functions=ask ai/memory.py \| classes=- \|
 functions=connect,init*memory,migrate ai/memory*ai.py \| classes=- \|
 functions=extract*memory,normalize ai/memory*answer.py \| classes=- \|
@@ -189,8 +189,7 @@ classes=- \| functions=- ai/prompt*builder.py \| classes=- \|
 functions=build*conversation,build*memory,build*prompt
 ai/providers/base.py \| classes=AIProvider \| functions=-
 ai/providers/gemini.py \| classes=GeminiProvider \|
-functions=*is*quota*error ai/providers/ollama.py \|
-classes=OllamaProvider \| functions=- ai/providers/openai.py \|
+functions=*is*quota*error ai/providers/openai.py \|
 classes=OpenAIProvider \| functions=- ai/query*parser.py \| classes=- \|
 functions=normalize,extract*keywords ai/sentence*buffer.py \| classes=-
 \| functions=sentence*buffer brain/**init**.py \| classes=- \|
@@ -306,8 +305,8 @@ brain/developer/editor/prompt*builder/system*builder.py \|
 classes=SystemBuilder \| functions=-
 brain/developer/editor/provider/**init**.py \| classes=- \| functions=-
 brain/developer/editor/provider/base*provider.py \| classes=BaseProvider
-\| functions=- brain/developer/editor/provider/ollama*provider.py \|
-classes=OllamaProvider \| functions=-
+\| functions=- brain/developer/editor/provider/gemini*provider.py \|
+classes=GeminiProvider \| functions=-
 brain/developer/editor/rules/**init**.py \| classes=- \| functions=-
 brain/developer/editor/rules/edit*rules.py \| classes=- \| functions=-
 brain/developer/editor/tests/**init**.py \| classes=- \| functions=-
@@ -357,8 +356,8 @@ classes=ResponseParser \| functions=-
 brain/developer/generator/providers/**init**.py \| classes=- \|
 functions=- brain/developer/generator/providers/base*provider.py \|
 classes=BaseProvider \| functions=-
-brain/developer/generator/providers/ollama*provider.py \|
-classes=OllamaProvider \| functions=-
+brain/developer/generator/providers/gemini*provider.py \|
+classes=GeminiProvider \| functions=-
 brain/developer/generator/rules/**init**.py \| classes=- \| functions=-
 brain/developer/generator/rules/generator*rules.py \| classes=- \|
 functions=- brain/developer/integration/**init**.py \| classes=- \|
@@ -721,7 +720,7 @@ hud/state.py \| classes=HUDState \| functions=- hud/telemetry.py \|
 classes=HUDTelemetry \| functions=- hud/web*bridge.py \|
 classes=*Client,*BridgeHandler,HUDWebBridge \| functions=- main.py \|
 classes=- \|
-functions=start*web*hud,wait*for*web*hud,run*voice*engine,start*voice*engine,run*offline*voice*engine,start*offline*voice*engine,request*jarvis*shutdown,configure*hud*shutdown,start*native*hud,stop*web*hud,initialize*core*background,main
+functions=start*web*hud,wait*for*web*hud,run*voice*engine,start*voice*engine,request*jarvis*shutdown,configure*hud*shutdown,start*native*hud,stop*web*hud,initialize*core*background,main
 run*jarvis.py \| classes=- \| functions=main
 services/android/**init**.py \| classes=- \|
 functions=get*android*manager services/android/adb*client.py \|
@@ -882,9 +881,7 @@ classes=BrowserFollowUpReferenceTests \| functions=-
 tests/test*configuration.py \| classes=ConfigurationTests \| functions=-
 tests/test*face*vision.py \|
 classes=FaceRegistryTests,FaceSpeechTests,VisionIntegrationTests \|
-functions=- tests/test*offline*mode.py \|
-classes=OfflineActionBridgeTests,OfflineCommandTests,OfflineAIProviderTests
-\| functions=- tests/test*openai*provider.py \|
+functions=- tests/test*openai*provider.py \|
 classes=OpenAIProviderTests \| functions=*error*category
 tests/test*personal*website*list.py \| classes=PersonalWebsiteListTests
 \| functions=- tests/test*phone*call.py \|
@@ -900,21 +897,9 @@ classes=Agent \|
 functions=*api*key,*system*prompt,send*live*text,start*live*conversation,stop*live*conversation,live*conversation*status
 voice/manager.py \| classes=- \|
 functions=*clean*tts*text,add*speech*listener,remove*speech*listener,*notify*speech*listeners,notify*speech*output,check*internet,start*speech*session,*worker,prepare*speech,play*prepared*speech,speak,wait*for*speech,stop*speaking
-voice/mode.py \| classes=- \| functions=internet*available,get*mode
-voice/offline/**init**.py \| classes=- \| functions=-
-voice/offline/offline*action*bridge.py \|
-classes=OfflineRoute,OfflineDispatchResult,OfflineActionBridge \|
-functions=- voice/offline/offline*ai.py \| classes=OfflineAI \|
-functions=get*ai,ask voice/offline/offline*player.py \| classes=- \|
-functions=play,stop voice/offline/offline*runner.py \| classes=- \|
-functions=process*command,handle*text*command,run
-voice/offline/offline*stt.py \| classes=- \|
-functions=initialize,*audio*to*array,*audio*quality,transcribe*audio,calibrate,listen*once
-voice/offline/offline*tts.py \| classes=- \|
-functions=piper*available,model*available,generate,split*sentences,prepare,play*prepared,speak
-voice/offline/offline*voice.py \| classes=- \|
-functions=print*banner,run voice/offline*piper.py \| classes=- \|
-functions=*piper*available,*model*available,*delete*file,generate*audio,play*audio,speak*offline
+Deleted offline-mode modules are intentionally absent from the current
+source inventory. The retained voice manager/online Edge and Gemini Live
+entries below are the supported paths.
 voice/online*edge.py \| classes=- \|
 functions=*get*voice,set*english*voice,get*english*voice,*cleanup*cache,*delete*file,*generate,generate*audio,play*audio,*worker,speak*online
 voice/online*runner.py \| classes=- \| functions=run voice/player.py \|
@@ -1019,14 +1004,14 @@ unless explicitly imported. binary model/audio/image files: runtime
 assets or generated/local data; not source modules.
 
 Important source-file descriptions: main.py: Active startup coordinator.
-Loads configuration, selects online/offline voice mode, initializes
+Loads configuration, starts the Gemini Live voice agent, initializes
 skills/memory/services in a background thread, starts HUD
 runtime/bridge, starts Next.js, starts DashboardServer, starts the voice
 engine, opens native pywebview, and performs shutdown. run*jarvis.py:
 Shortcut-safe wrapper around main.py; redirects output to
 data/logs/shortcut*startup.log and preserves startup failures.
 config/settings.py: Authoritative assistant name, aliases,
-version/author/voice settings, Ollama defaults, vision thresholds, and
+version/author/voice settings, vision thresholds, and
 persisted customization. config/environment.py: Loads .env once and
 exposes environment lookup helpers. core/assistant.py: Legacy/online
 microphone-driven command loop. Handles greetings, follow-ups,
@@ -1048,8 +1033,7 @@ services.remote_control.RemoteControlServer, but main.py directly uses
 dashboard.server.DashboardServer. ai/core/\*:
 ModelDefinition/ModelRegistry, policy/preferences, selection manager,
 request/response schemas, AIRouter, and AIService public interface.
-ai/providers/ollama.py: Local HTTP generation/streaming against
-Ollama\'s /api/generate. ai/providers/gemini.py: Google GenAI
+ai/providers/gemini.py: Google GenAI
 generation/streaming, image/context support, quota/error detection, and
 optional API-key-backed operation. ai/providers/openai.py: OpenAI
 generation/streaming with Windows TLS/truststore handling and
@@ -1057,7 +1041,7 @@ OPENAI*API*KEY lookup. brain/brain_router.py: Detects developer-like
 requests and routes CREATE to Developer pipeline or EDIT requests
 through active-project resolution/editor logic. brain/developer/\*:
 Large developer subsystem: analyzer/detectors/resolvers/rules, planner
-variants, prompt builders, Ollama generators, validators, repair,
+variants, prompt builders, Gemini Lite generators/editors, validators, repair,
 workspace builders/writers, editor/parser/patch/rollback tooling, memory
 models, integration tests, and compatibility APIs.
 brain/conversation\_\* / natural/*: conversation state, context,
@@ -1070,8 +1054,8 @@ manager used by context/prompt construction. ai/memory*.py: Explicit
 memory learning, storage, search/ranking/semantic helpers,
 profile/preference/forget/stats/view APIs. Runtime persistence is
 generally under ai/memory.db and related local data. voice/\*: Online
-Edge TTS and SpeechRecognition path, offline Faster-Whisper, Piper TTS,
-shared voice state/queues, and Gemini Agent.
+Gemini Live audio and retained Edge TTS/SpeechRecognition paths, shared
+voice state/queues, and Gemini Agent.
 services/remote_control.py: Optional thin FastAPI remote service with
 PIN pairing and bearer token; compatible with the dispatcher but not the
 primary object started by current main.py. dashboard/server.py: Active
@@ -1109,10 +1093,9 @@ conversation/NCI/context/follow-up handling +\--\> planner worker / AI
 plan +\--\> core.executor / registry action execution \| v response,
 voice manager, HUD event bus, remote event stream
 
-Confirmed offline path: microphone or typed HUD text -\> Faster-Whisper
-STT (voice only) -\> OfflineActionBridge -\> local deterministic action
-or OfflineAI -\> Ollama local model for non-action conversation -\>
-Piper TTS -\> shared HUD/action/event systems
+The former offline path (Faster-Whisper, OfflineActionBridge, Ollama, and
+Piper) was removed. Current voice requests use Gemini Live and the shared
+HUD/action/event systems; no hidden conversation fallback is provided.
 
 Boundaries: - Fast routes are deterministic and ordered. - AI provider
 routing is separate from action registration. - Brain developer routing
@@ -1130,7 +1113,7 @@ screen-vision domains.
     import config -> load .env and settings
       |
       v
-    get_mode() -> network probe -> "online" or "offline"
+    start Gemini Live voice agent
       |
       v
     initialize_core_background thread:
@@ -1143,15 +1126,9 @@ screen-vision domains.
       +--> start Next.js HUD at http://127.0.0.1:3000
       +--> register HUD shutdown callback
       |
-      +--> online:
-      |       create DashboardServer on port 8765
-      |       create pairing PIN
-      |       start online voice thread
-      |
-      +--> offline:
-              set JARVIS_OFFLINE_MODE
-              create local DashboardServer on port 8765
-              start offline STT/AI/TTS voice thread
+      +--> create DashboardServer on port 8765
+      +--> create pairing PIN
+      +--> start Gemini Live voice thread
 
       |
       v
@@ -1171,8 +1148,8 @@ screen-vision domains.
       -> stop services/HUD bridge/Next.js -> terminate process
 
 Startup notes: pywebview is deliberately run on the main thread. Core
-initialization is backgrounded so HUD startup can proceed. Offline mode
-changes providers, not the shared action registry/core. The final
+initialization is backgrounded so HUD startup can proceed. Gemini Live uses
+the shared action registry/core; no offline provider mode remains. The final
 main.py cleanup calls os.\_exit(0), so shutdown is intentionally
 forceful after cleanup attempts.
 
@@ -1232,23 +1209,18 @@ registry ai/core/policy.py capability/provider preference policy
 ai/core/preference.py temporary user provider/model preference
 ai/core/model*manager.py capability-aware model selection
 ai/core/router.py availability, generation, streaming, cooldown,
-fallback ai/core/service.py public AIService facade ai/chat.py,
-ai/ai*worker.py, ai/llm.py compatibility/chat/background consumers
+fallback ai/core/service.py public AIService facade ai/chat.py and
+ai/ai*worker.py compatibility/chat/background consumers
 
-Registered model families confirmed in source: Ollama: jarvis,
-qwen2.5:3b, qwen3:4b Gemini: gemini-3.6-flash, gemini-3.5-flash,
-gemini-3.5-flash-lite OpenAI: model definitions/provider support are
+Registered model families confirmed in source: Gemini: gemini-3.5-flash-lite,
+gemini-3.1-flash-lite OpenAI: model definitions/provider support are
 present; exact runtime default selection depends on registry/policy
 configuration.
 
-Provider summary: PROVIDER: Ollama MODELS: jarvis, qwen2.5:3b, qwen3:4b
-and configured explicit model names IMPLEMENTATION:
-ai/providers/ollama.py; voice/offline/offline_ai.py GENERATION: local
-HTTP POST to configured Ollama API STREAMING: implemented in provider
-contract and provider FALLBACK ROLE: local/offline provider and policy
-candidate ERROR HANDLING: unavailable response/error, stream errors,
-router fallback STATUS: implemented; requires a reachable local Ollama
-service/model.
+Provider summary: Gemini Live is the primary conversational/voice runtime.
+Gemini Lite is the approved secondary path for explicitly authorized text
+tasks, including Developer Mode. Ollama and the former offline provider
+are removed and are not fallback candidates.
 
     PROVIDER: Google Gemini
     MODELS: Gemini model names registered above; Agent also uses
@@ -1485,21 +1457,17 @@ actual operation.
 
 # 20. VOICE SYSTEM
 
-Online: voice.mode.py probes network and selects online/offline.
-voice.online*runner.py calls core.assistant.run. core.listener.py uses
+Gemini Live: voice/agent.py owns the Live session and microphone/audio
+streaming. voice.online*runner.py calls core.assistant.run. core.listener.py uses
 SpeechRecognition/PyAudio input and dispatch callback. voice.manager.py
 coordinates speech state, queues/listeners, interruption,
 preparation/playback and TTS choice. voice.online*edge.py uses Edge TTS
 with cached MP3 output and selectable English/Indian/other language
 voice mappings.
 
-Offline: voice.offline.offline*stt.py uses Faster-Whisper
-(small/cpu/int8 defaults) for local transcription, calibration and
-audio-quality filtering. voice.offline.offline*ai.py uses Ollama plus
-shared profile/conversation/ context/prompt components.
-voice.offline.offline*tts.py uses Piper process/model output and
-playback. offline*runner.py runs typed and microphone commands through
-the shared OfflineActionBridge and avoids duplicate local-action speech.
+The former offline STT/Ollama/Piper modules and mode selector were removed.
+Shared manager, player, queue, interruption, and Edge TTS services remain
+available to Live, HUD, dashboard, and Android-facing consumers.
 
 Agent: voice/agent.py contains a separate Gemini
 Live session, microphone/audio streaming, typed-to-live integration,
@@ -1508,7 +1476,7 @@ actions after startup.
 
 Voice status: startup greeting, HUD speaking/listening/thinking/idle
 state, stop-speaking and interruption are implemented. Actual
-online/offline success depends on network, audio devices, model files,
+Live success depends on network, audio devices, and configured Gemini access,
 and service configuration.
 
 # 21. REMOTE CONTROL
@@ -1616,11 +1584,8 @@ integration-specific settings. data/settings/jarvis_settings.json stores
 runtime customization.
 
 Selected settings: APP*NAME / assistantName: identity and display;
-built-in default JARVIS PRO; persisted override. AI*PROVIDER: source
-default ollama; actual routing also uses model policy/registry.
-OLLAMA*MODEL: source default qwen2.5:3b in config; offline*ai retains
-jarvis default unless OLLAMA*MODEL is explicitly set there. OLLAMA*URL:
-local Ollama API endpoint, default localhost:11434/api/generate.
+built-in default JARVIS PRO; persisted override. AI*PROVIDER selects a
+permitted secondary provider for text tasks; Gemini Live remains primary.
 browser: CDP host/port/executable/profile overrides. vision: face
 threshold/min size/quality/registration controls. dashboard: source port
 8765; HUD bridge source port 8766; Next HUD source port 3000.
@@ -1629,8 +1594,8 @@ Configuration table: SETTING / VARIABLE REQUIRED SECRET DEFAULT / NOTE
 GEMINI*API*KEY no\* yes blank; Gemini OPENAI*API*KEY no\* yes blank;
 OpenAI YOUTUBE*API*KEY no\* yes blank; YouTube API SPOTIFY*CLIENT*ID
 no\* yes blank; Spotify SPOTIFY*CLIENT*SECRET no\* yes blank; Spotify
-SPOTIFY*REDIRECT*URI no no localhost:8888 OLLAMA*API*URL no no local
-Ollama URL JARVIS*ESP32*IP no no blank JARVIS*LIVE*MODEL no no
+SPOTIFY*REDIRECT*URI no no localhost:8888 JARVIS*ESP32*IP no no blank
+JARVIS*LIVE*MODEL no no
 blank/provider use ANDROID*ADB*PATH no no PATH or
 C:\\platform-tools\\adb.exe ANDROID*DEVICE*ID no no blank/selected
 device ANDROID*DEFAULT*PAYMENT*APP no no blank/chooser
@@ -1651,7 +1616,7 @@ secret values are included.
 
 Names present in .env.example: GEMINI*API*KEY, OPENAI*API*KEY,
 YOUTUBE*API*KEY SPOTIFY*CLIENT*ID, SPOTIFY*CLIENT*SECRET,
-SPOTIFY*REDIRECT*URI OLLAMA*API*URL, JARVIS*ESP32*IP, JARVIS*LIVE*MODEL
+SPOTIFY*REDIRECT*URI JARVIS*ESP32*IP, JARVIS*LIVE*MODEL
 ANDROID*ADB*PATH, ANDROID*DEVICE*ID, ANDROID*DEFAULT*PAYMENT*APP
 JARVIS*VISION*FACE*RECOGNITION*THRESHOLD JARVIS*VISION*FACE*MIN*SIZE,
 JARVIS*VISION*FACE*MIN*QUALITY JARVIS*VISION*REGISTRATION*SAMPLE*COUNT
@@ -1668,24 +1633,20 @@ JARVIS*BROWSER*CDP*PORT, JARVIS*BROWSER*EXECUTABLE,
 JARVIS*BROWSER*PROFILE_DIR
 
 Additional runtime setting names appear in code (for example
-OLLAMA*MODEL, NEXT*PUBLIC*JARVIS*OFFLINE,
-NEXT*PUBLIC*JARVIS*DASHBOARD*URL, and
+NEXT*PUBLIC*JARVIS*DASHBOARD*URL and
 NEXT*PUBLIC*JARVIS*HUD*BRIDGE_URL). Exact effective value depends on
 startup environment and dashboard settings.
 
 # 28. EXTERNAL SERVICES / INTEGRATIONS
 
-SERVICE PURPOSE STATUS FROM SOURCE Ollama local AI/offline AI
-implemented; local service required Google Gemini/GenAI cloud
+SERVICE PURPOSE STATUS FROM SOURCE Google Gemini/GenAI cloud
 text/vision/live implemented; key/service required OpenAI cloud provider
 implemented; key/model required Google/YouTube APIs YouTube
 search/results implemented; key required Chrome/Edge/Chromium CDP
 browser automation implemented conditionally FastAPI/Uvicorn
 dashboard/remote HTTP implemented Next.js/React HUD frontend
 implemented; npm required SpeechRecognition/PyAudio microphone input
-implemented conditionally Faster-Whisper offline STT implemented
-conditionally Piper TTS offline speech implemented conditionally Edge
-TTS online speech implemented conditionally OpenCV/Ultralytics YOLO
+implemented conditionally Edge TTS speech implemented conditionally OpenCV/Ultralytics YOLO
 camera/object/face support implemented conditionally Android ADB
 device/apps/UPI/phone bridge implemented conditionally Spotify/Spotipy
 desktop playback implemented conditionally WhatsApp desktop UI
@@ -1703,7 +1664,7 @@ credentials/device/ network access is present.
 
 Python requirements grouped by source manifest: Core/UI/voice: requests,
 pywebview, SpeechRecognition, PyAudio, edge-tts, pygame, pyttsx3.
-Offline voice: numpy, sounddevice, faster-whisper, piper-tts. AI/Google:
+Shared local audio/camera support: numpy, sounddevice. AI/Google:
 openai, google-genai, python-dotenv, google-api-python-client,
 google-auth-oauthlib, google-auth-httplib2, truststore. Dashboard:
 fastapi, uvicorn\[standard\], python-multipart, cryptography.
@@ -1718,8 +1679,8 @@ remark-gfm and corresponding type packages. hud/web/package-lock.json is
 present. hud/web/node_modules is installed locally and is generated
 dependency data.
 
-External applications commonly required: Python 3, npm/Node, Ollama for
-local AI, Chrome/Edge/Chromium for CDP, microphone/audio device,
+External applications commonly required: Python 3, npm/Node,
+Chrome/Edge/Chromium for CDP, microphone/audio device,
 optional Android platform-tools/ADB, optional WhatsApp/Spotify/desktop
 apps, optional camera, and Windows GUI/audio APIs.
 
@@ -1727,7 +1688,7 @@ apps, optional camera, and Windows GUI/audio APIs.
 
 Observed test inventory: tests/ (11 top-level files): Android/HUD
 connection, Android payment routing, JARVIS PRO routing, browser
-follow-up references, configuration, face vision, offline mode, OpenAI
+follow-up references, configuration, face vision, OpenAI
 provider, personal website list, phone call, remote event sync.
 brain/tests/: clarification flow, intent engine. brain/developer/tests/:
 analyzer, board/framework/intent/language/project/runtime/workspace
@@ -1740,8 +1701,8 @@ dispatcher/developer, full integration, memory integration, rollback
 integration. skills/assistant/test_greetings.py: greeting skill checks.
 
 Important validation themes: TEST: test*JARVIS PRO*routing.py PURPOSE:
-name/invocation routing behavior. TEST: test*offline*mode.py PURPOSE:
-shared offline action/runtime behavior. TEST: test*face*vision.py
+name/invocation routing behavior. Legacy offline-mode tests are no longer
+part of the supported runtime. TEST: test*face*vision.py
 PURPOSE: face/vision detection and registration boundaries. TEST:
 test*remote*event*sync.py PURPOSE: remote event/HUD synchronization.
 TEST: test*android*payment*routing.py PURPOSE: payment route and Android
@@ -1753,11 +1714,10 @@ audit, so no pass/fail claim is made.
 
 # 31. CURRENTLY IMPLEMENTED CAPABILITIES
 
-VOICE: online SpeechRecognition/Edge TTS path; offline
-Faster-Whisper/Piper path; voice queues/state/interruption; live Gemini
-conversation actions.
+VOICE: Gemini Live microphone/audio path; retained SpeechRecognition/Edge TTS
+services; voice queues/state/interruption; Live conversation actions.
 
-AI: Ollama/Gemini/OpenAI provider classes; model registry/policy/router;
+AI: Gemini/OpenAI/Grok provider classes; model registry/policy/router;
 generation and streaming contracts; quota cooldown/fallback.
 
 CONVERSATION: dispatch, context, follow-up, natural bridge,
@@ -1798,7 +1758,7 @@ pipeline.
 
     - Online/cloud providers require external keys/services; source cannot prove
       availability in the current environment.
-    - Face recognition, camera, offline STT/TTS, CDP, ADB, WhatsApp, Spotify,
+    - Face recognition, camera, CDP, ADB, WhatsApp, Spotify,
       Gmail, and Windows automation are dependency/hardware conditional.
     - Some settings and frontend toggles exist but their complete behavioral
       connection is controlled by dashboard/server implementation and external
@@ -1813,7 +1773,8 @@ pipeline.
 # 33. EXPERIMENTAL FEATURES
 
     - Gemini Agent/audio session in voice/agent.py.
-    - Offline shared-core mode with local Ollama and Piper.
+    - Historical offline shared-core mode with local Ollama and Piper (removed;
+      retained here only as migration history).
     - YOLO temporal stabilization and local LBPH identity recognition.
     - Android wireless/ADB connection and phone-call monitor.
     - Frontend 3D/robot/avatar/hand-tracking assets and components.
@@ -1867,9 +1828,8 @@ manifest and loader.
 
 # 37. END-TO-END DATA FLOWS
 
-A. Voice command: microphone -\> SpeechRecognition or Faster-Whisper -\>
-text -\> dispatcher/OfflineActionBridge -\> fast route or planner -\>
-registry action/service -\> HUD response + voice TTS.
+A. Voice command: microphone/Live audio -\> dispatcher -\> fast route or
+planner -\> registry action/service -\> HUD response + voice output.
 
 B. Text command: HUD/dashboard input -\> DashboardServer command handler
 -\> core.dispatcher.dispatch -\> same fast route/planner/action path.
@@ -1931,8 +1891,8 @@ completes scan/details/auth in official app.
         HTTP/WebSocket protocol/API dispatcher adapter.
     hud.bus:
         event bus between Python runtime and presentation.
-    voice.offline.OfflineActionBridge:
-        offline deterministic/local/network-required classification.
+    Legacy offline action bridge:
+        removed; current routing uses the shared dispatcher and registry.
     browser runtime/controller:
         executable/CDP ownership and browser action boundary.
 
@@ -2105,7 +2065,7 @@ configured integration endpoint; actual use conditional
     data/logs/ and dashboard upload directories:
         runtime logs/uploads created by startup/dashboard.
     voice/cache/:
-        Edge/Piper generated audio cache.
+        Edge-generated audio cache.
     yolo11n.pt:
         local ML model asset; ignored by repository policy.
     workspace/:
@@ -2157,12 +2117,12 @@ exact policy is in .gitignore.
     BRAIN ROUTER -> Developer -> analyzer/planner/editor/generator/validator
     BROWSER CONTROLLER -> BrowserRuntime -> owned CDP -> Playwright
     VISION SKILL -> CameraManager/VisionEngine -> YOLO -> scene/face analysis
-    VOICE LISTENER -> dispatcher; voice manager -> Edge/Piper player
+    VOICE LISTENER -> dispatcher; voice manager -> Edge player
     DASHBOARD -> dispatcher -> same core action system
     HUD MANAGER -> event bus -> SSE bridge -> React HUDBridge -> UI
     DASHBOARD -> WebSocket/events -> remote/mobile client
     PAYMENT -> AndroidManager -> ADB intent -> official payment app
-    PROFILE/MEMORY -> ContextBuilder/PromptBuilder -> AI/offline AI
+    PROFILE/MEMORY -> ContextBuilder/PromptBuilder -> AIService
     PHONE MONITOR -> service startup -> phone-call actions/HUD events
 
 # 45. CURRENT PROJECT STATUS
@@ -2216,7 +2176,7 @@ TOTAL SKILL MODULES: 87 Python files under skills/ (including package
 initializers); 46 explicit modules are configured in
 skills.loader.SKILLS.
 
-TOTAL AI PROVIDERS: 3 provider implementations: Ollama, Gemini, OpenAI.
+TOTAL ACTIVE AI PROVIDERS: 3 provider implementations: Gemini, OpenAI, Grok.
 
 TOTAL MAJOR SERVICES: dashboard/remote, HUD bridge/runtime, voice,
 browser/CDP, vision/camera, Android/ADB, phone-call monitor, email,

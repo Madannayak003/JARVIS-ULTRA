@@ -11,6 +11,7 @@ from core.registry import execute
 
 from core.listener import start_listener
 from core.listener import get_command
+from core.listener import listener_paused
 from core.listener import shutdown_requested
 from core.listener import stop_listener
 
@@ -205,6 +206,13 @@ def run():
     start_listener()
 
     while not shutdown_requested():
+
+        # Gemini Live is the sole conversational controller while the legacy
+        # listener is paused. Do not consume commands captured during the
+        # handoff or run legacy busy-preemption against a Live response.
+        if listener_paused():
+            time.sleep(0.05)
+            continue
 
         # * =====================================================
         # * HUD — Waiting for user input
@@ -746,7 +754,6 @@ def run():
 
         if query.lower() in [
 
-            "go offline",
             "sleep",
             "go sleep mode",
 

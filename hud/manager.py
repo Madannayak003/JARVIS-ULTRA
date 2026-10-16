@@ -71,7 +71,7 @@ class HUDManager:
     # * Voice
     # * =====================================================
 
-    def listening(self):
+    def listening(self, force=False):
 
         # * -----------------------------------------------------
         # * SPEAKING has priority over LISTENING.
@@ -81,7 +81,7 @@ class HUDManager:
         # * overwrite the HUD speaking state.
         # * -----------------------------------------------------
 
-        if self.state.speaking:
+        if self.state.speaking and not force:
 
             return
 
@@ -122,6 +122,13 @@ class HUDManager:
 
         self._publish(HUD_SPEAKING)
 
+    def voice_activity(self, active):
+        """Update LISTENING only for detected user voice edges."""
+        if active:
+            self.listening()
+        elif self.state.status == HUD_LISTENING:
+            self.idle()
+
     # * -----------------------------------------------------
 
     def idle(self):
@@ -147,6 +154,9 @@ class HUDManager:
 
         self.state.task_status = "running"
 
+        self.state.listening = False
+        self.state.speaking = False
+        self.state.thinking = False
         self.state.executing = True
 
         self._publish(

@@ -23,7 +23,7 @@ _ASSISTANT_SETTINGS_FILE = (
     / "jarvis_settings.json"
 )
 
-AI_PROVIDER_OPTIONS = ("AUTO", "OLLAMA", "GEMINI", "GROK", "OPENAI")
+AI_PROVIDER_OPTIONS = ("AUTO", "GEMINI", "GROK", "OPENAI")
 
 # Gemini Live is the primary conversational runtime.  Keep this identifier
 # authoritative and deliberately non-overridable: changing the main Live
@@ -177,13 +177,6 @@ DEBUG = get_env("JARVIS_DEBUG", "0").strip().casefold() in {
 # * ===========================
 
 AI_PROVIDER = "auto"
-
-OLLAMA_MODEL = "qwen2.5:3b"
-
-OLLAMA_URL = get_env(
-    "OLLAMA_API_URL",
-    "http://localhost:11434/api/generate",
-)
 
 # * ===========================
 # * Local Vision / Face Recognition

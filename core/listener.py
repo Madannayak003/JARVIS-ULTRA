@@ -1,5 +1,5 @@
 import threading
-from queue import Queue
+from queue import Empty, Queue
 import speech_recognition as sr
 from core.diagnostics import debug_print
 
@@ -197,6 +197,8 @@ def pause_listener():
     global _pending_text
     global _timer
 
+    discarded = 0
+
     with _lock:
 
         _listener_paused = True
@@ -209,8 +211,17 @@ def pause_listener():
 
             _timer = None
 
+        while True:
+            try:
+                COMMAND_QUEUE.get_nowait()
+                discarded += 1
+            except Empty:
+                break
+
     print(
-        "[MIC] Background listener paused"
+        "[MIC] Background listener paused",
+        "discarded_commands=",
+        discarded,
     )
 
 

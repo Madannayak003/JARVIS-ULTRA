@@ -219,12 +219,15 @@ class BrowserController:
         *args,
         **kwargs,
     ):
-
-        return _browser_worker.run(
-            function,
-            *args,
-            **kwargs,
-        )
+        # The worker keeps Playwright objects on one thread; this lock also
+        # keeps close-tab/close-browser operations from invalidating a page
+        # while another worker operation is extracting its results.
+        with _browser_lock:
+            return _browser_worker.run(
+                function,
+                *args,
+                **kwargs,
+            )
 
     # * =====================================================
     # * START
@@ -685,6 +688,7 @@ class BrowserController:
                 # * =========================================================
 
                 results = []
+                extraction_error = None
 
                 try:
 
@@ -734,6 +738,8 @@ class BrowserController:
 
                 except Exception as e:
 
+                    extraction_error = str(e)
+
                     print(
                         "[Google] "
                         f"Result extraction failed: {e}"
@@ -756,6 +762,13 @@ class BrowserController:
                     f"[Google] Captured "
                     f"{len(results)} search result(s)"
                 )
+
+                if extraction_error and not results:
+                    print(
+                        "[Google] Search did not produce usable result metadata: "
+                        f"{extraction_error}"
+                    )
+                    return False
 
                 print(
                     "[Google] "

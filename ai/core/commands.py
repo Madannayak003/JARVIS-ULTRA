@@ -10,7 +10,6 @@ Examples:
     use Gemini
     use GPT
     use OpenAI
-    use Ollama
     use Qwen
     auto mode
 """
@@ -29,10 +28,6 @@ class AICommandHandler:
         "gpt": "openai",
 
         "openai": "openai",
-
-        "ollama": "ollama",
-
-        "qwen": "ollama",
 
         "grok": "grok",
 
@@ -90,7 +85,7 @@ class AICommandHandler:
         # * --------------------------------------------------
 
         match = re.fullmatch(
-            r"use\s+(gemini|google|gpt|openai|ollama|qwen|grok|xai)",
+            r"use\s+(gemini|google|gpt|openai|grok|xai)",
             command,
         )
 

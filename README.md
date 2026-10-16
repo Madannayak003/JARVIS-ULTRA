@@ -32,7 +32,7 @@ real-time desktop HUD.
 JARVIS PRO combines:
 
 - Voice interaction and wake-word invocation
-- Online and optional offline voice modes
+- Gemini Live voice interaction with shared audio and interruption handling
 - AI routing, conversation context, and clarification handling
 - Windows desktop automation
 - Browser control through a dedicated Chromium/CDP runtime
@@ -48,9 +48,9 @@ JARVIS PRO combines:
 
 - Deterministic wake-word handling for the configured assistant name and
   explicit JARVIS PRO/JARVIS aliases.
-- Online voice mode using SpeechRecognition and Edge TTS.
-- Offline voice mode using Faster-Whisper, local Ollama, and Piper TTS.
-- Ollama, Gemini, and OpenAI provider implementations.
+- Voice input and retained Edge TTS output support.
+- Gemini Live as the sole primary conversational engine.
+- Gemini Lite secondary generation for approved text tasks.
 - Model selection, streaming contracts, provider fallback, and temporary
   quota/rate-limit cooldowns.
 - Conversation context, natural follow-ups, clarification state, and live
@@ -160,7 +160,7 @@ Service / Windows API / browser / Android / external API
 | <code>brain/</code> | Conversation context, intent understanding, clarification, developer routing, planning, and follow-up resolution. |
 | <code>skills/</code> | Capability modules that register executable actions. |
 | <code>services/</code> | Shared adapters for Android, Windows, communication, media, external APIs, and related integrations. |
-| <code>voice/</code> | Speech input, TTS, offline mode, voice state, queues, interruption, and Agent. |
+| <code>voice/</code> | Speech input, Edge TTS, Live audio state, queues, interruption, and Agent. |
 | <code>hud/</code> | Python HUD state/events, telemetry, native window, and web bridge. |
 | <code>dashboard/server.py</code> | FastAPI dashboard/API layer that forwards commands into the existing dispatcher. |
 
@@ -169,7 +169,7 @@ Service / Windows API / browser / Android / external API
 <code>main.py</code> is the application entry point:
 
 1. Load environment values and configuration.
-2. Select online or offline voice mode from network availability.
+2. Start the Gemini Live voice agent and shared audio services.
 3. Load configured skill modules with <code>skills/loader.py</code>.
 4. Initialize memory and start supporting services, including the phone-call
    monitor when available.
@@ -189,12 +189,11 @@ brain.
 
 | Mode | Runtime | Requirements |
 | --- | --- | --- |
-| Online | SpeechRecognition input, shared assistant runtime, and Edge TTS | Microphone, audio dependencies, and network/service availability |
-| Offline | Faster-Whisper STT, shared local action layer, Ollama, and Piper | Local models, audio dependencies, and a reachable Ollama instance |
+| Gemini Live | SpeechRecognition input, Live audio, shared assistant runtime, and retained Edge TTS services | Microphone, audio dependencies, Gemini/network availability |
 
-Offline mode reuses the shared core, registry, skills, HUD, and dashboard
-architecture. It changes the voice and AI providers rather than creating a
-separate action system.
+There is no separate offline assistant mode. When Gemini Live is unavailable,
+the existing connection/error behavior is retained; JARVIS does not silently
+switch to another conversation engine.
 
 ### Invocation and follow-ups
 
@@ -506,7 +505,6 @@ active-project context determine what can be completed.
 - Windows with Python 3 available.
 - Node.js and npm for the HUD.
 - A microphone and audio output for voice operation.
-- Optional: Ollama and a local model for offline/local AI.
 - Optional: Chrome, Edge, or Chromium for browser skills.
 - Optional: Android platform-tools/ADB for phone skills.
 - Optional: credentials or installed desktop applications for integrations such
@@ -524,7 +522,7 @@ python -m pip install -r requirements.txt
 ~~~
 
 The current <code>requirements.txt</code> contains the Python dependencies for
-the core runtime, voice modes, AI providers, dashboard, browser, Windows
+the core runtime, voice/audio services, AI providers, dashboard, browser, Windows
 automation, vision, and integrations.
 
 ### Install HUD dependencies
@@ -534,19 +532,6 @@ Set-Location hud\web
 npm install
 Set-Location ..\..
 ~~~
-
-### Optional Ollama setup
-
-Install Ollama separately, start its local service, and install a model matching
-your configuration. The source default is:
-
-~~~text
-Model: qwen2.5:3b
-Endpoint: http://localhost:11434/api/generate
-~~~
-
-<code>OLLAMA_API_URL</code> can override the endpoint. Offline voice AI also
-supports an explicit <code>OLLAMA_MODEL</code> environment value.
 
 ### Optional Android setup
 
@@ -621,7 +606,6 @@ Important environment variables include:
 | <code>OPENAI_API_KEY</code> | OpenAI provider access |
 | <code>YOUTUBE_API_KEY</code> | YouTube API integration |
 | <code>SPOTIFY_CLIENT_ID</code> / <code>SPOTIFY_CLIENT_SECRET</code> | Spotify integration |
-| <code>OLLAMA_API_URL</code> / <code>OLLAMA_MODEL</code> | Local AI endpoint/model |
 | <code>ANDROID_ADB_PATH</code> / <code>ANDROID_DEVICE_ID</code> | ADB executable and selected device |
 | <code>ANDROID_DEFAULT_PAYMENT_APP</code> | Default payment application |
 | <code>JARVIS_BROWSER_CDP_HOST</code> / <code>JARVIS_BROWSER_CDP_PORT</code> | Local browser debugging settings |
@@ -661,7 +645,6 @@ JARVIS-PRO/
 │   │   ├── base.py
 │   │   ├── gemini.py
 │   │   ├── grok.py
-│   │   ├── ollama.py
 │   │   └── openai.py
 │   ├── __init__.py
 │   ├── ai_worker.py
@@ -770,7 +753,7 @@ JARVIS-PRO/
 │   │   │   ├── provider
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── base_provider.py
-│   │   │   │   └── ollama_provider.py
+│   │   │   │   └── gemini_provider.py
 │   │   │   ├── rules
 │   │   │   │   ├── __init__.py
 │   │   │   │   └── edit_rules.py
@@ -822,7 +805,7 @@ JARVIS-PRO/
 │   │   │   ├── providers
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── base_provider.py
-│   │   │   │   └── ollama_provider.py
+│   │   │   │   └── gemini_provider.py
 │   │   │   ├── rules
 │   │   │   │   ├── __init__.py
 │   │   │   │   └── generator_rules.py
@@ -1323,23 +1306,10 @@ JARVIS-PRO/
 │   ├── database_delete.py
 │   └── windows_integration.py
 ├── voice
-│   ├── models
-│   │   └── en_US-lessac-medium.onnx.json
-│   ├── offline
-│   │   ├── __init__.py
-│   │   ├── offline_action_bridge.py
-│   │   ├── offline_ai.py
-│   │   ├── offline_player.py
-│   │   ├── offline_runner.py
-│   │   ├── offline_stt.py
-│   │   ├── offline_tts.py
-│   │   └── offline_voice.py
 │   ├── __init__.py
 │   ├── agent.py
 │   ├── interrupt.py
 │   ├── manager.py
-│   ├── mode.py
-│   ├── offline_piper.py
 │   ├── online_edge.py
 │   ├── online_runner.py
 │   ├── player.py
@@ -1369,7 +1339,7 @@ modules.
 
 | File or directory | Purpose |
 | --- | --- |
-| <code>main.py</code> | Application lifecycle, online/offline startup, HUD, dashboard, voice, and shutdown |
+| <code>main.py</code> | Gemini Live lifecycle, HUD, dashboard, voice, and shutdown |
 | <code>core/dispatcher.py</code> | Shared command processing and follow-up priority |
 | <code>core/fast_router.py</code> | Ordered deterministic routing |
 | <code>core/registry.py</code> | Skill/action registration and execution |
@@ -1380,7 +1350,7 @@ modules.
 | <code>dashboard/server.py</code> | Active FastAPI remote/local dashboard |
 | <code>hud/</code> | Python event bus, state, telemetry, bridge, and native window |
 | <code>hud/web/</code> | Integrated Next.js HUD frontend |
-| <code>voice/</code> | Online/offline speech pipelines and Agent |
+| <code>voice/</code> | Live audio, retained Edge TTS services, speech state, and Agent |
 
 ## 🔐 Safety and Design Boundaries
 
@@ -1402,7 +1372,7 @@ modules.
 
 Test locations include:
 
-- <code>tests/</code>: configuration, JARVIS PRO routing, offline mode, browser
+- <code>tests/</code>: configuration, JARVIS PRO routing, browser
   references, Android/payment routing, vision, phone calls, remote events,
   providers, and personal links.
 - <code>brain/tests/</code>: clarification and intent behavior.
@@ -1432,8 +1402,8 @@ No automated test run is claimed for this documentation change.
 | Problem | Check |
 | --- | --- |
 | HUD does not open | Confirm Node/npm is installed, run <code>npm install</code> in <code>hud/web</code>, and inspect runtime logs under <code>data/logs/</code>. |
-| Ollama is unavailable | Confirm Ollama is running, the configured model exists, and <code>OLLAMA_API_URL</code> is reachable. |
-| Microphone is not detected | Check Windows microphone permissions and the SpeechRecognition/PyAudio or Faster-Whisper dependencies. |
+| Gemini Live is unavailable | Check Gemini configuration and inspect the Live connection error; no hidden offline conversation fallback is used. |
+| Microphone is not detected | Check Windows microphone permissions and the SpeechRecognition/PyAudio dependencies. |
 | Android device is unavailable | Confirm ADB is installed, the device is authorized, and <code>ANDROID_ADB_PATH</code>/<code>ANDROID_DEVICE_ID</code> are correct. |
 | Wireless ADB fails | Confirm the phone and PC can reach each other, use the correct address/port, and connect through the HUD or Android service. |
 | Browser skill fails | Install Chrome, Edge, or Chromium and check the browser executable/profile/CDP environment values. |

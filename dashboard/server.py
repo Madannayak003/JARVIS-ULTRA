@@ -1245,11 +1245,11 @@ class DashboardServer:
         try:
 
             from voice.agent import (
-                agent_status,
+                agent_state,
                 send_agent_text,
             )
 
-            if agent_status():
+            if agent_state()["connected"]:
 
                 if send_agent_text(text):
 
@@ -2343,7 +2343,7 @@ class DashboardServer:
                     status_code=503,
                 )
 
-            _agent.set_microphone_enabled(enabled)
+            _agent.set_microphone_enabled(enabled, source="dashboard_toggle")
             actual_enabled = _agent.microphone_enabled()
             running = True
             paused = not actual_enabled
@@ -2386,7 +2386,7 @@ class DashboardServer:
             if not self._authorize_local(request):
                 return JSONResponse({"ok": False, "error": "Local access required."}, status_code=403)
             try:
-                interrupt()
+                interrupt(source="hud_button")
                 return {"ok": True}
             except Exception:
                 return JSONResponse({"ok": False, "error": "Interrupt unavailable."}, status_code=500)
@@ -3461,9 +3461,9 @@ class DashboardServer:
                 return JSONResponse({"ok": False, "error": "Text is required."}, status_code=400)
 
             try:
-                from voice.agent import agent_status, send_agent_text
+                from voice.agent import agent_state, send_agent_text
 
-                if agent_status() != "Agent is running.":
+                if not agent_state()["connected"]:
                     return JSONResponse(
                         {"ok": False, "error": "Gemini Live is unavailable. Request not executed."},
                         status_code=503,
@@ -3507,18 +3507,16 @@ class DashboardServer:
 
             try:
 
-                from voice.agent import (
-                    agent_status,
-                )
+                from voice.agent import agent_state
 
-                running = (
-                    agent_status()
-                    == "Agent is running."
-                )
+                state = agent_state()
 
                 return {
                     "ok": True,
-                    "running": running,
+                    "running": state["running"],
+                    "connected": state["connected"],
+                    "state": state["state"],
+                    "controller": state["controller"],
                 }
 
             except Exception as exc:

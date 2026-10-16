@@ -6,7 +6,7 @@ Stage 2:
 YOLO-based object detection and tracking.
 
 Responsibilities:
-- Load YOLO11 once
+- Load YOLO26n once
 - Select the best available inference device
 - Run optimized object detection
 - Run native YOLO object tracking
@@ -26,7 +26,7 @@ class ObjectDetector:
 
     def __init__(
         self,
-        model_path="yolo11n.pt",
+        model_path="yolo26n.pt",
         confidence=0.25,
         iou=0.45,
         image_size=640,

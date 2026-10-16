@@ -18,7 +18,7 @@ from typing import Any, Dict
 DEFAULT_PROFILE = {
     "profile_version": 1,
 
-    "name": "",
+    "name": "Madan R",
 
     "preferred_language": "English",
 
@@ -26,7 +26,7 @@ DEFAULT_PROFILE = {
 
     "coding_language": "Python",
 
-    "preferred_ai": "Ollama",
+    "preferred_ai": "Gemini",
 
     "ide": "VS Code",
 

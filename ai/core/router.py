@@ -41,13 +41,13 @@ class AIRouter:
 
     Example:
 
-        Gemini 3.6
+        Gemini Flash-Lite
             ↓
         429 RESOURCE_EXHAUSTED
             ↓
         model cooldown
             ↓
-        Gemini 3.5 Flash Lite
+        the next permitted task-specific model
     """
 
     # * ======================================================
@@ -82,7 +82,7 @@ class AIRouter:
         # * Temporary model cooldowns
         #
         # * {
-        # * "gemini:gemini-3.6-flash": expiry_timestamp
+        # * "gemini:gemini-3.5-flash-lite": expiry_timestamp
         # * }
         # * --------------------------------------------------
 
@@ -439,7 +439,7 @@ class AIRouter:
             # * model can fall through to the next configured Gemini model.
             # * Keep one configured model for every other provider so their
             # * existing fallback order remains exactly:
-            # * Gemini -> Grok -> OpenAI -> Ollama.
+            # * Gemini -> Grok -> OpenAI.
             seen_providers = set()
             ordered_candidates = []
             for model in candidates:

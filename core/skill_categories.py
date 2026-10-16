@@ -181,39 +181,6 @@ for category, actions in CATEGORIES.items():
 DEFAULT_CATEGORY = "uncategorized"
 
 
-# * Actions in this set require a remote service or a network-backed browser
-# * destination.  Local actions remain shared by online and offline runtimes;
-# * this metadata only lets an offline runtime fail closed before an action can
-# * accidentally open a remote page or call an external API.
-NETWORK_REQUIRED_ACTIONS = {
-    "google_search",
-    "youtube_search",
-    "browser_open_result",
-    "browser_read_page",
-    "youtube_play_first",
-    "youtube_play_result",
-    "youtube_pause",
-    "youtube_resume",
-    "youtube_next",
-    "youtube_previous",
-    "github_search",
-    "chatgpt_search",
-    "get_news",
-    "weather",
-    "maps_open",
-    "maps_directions",
-    "translate_open",
-    "translate_text",
-    "open_personal_link",
-    "spotify_open",
-    "spotify_play",
-    "spotify_pause",
-    "spotify_next",
-    "spotify_previous",
-    "spotify_play_song",
-}
-
-
 LOCAL_APPLICATIONS = {
     "notepad",
     "calculator",
@@ -230,30 +197,6 @@ LOCAL_APPLICATIONS = {
     "control panel",
     "settings",
 }
-
-
-def action_requires_network(action: str, data=None) -> bool:
-    """Return whether an action must be blocked in offline mode.
-
-    ``open`` is intentionally data-aware because the existing shared action
-    opens both Windows applications and websites under the same action name.
-    Unknown ``open`` targets fail closed so offline mode never claims a remote
-    destination was opened.
-    """
-
-    if not isinstance(action, str):
-        return True
-
-    action = action.strip().lower()
-
-    if action in NETWORK_REQUIRED_ACTIONS:
-        return True
-
-    if action == "open":
-        app = data.get("app", "") if isinstance(data, dict) else ""
-        return str(app).strip().lower() not in LOCAL_APPLICATIONS
-
-    return False
 
 
 def get_category(action: str) -> str:

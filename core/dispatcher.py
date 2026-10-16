@@ -61,6 +61,7 @@ def dispatch(
     fast_plan=None,
     conversation_request=None,
     skip_nci=False,
+    live_invocation_id=None,
 ):
 
     if command is None or not str(command).strip():
@@ -711,7 +712,7 @@ def dispatch(
                 if is_live_execution() and result is not False and len(get_live_responses()) == live_response_count:
                     if isinstance(result, str) and result.strip():
                         capture_live_response(result)
-                    elif isinstance(result, dict) and result.get("status") != "pending_analysis":
+                    elif isinstance(result, dict) and result.get("status") not in {"pending_analysis", "awaiting_live_analysis"}:
                         message = action_result_message(action_name, action, result)
                         if message:
                             capture_live_response(message)
@@ -881,6 +882,10 @@ def dispatch(
                 if not action_name:
                     continue
 
+                if action_name in {"create_reminder", "screen_vision_analyze"} and live_invocation_id:
+                    action = dict(action)
+                    action["_invocation_id" if action_name == "create_reminder" else "_live_request_id"] = str(live_invocation_id)
+
                 live_response_count = len(get_live_responses()) if is_live_execution() else 0
                 result = execute(
                     action_name,
@@ -890,7 +895,7 @@ def dispatch(
                 if is_live_execution() and result is not False and len(get_live_responses()) == live_response_count:
                     if isinstance(result, str) and result.strip():
                         capture_live_response(result)
-                    elif isinstance(result, dict) and result.get("status") != "pending_analysis":
+                    elif isinstance(result, dict) and result.get("status") not in {"pending_analysis", "awaiting_live_analysis"}:
                         message = action_result_message(action_name, action, result)
                         if message:
                             capture_live_response(message)
@@ -1069,7 +1074,11 @@ def dispatch(
                             if message:
                                 speak(message)
 
-            return
+            # The Live jarvis_command bridge needs the structured result so
+            # media returned by screen vision is not lost when the dispatcher
+            # also records an authoritative text response. Normal callers keep
+            # the historical None return value.
+            return result if is_live_execution() else None
 
     if contextual_chat_follow_up:
         print(
@@ -1707,6 +1716,24 @@ def dispatch(
             result
         )
 
+        return
+
+    # * =====================================================
+    # * PERSONAL NAME LOOKUP
+    # * =====================================================
+    # Keep this narrow and privacy-preserving: return only the explicitly
+    # stored name, rather than dumping the complete profile for a name query.
+    if command in {
+        "what is my name",
+        "what's my name",
+        "what is mybname",
+        "whats my name",
+    }:
+        from ai.memory_profile import profile
+        from voice.manager import speak
+
+        name = str(profile().get("name", "")).strip()
+        speak(f"Your name is {name}." if name else "I don't have your name saved yet.")
         return
 
     # * =====================================================

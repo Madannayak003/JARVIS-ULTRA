@@ -67,17 +67,23 @@ class HUDIntegration:
     # * ========================================================
 
     @classmethod
-    def listening(cls):
+    def listening(cls, force=False):
 
-        cls._emit(
-            HUDEvent.LISTENING
-        )
+        cls._emit(HUDEvent.LISTENING, {"force": bool(force)})
 
     @classmethod
     def speaking(cls):
 
         cls._emit(
             HUDEvent.SPEAKING
+        )
+
+    @classmethod
+    def voice_activity(cls, active):
+
+        cls._emit(
+            HUDEvent.VOICE_ACTIVITY,
+            {"active": bool(active)},
         )
 
     @classmethod

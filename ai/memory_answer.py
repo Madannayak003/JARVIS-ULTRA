@@ -11,7 +11,7 @@ Responsibilities
 ✓ Keyword-based lookup
 ✓ Semantic fallback
 ✓ Safe confidence filtering
-✓ No Ollama required
+✓ Uses the retained AI service only when explicitly needed
 """
 
 import re

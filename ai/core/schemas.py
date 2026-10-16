@@ -3,7 +3,6 @@ JARVIS PRO
 AI Core - Schemas
 
 Common data contracts shared by:
-- Ollama
 - Google Gemini
 - OpenAI / GPT
 - AI Router
@@ -93,7 +92,7 @@ class AIStreamChunk:
     """
     Standard streaming chunk.
 
-    Providers such as Ollama, Gemini and OpenAI
+    Providers such as Gemini and OpenAI
     can have different raw streaming formats.
 
     JARVIS converts them into this common format.

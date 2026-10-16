@@ -1,6 +1,8 @@
 import re
 from datetime import datetime, timedelta
 
+from core.reminder_time import ReminderTimeError, local_now, resolve_reminder_time
+
 
 # * =========================================================
 # * MEMORY ROUTER
@@ -13,6 +15,7 @@ from datetime import datetime, timedelta
 def memory_route(command):
 
     command = command.lower().strip()
+    reference_now = local_now()
 
     # * =====================================================
     # * NOTES
@@ -146,26 +149,13 @@ def memory_route(command):
         if not text:
             return None
 
-        if unit.startswith("sec"):
-
-            target = (
-                datetime.now()
-                + timedelta(seconds=amount)
+        try:
+            target = resolve_reminder_time(
+                f"in {amount} {unit}",
+                now=reference_now,
             )
-
-        elif unit.startswith("min"):
-
-            target = (
-                datetime.now()
-                + timedelta(minutes=amount)
-            )
-
-        else:
-
-            target = (
-                datetime.now()
-                + timedelta(hours=amount)
-            )
+        except ReminderTimeError:
+            return None
 
         remind_at = target.isoformat()
 
@@ -213,9 +203,10 @@ def memory_route(command):
             .upper()
         )
 
-        target = _parse_clock_time(
-            time_text
-        )
+        try:
+            target = resolve_reminder_time(time_text, now=reference_now)
+        except ReminderTimeError:
+            target = None
 
         if target and text:
 
@@ -262,10 +253,13 @@ def memory_route(command):
             .upper()
         )
 
-        target = _parse_clock_time(
-            time_text,
-            tomorrow=True,
-        )
+        try:
+            target = resolve_reminder_time(
+                f"tomorrow at {time_text}",
+                now=reference_now,
+            )
+        except ReminderTimeError:
+            target = None
 
         if target and text:
 

@@ -5,10 +5,10 @@ Developer Editor
 Provider
 """
 
-from .ollama_provider import OllamaProvider
+from .gemini_provider import GeminiProvider
 
 __all__ = [
 
-    "OllamaProvider",
+    "GeminiProvider",
 
 ]

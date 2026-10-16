@@ -13,8 +13,13 @@ from typing import Any, Callable
 from core.registry import register
 from core.notifications import notify_windows_toast
 from hud.integration import HUDIntegration
-from voice.manager import speak
 from core.diagnostics import debug_print
+
+
+def speak(text):
+    """Avoid importing optional TTS providers during scheduler inspection."""
+    from voice.manager import speak as _speak
+    return _speak(text)
 
 DATA_FILE = Path("data") / "schedules.json"
 _lock = threading.RLock()

@@ -384,6 +384,17 @@ def browser_route(command):
             }
         ]
 
+    if command in [
+        "play video",
+        "play the video",
+        "play youtube",
+    ]:
+        return [
+            {
+                "action": "youtube_resume"
+            }
+        ]
+
 
     # * -----------------------------------------------------
     # * YouTube Pause

@@ -146,6 +146,14 @@ class BrowserContext:
             platform or ""
         )
 
+        # A non-YouTube search invalidates the active YouTube follow-up
+        # context. Do not let "play the first one" use an older query.
+        if self.last_search_platform.lower() != "youtube":
+            self.youtube_query = ""
+            self.youtube_queue = []
+            self.youtube_index = -1
+            self.current_youtube_video = None
+
         normalized: list[BrowserResult] = []
 
         for result in results:
@@ -383,6 +391,11 @@ class BrowserContext:
         self.selected_result = None
 
         self.selected_index = -1
+
+        self.youtube_query = ""
+        self.youtube_queue = []
+        self.youtube_index = -1
+        self.current_youtube_video = None
 
     def search_snapshot(self) -> dict[str, Any]:
         """Return search state without mixing it with current page state."""

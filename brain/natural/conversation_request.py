@@ -12,7 +12,7 @@ can use as a common conversational interface.
 
 IMPORTANT:
     This module does NOT:
-        - call Ollama
+        - use an approved secondary model
         - execute actions
         - modify the dispatcher
         - modify Fast Router

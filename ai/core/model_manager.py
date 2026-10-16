@@ -47,69 +47,47 @@ class ModelManager:
 
         "conversation": [
             "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
-            "gemini-3.5-flash-lite",
             "gemini-3.1-flash-lite",
         ],
 
         "fast": [
-            "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
             "gemini-3.5-flash-lite",
             "gemini-3.1-flash-lite",
         ],
 
         "coding": [
             "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
             "gemini-3.1-flash-lite",
         ],
 
         "developer": [
             "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
             "gemini-3.1-flash-lite",
         ],
 
         "editing": [
             "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
             "gemini-3.1-flash-lite",
         ],
 
         "repair": [
             "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
             "gemini-3.1-flash-lite",
         ],
 
         "reasoning": [
-            "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
             "gemini-3.5-flash-lite",
             "gemini-3.1-flash-lite",
         ],
 
         "planning": [
             "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
-            "gemini-3.5-flash-lite",
             "gemini-3.1-flash-lite",
         ],
 
         "screen_vision": [
             "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-            "gemini-3.5-flash",
-            "gemini-3.5-flash-lite",
+            "gemini-3.1-flash-lite",
         ],
     }
 

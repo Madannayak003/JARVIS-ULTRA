@@ -18,6 +18,7 @@ def spotify_route(command):
 
     if command in [
 
+        "play",
         "play spotify",
         "play music",
         "play song",
@@ -37,6 +38,7 @@ def spotify_route(command):
 
     if command in [
 
+        "pause",
         "pause spotify",
         "pause music",
         "stop music",
@@ -123,6 +125,8 @@ def spotify_route(command):
         # * YouTube video
         "play youtube video",
         "play the youtube video",
+        "play video",
+        "play the video",
 
         # * Next
         "play next video",

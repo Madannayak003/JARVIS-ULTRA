@@ -1,0 +1,5342 @@
+{
+  "audit_mode": "static_ast_only",
+  "side_effects_during_audit": false,
+  "configured_module_count": 48,
+  "existing_module_count": 48,
+  "callable_action_count": 145,
+  "structured_live_action_count": 27,
+  "duplicate_action_names": [],
+  "duplicate_action_count": 0,
+  "modules": [
+    {
+      "module": "memory.memory",
+      "source": "skills\\memory\\memory.py",
+      "exists": true,
+      "registered_action_count": 0
+    },
+    {
+      "module": "memory.notes",
+      "source": "skills\\memory\\notes.py",
+      "exists": true,
+      "registered_action_count": 3
+    },
+    {
+      "module": "memory.reminders",
+      "source": "skills\\memory\\reminders.py",
+      "exists": true,
+      "registered_action_count": 3
+    },
+    {
+      "module": "automation.scheduling",
+      "source": "skills\\automation\\scheduling.py",
+      "exists": true,
+      "registered_action_count": 3
+    },
+    {
+      "module": "ai.clarify",
+      "source": "skills\\ai\\clarify.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "media.media",
+      "source": "skills\\media\\media.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "system.volume",
+      "source": "skills\\system\\volume.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "browser.browser_ai",
+      "source": "skills\\browser\\browser_ai.py",
+      "exists": true,
+      "registered_action_count": 4
+    },
+    {
+      "module": "browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "exists": true,
+      "registered_action_count": 7
+    },
+    {
+      "module": "browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "exists": true,
+      "registered_action_count": 8
+    },
+    {
+      "module": "navigation.maps",
+      "source": "skills\\navigation\\maps.py",
+      "exists": true,
+      "registered_action_count": 2
+    },
+    {
+      "module": "navigation.translate",
+      "source": "skills\\navigation\\translate.py",
+      "exists": true,
+      "registered_action_count": 2
+    },
+    {
+      "module": "system.system",
+      "source": "skills\\system\\system.py",
+      "exists": true,
+      "registered_action_count": 5
+    },
+    {
+      "module": "system.brightness",
+      "source": "skills\\system\\brightness.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "screen.screenshot",
+      "source": "skills\\screen\\screenshot.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "screen.clipboard",
+      "source": "skills\\screen\\clipboard.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "system.battery",
+      "source": "skills\\system\\battery.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "news.news",
+      "source": "skills\\news\\news.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "network.wifi",
+      "source": "skills\\network\\wifi.py",
+      "exists": true,
+      "registered_action_count": 4
+    },
+    {
+      "module": "network.bluetooth",
+      "source": "skills\\network\\bluetooth.py",
+      "exists": true,
+      "registered_action_count": 2
+    },
+    {
+      "module": "network.weather",
+      "source": "skills\\network\\weather.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "system.process",
+      "source": "skills\\system\\process.py",
+      "exists": true,
+      "registered_action_count": 2
+    },
+    {
+      "module": "system.taskmanager",
+      "source": "skills\\system\\taskmanager.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "files.files",
+      "source": "skills\\files\\files.py",
+      "exists": true,
+      "registered_action_count": 8
+    },
+    {
+      "module": "files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "exists": true,
+      "registered_action_count": 0
+    },
+    {
+      "module": "files.file_info",
+      "source": "skills\\files\\file_info.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "files.recent",
+      "source": "skills\\files\\recent.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "files.recycle",
+      "source": "skills\\files\\recycle.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "utilities.search",
+      "source": "skills\\utilities\\search.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "files.zip_manager",
+      "source": "skills\\files\\zip_manager.py",
+      "exists": true,
+      "registered_action_count": 2
+    },
+    {
+      "module": "utilities.time_skill",
+      "source": "skills\\utilities\\time_skill.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "web.personal_links",
+      "source": "skills\\web\\personal_links.py",
+      "exists": true,
+      "registered_action_count": 2
+    },
+    {
+      "module": "communication.github",
+      "source": "skills\\communication\\github.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "communication.chatgpt",
+      "source": "skills\\communication\\chatgpt.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "exists": true,
+      "registered_action_count": 9
+    },
+    {
+      "module": "media.image_generation",
+      "source": "skills\\media\\image_generation.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "assistant.greetings",
+      "source": "skills\\assistant\\greetings.py",
+      "exists": true,
+      "registered_action_count": 5
+    },
+    {
+      "module": "automation.home_automation",
+      "source": "skills\\automation\\home_automation.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "exists": true,
+      "registered_action_count": 15
+    },
+    {
+      "module": "communication.contact",
+      "source": "skills\\communication\\contact.py",
+      "exists": true,
+      "registered_action_count": 3
+    },
+    {
+      "module": "communication.email",
+      "source": "skills\\communication\\email.py",
+      "exists": true,
+      "registered_action_count": 4
+    },
+    {
+      "module": "screen.screenshot_ai",
+      "source": "skills\\screen\\screenshot_ai.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "screen.screen_vision_skill",
+      "source": "skills\\screen\\screen_vision_skill.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "camera.camera",
+      "source": "skills\\camera\\camera.py",
+      "exists": true,
+      "registered_action_count": 6
+    },
+    {
+      "module": "camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "exists": true,
+      "registered_action_count": 11
+    },
+    {
+      "module": "android_control.android_control",
+      "source": "skills\\android_control\\android_control.py",
+      "exists": true,
+      "registered_action_count": 5
+    },
+    {
+      "module": "payments.payments",
+      "source": "skills\\payments\\payments.py",
+      "exists": true,
+      "registered_action_count": 1
+    },
+    {
+      "module": "phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "exists": true,
+      "registered_action_count": 8
+    }
+  ],
+  "actions": [
+    {
+      "action": "android_check_adb",
+      "module": "skills.android_control.android_control",
+      "source": "skills\\android_control\\android_control.py",
+      "implementation": "android_check_adb",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "android_control",
+      "registration_line": 81,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\android_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "android_check_device",
+      "module": "skills.android_control.android_control",
+      "source": "skills\\android_control\\android_control.py",
+      "implementation": "android_check_device",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "android_control",
+      "registration_line": 82,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\android_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "android_device_info",
+      "module": "skills.android_control.android_control",
+      "source": "skills\\android_control\\android_control.py",
+      "implementation": "android_device_info",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "android_control",
+      "registration_line": 83,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\android_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "android_launch_app",
+      "module": "skills.android_control.android_control",
+      "source": "skills\\android_control\\android_control.py",
+      "implementation": "android_launch_app",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "android_control",
+      "registration_line": 85,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\android_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "android_open_app",
+      "module": "skills.android_control.android_control",
+      "source": "skills\\android_control\\android_control.py",
+      "implementation": "android_open_app",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "android_control",
+      "registration_line": 84,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [
+        "tests\\test_android_payment_routing.py"
+      ],
+      "router_references": [
+        "core\\routers\\android_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "answer_call",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "answer_call",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 358,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\phone_call_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "assistant_name",
+      "module": "skills.assistant.greetings",
+      "source": "skills\\assistant\\greetings.py",
+      "implementation": "assistant_name",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 361,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_astra_routing.py",
+        "brain\\tests\\test_clarification_flow.py"
+      ],
+      "router_references": [
+        "core\\routers\\greeting_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "back",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.back()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 7,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_ai_provider_selection.py",
+        "tests\\test_android_hud_connection.py",
+        "tests\\test_configuration.py",
+        "tests\\test_conversation_gap_fixes.py",
+        "tests\\test_file_intelligence.py",
+        "tests\\test_gemini_response_contract.py",
+        "tests\\test_main_lifecycle.py",
+        "tests\\test_phone_call.py",
+        "tests\\test_reminder_regressions.py",
+        "tests\\test_response_strategy.py",
+        "tests\\test_weather_async.py",
+        "brain\\tests\\test_clarification_flow.py"
+      ],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "battery",
+      "module": "skills.system.battery",
+      "source": "skills\\system\\battery.py",
+      "implementation": "battery",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 263,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__battery"
+      },
+      "schema": {
+        "purpose": "Report current battery percentage and charging state.",
+        "properties": {},
+        "expected_result": "A real battery status response or a reported failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "bluetooth_devices",
+      "module": "skills.network.bluetooth",
+      "source": "skills\\network\\bluetooth.py",
+      "implementation": "bluetooth_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 119,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\network_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "bluetooth_status",
+      "module": "skills.network.bluetooth",
+      "source": "skills\\network\\bluetooth.py",
+      "implementation": "bluetooth_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 114,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\network_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "brightness",
+      "module": "skills.system.brightness",
+      "source": "skills\\system\\brightness.py",
+      "implementation": "brightness",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 251,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__brightness"
+      },
+      "schema": {
+        "purpose": "Read or control display brightness.",
+        "properties": {
+          "direction": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down",
+              "status"
+            ],
+            "description": "Relative brightness operation or status query."
+          },
+          "percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Exact brightness percentage."
+          }
+        },
+        "expected_result": "A reported brightness operation result or failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "browser_open_result",
+      "module": "skills.browser.browser_ai",
+      "source": "skills\\browser\\browser_ai.py",
+      "implementation": "browser_open_result",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 182,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__browser_open_result"
+      },
+      "schema": {
+        "purpose": "Open an exact URL from the latest JARVIS search result.",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Exact URL returned by a prior search."
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "expected_result": "A reported navigation result or failure."
+      },
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_browser_followup_references.py",
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "browser_read_page",
+      "module": "skills.browser.browser_ai",
+      "source": "skills\\browser\\browser_ai.py",
+      "implementation": "browser_read_page",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "browser",
+      "registration_line": 183,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__browser_read_page"
+      },
+      "schema": {
+        "purpose": "Extract text from the current browser page.",
+        "properties": {
+          "max_chars": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20000,
+            "description": "Optional bounded extraction size."
+          }
+        },
+        "expected_result": "Actual extracted page text or a reported extraction failure."
+      },
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "call_status",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "call_status",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 361,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\phone_call_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "camera_close",
+      "module": "skills.camera.camera",
+      "source": "skills\\camera\\camera.py",
+      "implementation": "close_camera",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 112,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "camera_preview",
+      "module": "skills.camera.camera",
+      "source": "skills\\camera\\camera.py",
+      "implementation": "preview",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 107,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__camera_preview"
+      },
+      "schema": {
+        "purpose": "Open the configured physical camera preview. This does not capture a desktop screenshot.",
+        "properties": {},
+        "expected_result": "The actual camera preview result or an honest camera-access failure."
+      },
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_android_payment_routing.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "camera_status",
+      "module": "skills.camera.camera",
+      "source": "skills\\camera\\camera.py",
+      "implementation": "camera_status",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 97,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__camera_status"
+      },
+      "schema": {
+        "purpose": "Report whether the configured physical camera is available and open.",
+        "properties": {},
+        "expected_result": "The actual camera status or an honest availability report."
+      },
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "cancel_face_registration",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "cancel_face_registration",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 600,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_face_vision.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "cancel_reminder",
+      "module": "skills.memory.reminders",
+      "source": "skills\\memory\\reminders.py",
+      "implementation": "cancel_reminder",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 450,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__cancel_reminder"
+      },
+      "schema": {
+        "purpose": "Cancel one persisted reminder by its numeric ID.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Reminder ID returned by the reminder list or creation flow."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "expected_result": "Confirmation only after the reminder was updated, or an honest failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\memory_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "cancel_schedule",
+      "module": "skills.automation.scheduling",
+      "source": "skills\\automation\\scheduling.py",
+      "implementation": "cancel_schedule",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "scheduling",
+      "registration_line": 237,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_scheduling_upgrade.py"
+      ],
+      "router_references": [
+        "core\\routers\\schedule_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "cancel_scheduled_whatsapp",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "cancel_scheduled_whatsapp",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "communication",
+      "registration_line": 1048,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "capture",
+      "module": "skills.camera.camera",
+      "source": "skills\\camera\\camera.py",
+      "implementation": "capture",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 102,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__capture"
+      },
+      "schema": {
+        "purpose": "Take a real photograph with the configured camera/photo-capture capability. Never substitute a desktop screenshot.",
+        "properties": {},
+        "expected_result": "A real camera capture result, or an honest report that the camera is unavailable."
+      },
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_LIVE_RUNTIME",
+      "runtime_evidence": "Owner-reported normal Windows CMD run: photo saved as JPG.",
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "chatgpt_search",
+      "module": "skills.communication.chatgpt",
+      "source": "skills\\communication\\chatgpt.py",
+      "implementation": "ai_chatgpt",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 26,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "runtime_evidence": null,
+      "unit_evidence": "test_action_edges.ActionEdgeTests.test_chatgpt_search_delegates_to_navigation",
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "clarify",
+      "module": "skills.ai.clarify",
+      "source": "skills\\ai\\clarify.py",
+      "implementation": "ai_clarify",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 49,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "brain\\tests\\test_clarification_flow.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "runtime_evidence": null,
+      "unit_evidence": "test_action_edges.ActionEdgeTests.test_clarify_starts_coordinator_and_speaks_question",
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "clear_notes",
+      "module": "skills.memory.notes",
+      "source": "skills\\memory\\notes.py",
+      "implementation": "clear_notes",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 213,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\memory_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "clipboard",
+      "module": "skills.screen.clipboard",
+      "source": "skills\\screen\\clipboard.py",
+      "implementation": "clipboard",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 198,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\media_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "close",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.close()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 11,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_conversation_gap_fixes.py",
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\browser_router.py",
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "close_process",
+      "module": "skills.system.process",
+      "source": "skills\\system\\process.py",
+      "implementation": "process_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 260,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "close_tab",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.close_tab()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 5,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "copy",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 527,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_personal_website_list.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "create_file",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 517,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "create_folder",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 522,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "create_image",
+      "module": "skills.media.image_generation",
+      "source": "skills\\media\\image_generation.py",
+      "implementation": "create_image",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 318,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\media_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "create_note",
+      "module": "skills.memory.notes",
+      "source": "skills\\memory\\notes.py",
+      "implementation": "create_note",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 203,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__create_note"
+      },
+      "schema": {
+        "purpose": "Save a personal note using the existing notes skill.",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The note text to save."
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "expected_result": "A reported save result or failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\memory_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "create_reminder",
+      "module": "skills.memory.reminders",
+      "source": "skills\\memory\\reminders.py",
+      "implementation": "create_reminder",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 440,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__create_reminder"
+      },
+      "schema": {
+        "purpose": "Create and persist a personal reminder in the existing reminder scheduler.",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "What to remind the user about."
+          },
+          "remind_at": {
+            "type": "string",
+            "description": "A future ISO-8601 local date/time or a relative phrase such as 'in 30 seconds'."
+          }
+        },
+        "required": [
+          "text",
+          "remind_at"
+        ],
+        "expected_result": "Confirmation only after the reminder is persisted, or an honest failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_reminder_regressions.py"
+      ],
+      "router_references": [
+        "core\\routers\\memory_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_LIVE_RUNTIME",
+      "runtime_evidence": "Owner-reported normal Windows CMD run: reminder persisted, triggered, spoke, and showed a Windows toast.",
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "create_schedule",
+      "module": "skills.automation.scheduling",
+      "source": "skills\\automation\\scheduling.py",
+      "implementation": "create_schedule",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "scheduling",
+      "registration_line": 235,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_schedule_router_natural.py",
+        "tests\\test_scheduling_upgrade.py"
+      ],
+      "router_references": [
+        "core\\routers\\schedule_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "delete",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 542,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_dashboard_private_network.py",
+        "tests\\test_face_vision.py",
+        "tests\\test_remote_event_sync.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "delete_face",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "delete_face",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 606,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_face_vision.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "end_call",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "end_call",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 360,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\phone_call_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "extract",
+      "module": "skills.files.zip_manager",
+      "source": "skills\\files\\zip_manager.py",
+      "implementation": "zip_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 48,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_astra_routing.py",
+        "tests\\test_file_intelligence.py",
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_info",
+      "module": "skills.files.file_info",
+      "source": "skills\\files\\file_info.py",
+      "implementation": "info",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 104,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__file_info"
+      },
+      "schema": {
+        "purpose": "Report metadata and whether an existing local path is a file or folder.",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Existing file or folder path, or a JARVIS-resolvable path reference."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "expected_result": "A reported file-information result or failure; never assume a missing path exists."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "forget_contact",
+      "module": "skills.communication.contact",
+      "source": "skills\\communication\\contact.py",
+      "implementation": "forget_contact",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 94,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\contact_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "forget_email_contact",
+      "module": "skills.communication.email",
+      "source": "skills\\communication\\email.py",
+      "implementation": "forget_email_contact",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 428,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\email_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "forward",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.forward()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 6,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "get_news",
+      "module": "skills.news.news",
+      "source": "skills\\news\\news.py",
+      "implementation": "get_news",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 47,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__get_news"
+      },
+      "schema": {
+        "purpose": "Retrieve the latest news through the existing news skill.",
+        "properties": {},
+        "expected_result": "Current headlines returned by the configured news source, or a reported failure."
+      },
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_live_capability_inventory.py"
+      ],
+      "router_references": [
+        "core\\routers\\news_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "github_search",
+      "module": "skills.communication.github",
+      "source": "skills\\communication\\github.py",
+      "implementation": "ai_github",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 29,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__github_search"
+      },
+      "schema": {
+        "purpose": "Search GitHub using the existing browser search skill.",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Repository or code search terms."
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "expected_result": "Actual search results or a reported failure."
+      },
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "goodbye",
+      "module": "skills.assistant.greetings",
+      "source": "skills\\assistant\\greetings.py",
+      "implementation": "goodbye",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 363,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\greeting_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "google_search",
+      "module": "skills.browser.browser_ai",
+      "source": "skills\\browser\\browser_ai.py",
+      "implementation": "ai_google",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 187,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__google_search"
+      },
+      "schema": {
+        "purpose": "Search the web using the existing Google browser search skill.",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Topic or search terms."
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "expected_result": "Actual search results or a reported failure."
+      },
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_browser_followup_references.py",
+        "tests\\test_conversation_gap_fixes.py",
+        "tests\\test_live_agent.py",
+        "brain\\tests\\test_clarification_flow.py"
+      ],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "greet",
+      "module": "skills.assistant.greetings",
+      "source": "skills\\assistant\\greetings.py",
+      "implementation": "greet",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 359,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_astra_routing.py",
+        "tests\\test_offline_mode.py",
+        "tests\\test_startup_brief.py",
+        "brain\\tests\\test_clarification_flow.py"
+      ],
+      "router_references": [
+        "core\\routers\\greeting_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "home_automation",
+      "module": "skills.automation.home_automation",
+      "source": "skills\\automation\\home_automation.py",
+      "implementation": "home_automation",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "automation",
+      "registration_line": 243,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\automation_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "how_are_you",
+      "module": "skills.assistant.greetings",
+      "source": "skills\\assistant\\greetings.py",
+      "implementation": "how_are_you",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 360,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\greeting_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "list_notes",
+      "module": "skills.memory.notes",
+      "source": "skills\\memory\\notes.py",
+      "implementation": "list_notes",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 208,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\memory_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "list_reminders",
+      "module": "skills.memory.reminders",
+      "source": "skills\\memory\\reminders.py",
+      "implementation": "list_reminders",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 445,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__list_reminders"
+      },
+      "schema": {
+        "purpose": "List active reminders from the existing reminder store.",
+        "properties": {},
+        "expected_result": "The actual active reminders or an empty-list response."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\memory_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "list_scheduled_whatsapp",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "list_scheduled_whatsapp",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "communication",
+      "registration_line": 1042,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "list_schedules",
+      "module": "skills.automation.scheduling",
+      "source": "skills\\automation\\scheduling.py",
+      "implementation": "list_schedules",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "scheduling",
+      "registration_line": 236,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_scheduling_upgrade.py"
+      ],
+      "router_references": [
+        "core\\routers\\schedule_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "lock",
+      "module": "skills.system.system",
+      "source": "skills\\system\\system.py",
+      "implementation": "system_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 320,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_face_vision.py",
+        "tests\\test_offline_mode.py",
+        "tests\\test_reminder_regressions.py",
+        "tests\\test_remote_event_sync.py"
+      ],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "make_payment",
+      "module": "skills.payments.payments",
+      "source": "skills\\payments\\payments.py",
+      "implementation": "make_payment",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "payments",
+      "registration_line": 63,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [
+        "tests\\test_android_payment_routing.py"
+      ],
+      "router_references": [
+        "core\\routers\\payment_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "maps_directions",
+      "module": "skills.navigation.maps",
+      "source": "skills\\navigation\\maps.py",
+      "implementation": "maps_directions",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 153,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "maps_open",
+      "module": "skills.navigation.maps",
+      "source": "skills\\navigation\\maps.py",
+      "implementation": "maps_open",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 148,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "missed_calls",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "missed_calls",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 362,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\phone_call_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "move",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 532,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_face_vision.py",
+        "tests\\test_phone_call.py",
+        "tests\\test_speech_text.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "new_tab",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.new_tab()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 4,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "open",
+      "module": "skills.browser.browser_ai",
+      "source": "skills\\browser\\browser_ai.py",
+      "implementation": "ai_open",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 185,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_ai_provider_selection.py",
+        "tests\\test_android_hud_connection.py",
+        "tests\\test_android_payment_routing.py",
+        "tests\\test_astra_routing.py",
+        "tests\\test_browser_followup_references.py",
+        "tests\\test_configuration.py",
+        "tests\\test_conversation_gap_fixes.py",
+        "tests\\test_face_vision.py",
+        "tests\\test_file_intelligence.py",
+        "tests\\test_grok_provider.py",
+        "tests\\test_live_agent.py",
+        "tests\\test_offline_mode.py",
+        "tests\\test_openai_provider.py",
+        "tests\\test_personal_website_list.py",
+        "tests\\test_remote_event_sync.py",
+        "tests\\test_response_strategy.py",
+        "tests\\test_schedule_router_natural.py",
+        "tests\\test_scheduling_upgrade.py",
+        "tests\\test_startup_brief.py",
+        "tests\\test_workspace_center.py",
+        "brain\\tests\\test_clarification_flow.py",
+        "brain\\tests\\test_intent_engine.py"
+      ],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "open_file",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 507,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__open_file"
+      },
+      "schema": {
+        "purpose": "Open an existing local file through JARVIS file handling.",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Existing file path or JARVIS-resolvable file reference."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "inject_action": true,
+        "expected_result": "A reported open result or failure; never assume a missing file opened."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py",
+        "core\\routers\\file_selection_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "open_folder",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 512,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__open_folder"
+      },
+      "schema": {
+        "purpose": "Open an existing local folder through JARVIS file handling.",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Existing folder path or JARVIS-resolvable folder reference."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "inject_action": true,
+        "expected_result": "A reported open result or failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_file_intelligence.py",
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "open_personal_link",
+      "module": "skills.web.personal_links",
+      "source": "skills\\web\\personal_links.py",
+      "implementation": "personal_link_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 26,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_personal_website_list.py"
+      ],
+      "router_references": [
+        "core\\routers\\web_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "phone_call_confirmed",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "phone_call_confirmed",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 357,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "runtime_evidence": null,
+      "unit_evidence": "test_action_edges.ActionEdgeTests.test_phone_confirmation_rejects_invalid_number_without_calling",
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "phone_call_contact",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "phone_call_contact",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 356,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\phone_call_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "phone_call_number",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "phone_call_number",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 355,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\phone_call_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "play",
+      "module": "skills.media.media",
+      "source": "skills\\media\\media.py",
+      "implementation": "ai_play",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 30,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_astra_routing.py",
+        "tests\\test_main_lifecycle.py",
+        "tests\\test_phone_call.py",
+        "tests\\test_speech_text.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "runtime_evidence": null,
+      "unit_evidence": "test_action_edges.ActionEdgeTests.test_play_delegates_first_result_without_external_side_effect",
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "recent_files",
+      "module": "skills.files.recent",
+      "source": "skills\\files\\recent.py",
+      "implementation": "recent",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 36,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "recycle",
+      "module": "skills.files.recycle",
+      "source": "skills\\files\\recycle.py",
+      "implementation": "recycle",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 16,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "refresh",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.refresh()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 10,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "register_face",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "register_face",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 594,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_face_vision.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "reject_call",
+      "module": "skills.phone_call.phone_call",
+      "source": "skills\\phone_call\\phone_call.py",
+      "implementation": "reject_call",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "phone_calls",
+      "registration_line": 359,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_phone_call.py"
+      ],
+      "router_references": [
+        "core\\routers\\phone_call_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "remember_contact",
+      "module": "skills.communication.contact",
+      "source": "skills\\communication\\contact.py",
+      "implementation": "remember_contact",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 89,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\contact_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "remember_email_contact",
+      "module": "skills.communication.email",
+      "source": "skills\\communication\\email.py",
+      "implementation": "remember_email_contact",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 423,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\email_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "rename",
+      "module": "skills.files.files",
+      "source": "skills\\files\\files.py",
+      "implementation": "file_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 537,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_dashboard_private_network.py",
+        "tests\\test_remote_event_sync.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "reschedule_scheduled_whatsapp",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "reschedule_scheduled_whatsapp",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "communication",
+      "registration_line": 1054,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "restart",
+      "module": "skills.system.system",
+      "source": "skills\\system\\system.py",
+      "implementation": "system_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 310,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_reminder_regressions.py"
+      ],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "running_apps",
+      "module": "skills.system.process",
+      "source": "skills\\system\\process.py",
+      "implementation": "process_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 255,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "runtime_evidence": null,
+      "unit_evidence": "test_action_edges.ActionEdgeTests.test_running_apps_reports_processes_without_termination",
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "schedule_whatsapp_message",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "schedule_whatsapp_message",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "communication",
+      "registration_line": 1036,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "screen_vision_analyze",
+      "module": "skills.screen.screen_vision_skill",
+      "source": "skills\\screen\\screen_vision_skill.py",
+      "implementation": "screen_vision_analyze",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "screen",
+      "registration_line": 259,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__screen_vision_analyze"
+      },
+      "schema": {
+        "purpose": "Capture and analyze the current desktop through the active Gemini Live session.",
+        "properties": {},
+        "expected_result": "The actual screen analysis returned by Gemini Live, or a reported capture/analysis failure."
+      },
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_live_capability_inventory.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": {
+        "root_cause": "Live screen analysis uses scheduled asynchronous work whose failure outcome was not propagated.",
+        "repair": "Live tool execution now inspects delayed task outcomes before claiming success."
+      },
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "screenshot",
+      "module": "skills.screen.screenshot",
+      "source": "skills\\screen\\screenshot.py",
+      "implementation": "screenshot",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 75,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__screenshot"
+      },
+      "schema": {
+        "purpose": "Capture the desktop screen only using the existing screenshot skill. This is not a camera photograph and must not be used for photo or camera requests.",
+        "properties": {},
+        "expected_result": "A reported capture result; the returned boolean does not expose the file contents."
+      },
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_LIVE_RUNTIME",
+      "runtime_evidence": "Owner-reported normal Windows CMD run: screenshot saved as PNG.",
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "screenshot_ai",
+      "module": "skills.screen.screenshot_ai",
+      "source": "skills\\screen\\screenshot_ai.py",
+      "implementation": "screenshot_ai",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 151,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\media_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "scroll_down",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.scroll_down()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 8,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "scroll_up",
+      "module": "skills.browser_control.browser_controls",
+      "source": "skills\\browser_control\\browser_controls.py",
+      "implementation": "lambda data: browser.scroll_up()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 9,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "search_file",
+      "module": "skills.utilities.search",
+      "source": "skills\\utilities\\search.py",
+      "implementation": "search_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 113,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_file_intelligence.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "send_email",
+      "module": "skills.communication.email",
+      "source": "skills\\communication\\email.py",
+      "implementation": "send_email",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 418,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\email_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "show_contacts",
+      "module": "skills.communication.contact",
+      "source": "skills\\communication\\contact.py",
+      "implementation": "show_contacts",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 99,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\contact_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "show_email_contacts",
+      "module": "skills.communication.email",
+      "source": "skills\\communication\\email.py",
+      "implementation": "show_email_contacts",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 433,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\email_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "show_personal_links",
+      "module": "skills.web.personal_links",
+      "source": "skills\\web\\personal_links.py",
+      "implementation": "lambda data=None: show_personal_links()",
+      "implementation_defined": true,
+      "parameters": [],
+      "category": null,
+      "registration_line": 32,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_personal_website_list.py"
+      ],
+      "router_references": [
+        "core\\routers\\web_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "shutdown",
+      "module": "skills.system.system",
+      "source": "skills\\system\\system.py",
+      "implementation": "system_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 305,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_main_lifecycle.py",
+        "tests\\test_startup_brief.py",
+        "brain\\tests\\test_clarification_flow.py"
+      ],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "sleep",
+      "module": "skills.system.system",
+      "source": "skills\\system\\system.py",
+      "implementation": "system_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 315,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_face_vision.py"
+      ],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_close",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_close",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 139,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_next",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_next",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 142,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_open",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_open",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 138,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [
+        "tests\\test_android_payment_routing.py"
+      ],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_pause",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_pause",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 141,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_play",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_play",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 140,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_play_song",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_play_song",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 146,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_previous",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_previous",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 143,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_volume_down",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_volume_down",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 145,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "spotify_volume_up",
+      "module": "skills.media.spotify",
+      "source": "skills\\media\\spotify.py",
+      "implementation": "spotify_volume_up",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 144,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_or_consequential_integration",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\spotify_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "start_recording",
+      "module": "skills.camera.camera",
+      "source": "skills\\camera\\camera.py",
+      "implementation": "start_recording",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 117,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "stop_recording",
+      "module": "skills.camera.camera",
+      "source": "skills\\camera\\camera.py",
+      "implementation": "stop_recording",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 122,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "taskmanager",
+      "module": "skills.system.taskmanager",
+      "source": "skills\\system\\taskmanager.py",
+      "implementation": "taskmanager",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 98,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__taskmanager"
+      },
+      "schema": {
+        "purpose": "Report current CPU, memory, and disk usage.",
+        "properties": {},
+        "expected_result": "A real system-usage response or a reported failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "terminate_jarvis",
+      "module": "skills.system.system",
+      "source": "skills\\system\\system.py",
+      "implementation": "system_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 300,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "time",
+      "module": "skills.utilities.time_skill",
+      "source": "skills\\utilities\\time_skill.py",
+      "implementation": "current_time",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 16,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__time"
+      },
+      "schema": {
+        "purpose": "Report the current local time.",
+        "properties": {},
+        "expected_result": "A real current-time response."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_astra_routing.py",
+        "tests\\test_conversation_gap_fixes.py",
+        "tests\\test_dashboard_private_network.py",
+        "tests\\test_face_vision.py",
+        "tests\\test_file_intelligence.py",
+        "tests\\test_gemini_models.py",
+        "tests\\test_gemini_response_contract.py",
+        "tests\\test_hud_notifications_upgrade.py",
+        "tests\\test_live_agent.py",
+        "tests\\test_main_lifecycle.py",
+        "tests\\test_openai_provider.py",
+        "tests\\test_phone_call.py",
+        "tests\\test_reminder_regressions.py",
+        "tests\\test_remote_event_sync.py",
+        "tests\\test_schedule_router_natural.py",
+        "tests\\test_scheduling_upgrade.py",
+        "tests\\test_startup_brief.py"
+      ],
+      "router_references": [
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "translate_open",
+      "module": "skills.navigation.translate",
+      "source": "skills\\navigation\\translate.py",
+      "implementation": "translate_open",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 189,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "translate_text",
+      "module": "skills.navigation.translate",
+      "source": "skills\\navigation\\translate.py",
+      "implementation": "translate_text",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 194,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_check",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_check",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 570,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_count",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_count",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 564,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_describe",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_describe",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 558,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_locate",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_locate",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 582,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_position",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_position",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 576,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_start",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_start",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 546,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_face_vision.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_stop",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_stop",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 552,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_face_vision.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "vision_target",
+      "module": "skills.camera.vision_skill",
+      "source": "skills\\camera\\vision_skill.py",
+      "implementation": "vision_target",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "camera",
+      "registration_line": 588,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "hardware_or_visual_runtime",
+      "test_references": [
+        "tests\\test_conversation_gap_fixes.py",
+        "tests\\test_followup_fast_route_precedence.py"
+      ],
+      "router_references": [
+        "core\\routers\\vision_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "volume",
+      "module": "skills.system.volume",
+      "source": "skills\\system\\volume.py",
+      "implementation": "volume_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 327,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__volume"
+      },
+      "schema": {
+        "purpose": "Read or control Windows master volume.",
+        "properties": {
+          "direction": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down",
+              "mute",
+              "unmute",
+              "status"
+            ],
+            "description": "Relative volume operation or status query."
+          },
+          "percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Exact volume percentage."
+          }
+        },
+        "expected_result": "A reported volume operation result or failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\media_router.py",
+        "core\\routers\\system_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "weather",
+      "module": "skills.network.weather",
+      "source": "skills\\network\\weather.py",
+      "implementation": "weather",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1139,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__weather"
+      },
+      "schema": {
+        "purpose": "Retrieve current weather through the existing weather skill.",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "Optional city or place; omit for the configured current location."
+          }
+        },
+        "expected_result": "Real current weather data or a reported failure."
+      },
+      "dependency_class": "external_service_or_network",
+      "test_references": [
+        "tests\\test_live_capability_inventory.py",
+        "tests\\test_startup_brief.py",
+        "tests\\test_weather_async.py"
+      ],
+      "router_references": [
+        "core\\routers\\weather_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": {
+        "root_cause": "Live weather work was scheduled asynchronously and task outcomes were previously discarded.",
+        "repair": "drain_live_tasks now returns outcomes and voice.agent reports delayed failures honestly."
+      },
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "welcome",
+      "module": "skills.assistant.greetings",
+      "source": "skills\\assistant\\greetings.py",
+      "implementation": "welcome",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 362,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\greeting_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_call",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_call",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "communication",
+      "registration_line": 1060,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_close",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_close",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1007,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_open",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_open",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1006,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_send_file",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_send_file",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1021,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_send_latest_photo",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_send_latest_photo",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1011,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_send_latest_screenshot",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_send_latest_screenshot",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1016,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_send_message",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_send_message",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1008,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_send_selected_file",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_send_selected_file",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1026,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\file_selection_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_video_call",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_video_call",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "communication",
+      "registration_line": 1066,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_wait_contact",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_wait_contact",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1031,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "runtime_evidence": null,
+      "unit_evidence": "test_action_edges.ActionEdgeTests.test_whatsapp_wait_contact_only_enters_prompt_state",
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "whatsapp_wait_message",
+      "module": "skills.communication.whatsapp",
+      "source": "skills\\communication\\whatsapp.py",
+      "implementation": "whatsapp_wait_message",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 1009,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\whatsapp_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "wifi_list",
+      "module": "skills.network.wifi",
+      "source": "skills\\network\\wifi.py",
+      "implementation": "wifi_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 274,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\network_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "wifi_off",
+      "module": "skills.network.wifi",
+      "source": "skills\\network\\wifi.py",
+      "implementation": "wifi_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 264,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__wifi_off"
+      },
+      "schema": {
+        "purpose": "Disable the Windows Wi-Fi interface.",
+        "properties": {},
+        "inject_action": true,
+        "expected_result": "A real disable result or failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\network_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "wifi_on",
+      "module": "skills.network.wifi",
+      "source": "skills\\network\\wifi.py",
+      "implementation": "wifi_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 259,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__wifi_on"
+      },
+      "schema": {
+        "purpose": "Enable the Windows Wi-Fi interface.",
+        "properties": {},
+        "inject_action": true,
+        "expected_result": "A real enable result or failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\network_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "wifi_status",
+      "module": "skills.network.wifi",
+      "source": "skills\\network\\wifi.py",
+      "implementation": "wifi_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 269,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__wifi_status"
+      },
+      "schema": {
+        "purpose": "Report the Windows Wi-Fi connection state.",
+        "properties": {},
+        "inject_action": true,
+        "expected_result": "A real Wi-Fi status response or failure."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [
+        "core\\routers\\network_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "youtube_next",
+      "module": "skills.browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "implementation": "youtube_next",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 465,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "youtube_pause",
+      "module": "skills.browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "implementation": "youtube_pause",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 461,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "youtube_play_first",
+      "module": "skills.browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "implementation": "youtube_play_first",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 459,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "youtube_play_result",
+      "module": "skills.browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "implementation": "youtube_play_result",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 469,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "runtime_evidence": null,
+      "unit_evidence": "test_action_edges.ActionEdgeTests.test_youtube_result_rejects_missing_video_id",
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "youtube_previous",
+      "module": "skills.browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "implementation": "youtube_previous",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 467,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "youtube_resume",
+      "module": "skills.browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "implementation": "youtube_resume",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 463,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "youtube_search",
+      "module": "skills.browser.youtube",
+      "source": "skills\\browser\\youtube.py",
+      "implementation": "ai_youtube",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 457,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__youtube_search"
+      },
+      "schema": {
+        "purpose": "Search YouTube using the existing browser search skill.",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Video or channel search terms."
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "expected_result": "Actual search results or a reported failure."
+      },
+      "dependency_class": "external_service_or_network",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\browser_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "zip",
+      "module": "skills.files.zip_manager",
+      "source": "skills\\files\\zip_manager.py",
+      "implementation": "zip_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 47,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_STATIC",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "confirmed_finding": null,
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    }
+  ]
+}

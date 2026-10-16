@@ -17,8 +17,8 @@ from brain.developer.editor.prompt_builder import (
     PromptBuilder,
 )
 
-from brain.developer.editor.provider.ollama_provider import (
-    OllamaProvider,
+from brain.developer.editor.provider.gemini_provider import (
+    GeminiProvider,
 )
 
 from brain.developer.editor.parser import (
@@ -69,7 +69,7 @@ class Editor:
 
         self.prompt_builder = PromptBuilder()
 
-        self.provider = OllamaProvider()
+        self.provider = GeminiProvider()
 
         self.parser = ResponseParser()
 

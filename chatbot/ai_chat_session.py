@@ -162,7 +162,7 @@ class ChatSessionRecord:
 
     provider: str = "gemini"
 
-    model: str = "gemini-3.6-flash"
+    model: str = "gemini-3.5-flash-lite"
 
 
 # * =============================================================
@@ -188,7 +188,7 @@ class AIChatSessionManager:
         self,
         title: str = "New Chat",
         provider: str = "gemini",
-        model: str = "gemini-3.6-flash",
+        model: str = "gemini-3.5-flash-lite",
     ) -> ChatSessionRecord:
 
         session = ChatSessionRecord(
@@ -466,7 +466,7 @@ class AIChatSessionManager:
             ),
             model=raw.get(
                 "model",
-                "gemini-3.6-flash",
+                "gemini-3.5-flash-lite",
             ),
         )
 

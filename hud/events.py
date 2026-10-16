@@ -51,6 +51,8 @@ HUD_THINKING = "thinking"
 
 HUD_SPEAKING = "speaking"
 
+HUD_VOICE_ACTIVITY = "voice_activity"
+
 HUD_EXECUTING = "executing"
 
 HUD_TASK_STARTED = "task_started"

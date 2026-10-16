@@ -24,8 +24,6 @@ from ai.core.schemas import (
     AIStreamChunk,
 )
 
-from ai.providers.ollama import OllamaProvider
-
 from ai.providers.gemini import GeminiProvider
 
 from ai.providers.openai import OpenAIProvider
@@ -74,16 +72,6 @@ class AIService:
     # * ======================================================
 
     def _register_default_providers(self):
-
-        # * --------------------------------------------------
-        # * Ollama
-        # * --------------------------------------------------
-
-        if self.router.get_provider("ollama") is None:
-
-            self.router.register_provider(
-                OllamaProvider()
-            )
 
         # * --------------------------------------------------
         # * Gemini
@@ -138,8 +126,17 @@ class AIService:
         # Secondary provider calls from legacy AI-dependent skills would
         # violate that contract, so fail explicitly and let the Live model
         # explain the unavailable capability instead of silently falling back.
-        from core.live_execution import is_live_execution
-        if is_live_execution():
+        from core.live_execution import (
+            is_live_developer_generation_allowed,
+            is_live_execution,
+        )
+        live_developer_generation = (
+            is_live_execution()
+            and capability in {"coding", "editing"}
+            and bool((metadata or {}).get("developer_generation"))
+            and is_live_developer_generation_allowed()
+        )
+        if is_live_execution() and not live_developer_generation:
             return AIResponse(
                 success=False,
                 error="Secondary AI calls are disabled during Gemini Live execution.",
@@ -228,8 +225,17 @@ class AIService:
         Stream an AI response.
         """
 
-        from core.live_execution import is_live_execution
-        if is_live_execution():
+        from core.live_execution import (
+            is_live_developer_generation_allowed,
+            is_live_execution,
+        )
+        live_developer_generation = (
+            is_live_execution()
+            and capability in {"coding", "editing"}
+            and bool((metadata or {}).get("developer_generation"))
+            and is_live_developer_generation_allowed()
+        )
+        if is_live_execution() and not live_developer_generation:
             def blocked_stream():
                 yield AIStreamChunk(
                     provider="gemini-live",
@@ -326,7 +332,6 @@ class AIService:
         Examples:
             use Gemini
             use GPT
-            use Ollama
             use Qwen
             auto mode
         """

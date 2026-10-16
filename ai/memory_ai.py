@@ -14,7 +14,6 @@ Responsibilities
 
 import json
 
-# * from ai.ollama import ask_ollama
 
 from ai.core.service import ai_service
 

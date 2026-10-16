@@ -215,7 +215,7 @@ def request_jarvis_shutdown():
         print(f"[MAIN] Listener shutdown error: {error}")
 
     # Stop the primary Gemini Live Agent explicitly.  A Live connection error
-    # is surfaced by the Agent; it is never replaced by an offline AI runtime.
+    # is surfaced by the Agent; it is never replaced by a hidden fallback runtime.
     try:
         from voice.agent import stop_agent
         stop_agent()

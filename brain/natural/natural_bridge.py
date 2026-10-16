@@ -16,7 +16,7 @@ It does NOT:
     - execute actions
     - call Fast Router
     - call Dispatcher
-    - call Ollama
+    - use an approved secondary model
     - modify memory
     - modify conversation state
 """

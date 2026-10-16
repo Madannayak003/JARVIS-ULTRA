@@ -1,5 +1,4 @@
 import threading
-import os
 import requests
 import re
 from core.diagnostics import debug_print
@@ -15,7 +14,6 @@ from voice.online_edge import (
     play_audio,
 )
 
-from voice.offline_piper import speak_offline
 
 from voice.state import (
     create_session,
@@ -172,12 +170,6 @@ def check_internet():
 
     global ONLINE
 
-    # * main.py sets this before loading shared skills in Offline Mode. Keep
-    # * local skill speech on Piper and avoid an import-time network probe.
-    if os.getenv("JARVIS_OFFLINE_MODE") == "1":
-        ONLINE = False
-        return
-
     try:
 
         requests.get(
@@ -192,8 +184,7 @@ def check_internet():
         ONLINE = False
 
 
-if os.getenv("JARVIS_OFFLINE_MODE") != "1":
-    check_internet()
+check_internet()
 
 
 # * =========================================================
@@ -271,22 +262,6 @@ def _worker(text, session):
             )
 
     # * -----------------------------------------------------
-    # * Offline Piper
-    # * -----------------------------------------------------
-
-    if not success and not is_cancelled(session):
-
-        try:
-
-            success = speak_offline(text)
-
-        except Exception as e:
-
-            print(
-                "[VOICE] Offline TTS failed:",
-                e
-            )
-
     # * -----------------------------------------------------
     # * HUD — Speech finished
     # * -----------------------------------------------------
@@ -357,12 +332,6 @@ def prepare_speech(
             return None
 
     # * -----------------------------------------------------
-    # * Offline mode
-    #
-    # * Returning None tells the pipeline to use the
-    # * normal synchronous fallback.
-    # * -----------------------------------------------------
-
     return None
 
 
@@ -454,7 +423,7 @@ def speak(
     # * AGENT SPEECH GATE
     #
     # * Gemini Live is already the active speaker.
-    # * Prevent normal Edge/Piper TTS from speaking at the
+    # * Prevent normal Edge TTS from speaking at the
     # * same time when a skill executes through Live mode.
     # * -----------------------------------------------------
 

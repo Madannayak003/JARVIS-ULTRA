@@ -50,6 +50,18 @@ CAMERA_COMMANDS = {
         "action": "capture"
     },
 
+    "take photo with my camera": {
+        "action": "capture"
+    },
+
+    "take a photo with my camera": {
+        "action": "capture"
+    },
+
+    "capture a photo with my camera": {
+        "action": "capture"
+    },
+
     # * -----------------------------------------------------
     # * Camera Preview
     # * -----------------------------------------------------

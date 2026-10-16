@@ -451,7 +451,7 @@ class TTSPipeline:
                 )
 
                 # * -------------------------------------------------
-                # * Offline / fallback
+                # * Synchronous fallback
                 # * -------------------------------------------------
 
                 if audio_file is None:
@@ -671,7 +671,7 @@ class TTSPipeline:
                         )
 
                     # * -------------------------------------------------
-                    # * Offline / fallback
+                    # * Synchronous fallback
                     # * -------------------------------------------------
 
                     else:
@@ -745,7 +745,7 @@ class TTSPipeline:
         )
 
     # * =====================================================
-    # * Offline / Fallback
+    # * Synchronous fallback
     # * =====================================================
 
     def _play_fallback(

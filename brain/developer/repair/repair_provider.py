@@ -6,6 +6,7 @@ Repair Provider
 """
 
 from ai.core.service import ai_service
+from core.live_execution import live_developer_generation
 
 from brain.developer.prompt_builder.models.prompt_result import (
     PromptResult,
@@ -25,15 +26,18 @@ class RepairProvider:
         Send repair prompts through the central AIService.
         """
 
-        response = ai_service.generate(
+        with live_developer_generation():
+            response = ai_service.generate(
 
-            prompt=prompt.user_prompt,
+                prompt=prompt.user_prompt,
 
-            system_prompt=prompt.system_prompt,
+                system_prompt=prompt.system_prompt,
 
-            capability="coding",
+                capability="coding",
 
-        )
+                metadata={"developer_generation": True},
+
+            )
 
         if not response.success:
 

@@ -31,7 +31,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -42,7 +41,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -53,7 +51,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -64,7 +61,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -75,7 +71,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -86,7 +81,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -97,7 +91,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -108,7 +101,6 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
@@ -119,17 +111,9 @@ class AIModelPolicy:
             "gemini",
             "grok",
             "openai",
-            "ollama",
         ],
 
         # * --------------------------------------------------
-        # * Offline
-        # * --------------------------------------------------
-
-        "offline": [
-            "ollama",
-        ],
-        
         # * --------------------------------------------------
         # * Screen Vision
         # * --------------------------------------------------
@@ -162,6 +146,5 @@ class AIModelPolicy:
                 "gemini",
                 "grok",
                 "openai",
-                "ollama",
             ],
         )

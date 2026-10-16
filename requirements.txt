@@ -12,11 +12,9 @@ edge-tts>=6.1
 pygame>=2.5
 pyttsx3>=2.90
 
-# Offline voice mode
+# Shared local audio/camera support
 numpy>=1.26
 sounddevice>=0.4
-faster-whisper>=1.0
-piper-tts>=1.2
 
 # AI providers and Google integrations
 openai>=1.0

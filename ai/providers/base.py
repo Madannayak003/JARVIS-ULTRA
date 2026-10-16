@@ -3,7 +3,6 @@ JARVIS PRO
 AI Core - Base Provider
 
 Common interface implemented by:
-- OllamaProvider
 - GeminiProvider
 - OpenAIProvider
 - GrokProvider
@@ -35,7 +34,7 @@ class AIProvider(ABC):
         Return provider name.
 
         Example:
-            ollama
+            gemini
             gemini
             openai
             grok

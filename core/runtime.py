@@ -37,7 +37,7 @@ def handle_priority(command):
 
     if command in INTERRUPTS or command in assistant_interrupts:
 
-        interrupt()
+        interrupt(source="voice_command")
 
         return True
 

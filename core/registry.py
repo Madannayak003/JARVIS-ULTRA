@@ -15,7 +15,6 @@ Responsibilities:
 - Preserve compatibility with existing skills
 """
 
-from core.fallback import fallback
 from core.diagnostics import debug_print
 
 from core.skill_categories import (
@@ -241,8 +240,8 @@ def execute(action, data=None):
     )
 
     debug_print(
-        "Available actions:",
-        sorted(SKILLS.keys()),
+        "Available action count:",
+        len(SKILLS),
     )
 
     handler = get_handler(action)
@@ -281,6 +280,11 @@ def execute(action, data=None):
     )
 
     try:
+
+        # Keep registry/skill loading independent from optional conversational
+        # provider initialization. The fallback is only needed for an unknown
+        # legacy action, never for registering or executing a known skill.
+        from core.fallback import fallback
 
         result = fallback(action)
 

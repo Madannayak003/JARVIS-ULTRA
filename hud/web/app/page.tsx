@@ -154,6 +154,16 @@ function hudStatesEqual(left: HUDState, right: HUDState): boolean {
   );
 }
 
+type HUDActivityState = "idle" | "listening" | "thinking" | "speaking" | "executing";
+
+function resolveHUDActivityState(state: HUDState): HUDActivityState {
+  if (state.status === "speaking" || state.speaking) return "speaking";
+  if (state.status === "executing" || state.executing) return "executing";
+  if (state.status === "thinking" || state.thinking) return "thinking";
+  if (state.status === "listening" || state.listening) return "listening";
+  return "idle";
+}
+
 type SettingsModal = "remote" | "android" | "customise" | "settings" | null;
 
 type ScheduleCenterTab = "reminders" | "whatsapp" | "schedules";
@@ -230,19 +240,13 @@ const LOCAL_DASHBOARD_URL =
     : "http://127.0.0.1:8765";
 
 const JARVIS_DASHBOARD_URL =
-  process.env.NEXT_PUBLIC_JARVIS_OFFLINE === "1"
-    ? LOCAL_DASHBOARD_URL
-    : process.env.NEXT_PUBLIC_JARVIS_DASHBOARD_URL || LOCAL_DASHBOARD_URL;
+  process.env.NEXT_PUBLIC_JARVIS_DASHBOARD_URL || LOCAL_DASHBOARD_URL;
 
 const HUD_BRIDGE_URL =
-  process.env.NEXT_PUBLIC_JARVIS_OFFLINE === "1"
-    ? (typeof window !== "undefined"
-        ? `http://${window.location.hostname}:8766`
-        : "http://127.0.0.1:8766")
-    : process.env.NEXT_PUBLIC_JARVIS_HUD_BRIDGE_URL ||
-      (typeof window !== "undefined"
-        ? `http://${window.location.hostname}:8766`
-        : "http://127.0.0.1:8766");
+  process.env.NEXT_PUBLIC_JARVIS_HUD_BRIDGE_URL ||
+  (typeof window !== "undefined"
+    ? `http://${window.location.hostname}:8766`
+    : "http://127.0.0.1:8766");
 
 const DEFAULT_ASSISTANT_NAME = "";
 
@@ -341,10 +345,6 @@ export default function Home() {
   >([]);
 
   const [morningBriefActive, setMorningBriefActive] = useState(false);
-  const [morningBriefStartedSpeaking, setMorningBriefStartedSpeaking] = useState(false);
-
-  const morningBriefActiveRef = useRef(false);
-  const morningBriefStartedSpeakingRef = useRef(false);
   const pendingHudCommandsRef = useRef<string[]>([]);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -947,33 +947,7 @@ export default function Home() {
      HUD SSE CONNECTION (STRICT DEDUPLICATION)
      ========================================================= */
   useEffect(() => {
-    let speakTimer: number | null = null;
     const consumedHudEventIds = new Set<string>();
-
-    const stopHudSpeaking = () => {
-      // * End the temporary morning-brief speaking lock.
-      // * The brief overlay can remain visible, but speech itself
-      // ! must no longer keep the HUD in SPEAKING state.
-      setMorningBriefStartedSpeaking(false);
-      morningBriefStartedSpeakingRef.current = false;
-
-      setHudState((prev) => ({
-        ...prev,
-        speaking: false,
-        status: prev.listening ? "listening" : "idle",
-      }));
-    };
-
-    const scheduleHudSpeakingStop = (delay: number) => {
-      if (speakTimer !== null) {
-        window.clearTimeout(speakTimer);
-      }
-
-      speakTimer = window.setTimeout(() => {
-        speakTimer = null;
-        stopHudSpeaking();
-      }, delay);
-  };
 
     const bridge = new HUDBridge(
       HUD_BRIDGE_URL,
@@ -991,9 +965,6 @@ export default function Home() {
           if (headlines.length > 0) {
             setMorningBriefHeadlines(headlines);
             setMorningBriefActive(true);
-            setMorningBriefStartedSpeaking(false);
-            morningBriefActiveRef.current = true;
-            morningBriefStartedSpeakingRef.current = false;
           }
           return;
         }
@@ -1008,32 +979,10 @@ export default function Home() {
           return;
         }
 
-        if (event.name === "speaking") {
-          if (morningBriefActiveRef.current) {
-          setMorningBriefStartedSpeaking(true);
-          morningBriefStartedSpeakingRef.current = true;
-
-          // * Morning Brief can contain several headlines and may
-          // * speak for much longer than the normal response window.
-          // ! Do NOT use the normal fixed speaking timer here.
-          setHudState((prev) => ({
-            ...prev,
-            speaking: true,
-            status: "speaking",
-          }));
-
+        if (event.name === "speaking" || event.name === "voice_activity") {
+          // The nested state snapshot delivered with this event is
+          // authoritative. Do not create a second timer-driven speaking state.
           return;
-        }
-
-        setHudState((prev) => ({
-          ...prev,
-          speaking: true,
-          status: "speaking",
-        }));
-
-        scheduleHudSpeakingStop(7000);
-
-        return;
         }
 
         if (
@@ -1108,19 +1057,6 @@ export default function Home() {
           consumedHudEventIds.add(eventId);
         }
 
-        if (event.name === "response" && speaker === "jarvis") {
-          setHudState((prev) => ({
-            ...prev,
-            speaking: true,
-            status: "speaking",
-          }));
-
-          // * Each new response chunk extends the speaking window.
-          // * The HUD returns to idle/listening only after speech
-          // * activity has stopped for the full delay.
-          scheduleHudSpeakingStop(4000);
-        }
-
         // * Strict global deduplication check
         setActivities((previous) => {
           const activity: HUDActivity = {
@@ -1149,10 +1085,6 @@ export default function Home() {
       }
       phoneCallExitTokenRef.current += 1;
 
-      if (speakTimer !== null) {
-        window.clearTimeout(speakTimer);
-        speakTimer = null;
-      }
     };
   }, [applyPhoneCallState, handleHUDState]);
 
@@ -1172,22 +1104,8 @@ export default function Home() {
      3D AVATAR STATE DISPATCHER (CONTINUOUS SPEECH LOCK)
      ========================================================= */
   useEffect(() => {
-    let state: "idle" | "listening" | "thinking" | "speaking" | "executing" = "idle";
-
-    const isSpeaking = 
-      hudState.speaking || 
-      morningBriefStartedSpeaking || 
-      hudState.status === "speaking";
-
-    if (isSpeaking) {
-      state = "speaking";
-    } else if (hudState.thinking || hudState.status === "thinking") {
-      state = "thinking";
-    } else if (hudState.executing) {
-      state = "executing";
-    } else if (hudState.listening || hudState.status === "listening") {
-      state = "listening";
-    }
+    const state = resolveHUDActivityState(hudState);
+    const isSpeaking = state === "speaking";
 
     window.dispatchEvent(
       new CustomEvent("jarvis-assistant-state", {
@@ -1195,12 +1113,7 @@ export default function Home() {
       })
     );
   }, [
-    hudState.speaking,
-    hudState.status,
-    hudState.thinking,
-    hudState.executing,
-    hudState.listening,
-    morningBriefStartedSpeaking,
+    hudState,
   ]);
 
   /* =========================================================
@@ -1292,7 +1205,7 @@ export default function Home() {
     let success = false;
     let lastError = "Command could not be processed by backend.";
 
-    const maxAttempts = process.env.NEXT_PUBLIC_JARVIS_OFFLINE === "1" ? 1 : 3;
+    const maxAttempts = 3;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       try {
@@ -1784,6 +1697,7 @@ export default function Home() {
   const workspacePreviewProject = workspaceProjects.find((project) => project.id === workspacePreviewProjectId) || null;
   const workspaceHtmlCount = workspaceProjects.filter((project) => project.type.toUpperCase() === "HTML").length;
   const workspaceRunningCount = workspaceProjects.filter((project) => project.preview_running).length;
+  const activityState = resolveHUDActivityState(hudState);
 
   return (
     <main
@@ -1820,9 +1734,6 @@ export default function Home() {
         onMorningBriefClose={() => {
           setMorningBriefActive(false);
           setMorningBriefHeadlines([]);
-          setMorningBriefStartedSpeaking(false);
-          morningBriefActiveRef.current = false;
-          morningBriefStartedSpeakingRef.current = false;
         }}
 
         onCommand={(command) => {
@@ -2240,13 +2151,7 @@ export default function Home() {
             SIRI FLUID WAVE REACTOR
             ===================================================== */}
         <div
-          className={`siri-container ${
-            hudState.listening &&
-            !hudState.speaking &&
-            hudState.status !== "speaking"
-              ? "is-listening"
-              : ""
-          }`}
+          className={`siri-container is-${activityState}`}
           aria-hidden="true"
         >
           <div className="siri-stage">
@@ -2343,35 +2248,22 @@ export default function Home() {
         {/* RUNTIME INDICATORS WITH BRACKETS & GLOW DOTS */}
         <div className="cockpit-bottom-indicators">
           <div
-            className={`voice-indicator ${
-              hudState.listening &&
-              !hudState.speaking &&
-              hudState.status !== "speaking" &&
-              !morningBriefStartedSpeaking
-                ? "active"
-                : ""
-            }`}
+            className={`voice-indicator ${activityState === "listening" ? "active" : ""}`}
           >
             <span className="indicator-dot" />
             <span className="indicator-label">[ LISTENING ]</span>
           </div>
-          <div className={`voice-indicator ${hudState.thinking ? "active" : ""}`}>
+          <div className={`voice-indicator ${activityState === "thinking" ? "active" : ""}`}>
             <span className="indicator-dot" />
             <span className="indicator-label">[ THINKING ]</span>
           </div>
           <div
-            className={`voice-indicator ${
-              hudState.speaking ||
-              hudState.status === "speaking" ||
-              morningBriefStartedSpeaking
-                ? "active"
-                : ""
-            }`}
+            className={`voice-indicator ${activityState === "speaking" ? "active" : ""}`}
           >
             <span className="indicator-dot" />
             <span className="indicator-label">[ SPEAKING ]</span>
           </div>
-          <div className={`voice-indicator ${hudState.executing ? "active" : ""}`}>
+          <div className={`voice-indicator ${activityState === "executing" ? "active" : ""}`}>
             <span className="indicator-dot" />
             <span className="indicator-label">[ EXECUTING ]</span>
           </div>

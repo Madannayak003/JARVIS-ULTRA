@@ -1,0 +1,129 @@
+# JARVIS ULTRA skill audit checklist
+# [x] static audit or focused unit evidence completed; runtime status is stated explicitly
+# [!] unresolved defect or repair risk
+# [?] verification blocked by the environment or safety boundary
+# [~] work in progress
+# [ ] not audited
+# Runtime was not independently verified for any skill in this audit.
+
+AI
+[x] ai/clarify.py — static registration/schema audit; focused action test passed; runtime unverified.
+
+Android
+[x] android_control/android_control.py — PROTECTED; read-only static review, not fully audited or runtime-tested; not modified.
+
+Assistant
+[x] assistant/greetings.py — static audit and greeting tests passed; runtime unverified.
+
+Automation
+[x] automation/home_automation.py — static registration audit; hardware runtime intentionally not exercised.
+[?] automation/scheduling.py — static audit and 54-test subset passed overall; one persistence test blocked by Windows sandbox WinError 5 during temp-file rename; runtime unverified.
+
+Browser
+[x] browser/browser_ai.py — static registration and router audit; external browser runtime not exercised.
+[x] browser/browser_config.py — static dependency/file audit; no independent runtime verification.
+[x] browser/browser_controller.py — static dependency/file audit; real browser side effects not exercised.
+[x] browser/browser_open.py — static dependency/file audit; real browser runtime not exercised.
+[x] browser/browser_resolver.py — static dependency/file audit; no independent runtime verification.
+[x] browser/browser_runtime.py — static dependency/file audit; real browser runtime not exercised.
+[x] browser/navigation.py — static dependency/file audit; no independent runtime verification.
+[x] browser/youtube_api.py — PROTECTED BASELINE; read-only review, not fully runtime-audited; not modified during this audit.
+[x] browser/youtube.py — PROTECTED BASELINE; pre-existing worktree diff preserved, no audit edit; not independently runtime-verified.
+[x] browser_control/browser_controls.py — static registration audit; real browser actions intentionally not exercised.
+
+Camera
+[x] camera/camera.py — static registration/schema audit; owner-reported capture run noted, but independent runtime unverified.
+[x] camera/detector.py — static dependency/file audit; hardware runtime not exercised.
+[x] camera/face_recognizer.py — static dependency/file audit; face-recognition runtime not exercised.
+[x] camera/face_registration.py — static dependency/file audit; no real face data used.
+[x] camera/face_registry.py — static dependency/file audit; no real face data used.
+[x] camera/face_speech.py — static dependency/file audit; speech/hardware runtime not exercised.
+[x] camera/scene_analyzer.py — static dependency/file audit; vision runtime not exercised.
+[x] camera/spatial_analyzer.py — static dependency/file audit; vision runtime not exercised.
+[x] camera/vision_analyzer.py — static dependency/file audit; vision runtime not exercised.
+[x] camera/vision_loop.py — static dependency/file audit; camera loop not started.
+[x] camera/vision_query.py — static dependency/file audit; vision runtime not exercised.
+[x] camera/vision_skill.py — static registration audit; hardware and face-data actions not exercised.
+[x] camera/vision.py — static dependency/file audit; vision runtime not exercised.
+
+Communication
+[x] communication/chatgpt.py — static registration audit; focused delegation test passed; external runtime unverified.
+[x] communication/contact.py — static audit; no real contact mutation performed.
+[x] communication/email.py — static audit; sending email intentionally not exercised.
+[x] communication/github.py — static audit; no external request performed.
+[x] communication/whatsapp.py — static audit; wait-contact unit evidence passed; sends/calls/runtime unverified.
+
+Files
+[x] files/file_info.py — static registration audit; local file inspection only.
+[x] files/file_intelligence.py — static file audit; no destructive or broad filesystem test.
+[x] files/files.py — static registration audit; create/delete/move/rename actions not runtime-tested.
+[x] files/recent.py — static registration audit; local runtime unverified.
+[x] files/recycle.py — static audit; destructive recycle operation not exercised.
+[x] files/zip_manager.py — static registration audit; isolated archive runtime unverified.
+
+Media
+[x] media/image_generation.py — static registration audit; external generation runtime not exercised.
+[x] media/media.py — static registration audit; focused delegation test passed; playback unverified.
+[x] media/spotify.py — static registration/router audit; real playback not exercised.
+
+Memory
+[x] memory/memory.py — static file/dependency audit; runtime unverified.
+[x] memory/notes.py — static registration audit; note persistence runtime unverified.
+[x] memory/reminders.py — static/schema audit and reminder regression tests passed; owner-reported runtime exists, independent runtime unverified.
+
+Navigation
+[x] navigation/maps.py — static registration audit; external navigation not exercised.
+[x] navigation/translate.py — static registration audit; external translation/browser runtime unverified.
+
+Network
+[x] network/bluetooth.py — static registration audit; hardware mutation/runtime not exercised.
+[?] network/weather.py — static audit and Live delayed-result repair evidence; weather test collection blocked by SSL proxy permission error; runtime unverified.
+[x] network/wifi.py — static registration audit; network mutation/runtime not exercised.
+
+News & payments
+[x] news/news.py — static registration audit; external news request not exercised.
+[x] payments/payments.py — static registration audit; real payment intentionally not exercised.
+
+Phone calls
+[x] phone_call/monitor.py — PROTECTED; read-only review, not fully audited or runtime-tested; not modified.
+[x] phone_call/phone_call.py — PROTECTED; read-only review and confirmation test evidence only; calling runtime not tested; not modified.
+
+Screen
+[x] screen/clipboard.py — static registration audit; runtime unverified.
+[x] screen/screen_vision_skill.py — static/schema audit and Live image-correlation repair evidence; no independent runtime verification.
+[x] screen/screen_vision.py — static dependency/file audit; no real screen analysis performed.
+[x] screen/screenshot_ai.py — static registration audit; image-service runtime not exercised.
+[x] screen/screenshot.py — static registration/schema audit; owner-reported capture run noted, independent runtime unverified.
+
+System
+[x] system/battery.py — static registration audit; hardware/runtime unverified.
+[x] system/brightness.py — static registration audit; hardware mutation not exercised.
+[x] system/process.py — static registration audit; running-apps unit evidence passed; process termination unverified.
+[x] system/system.py — static registration audit; lock/restart/shutdown/sleep actions not exercised.
+[x] system/taskmanager.py — static registration audit; runtime unverified.
+[x] system/volume.py — static registration audit; hardware mutation not exercised.
+
+Utilities
+[x] utilities/calculator.py — static file audit; deterministic runtime not independently tested in this audit.
+[x] utilities/search.py — static registration audit; local search runtime unverified.
+[x] utilities/time_skill.py — static registration audit; deterministic runtime unverified.
+
+Web
+[x] web/personal_links.py — static registration audit; configured-link runtime unverified.
+
+Progress summary
+- Checklist file entries preserved: 69.
+- Entries marked [x]: 67 (static audit completed; several include focused unit evidence).
+- Entries marked [!]: 0.
+- Entries marked [?]: 2 (automation scheduling persistence verification and network weather test collection/environment).
+- Entries marked [~]: 0.
+- Entries marked [ ]: 0.
+- Public registered actions inventoried: 145 across 48 configured modules; duplicate action names: 0.
+- Structured Live actions inventoried: 27.
+- Focused regression result: 33 tests passed and 15 subtests passed.
+- Additional schema/inventory/reminder/scheduling result: 54 passed before one scheduling test was blocked by sandbox WinError 5 during atomic temp-file rename.
+- Full-suite result: blocked during collection by SSL proxy permission error; no full-suite runtime claim made.
+- Independently verified runtime skills: 0. Owner-reported runtime only: capture, screenshot, and create_reminder.
+- Protected status: YouTube, skills/phone_call/, and skills/android_control/ were not modified during this checklist update; they are explicitly not claimed as fully audited or runtime-verified.
+- Remaining unverified work: real Gemini Live application runs and consequential hardware/browser/network/communication/payment/file actions under user confirmation.
+

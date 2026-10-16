@@ -14,7 +14,7 @@
 3. Use the verified SDK/API model identifier `gemini-3.8-live` for the primary Live session. The installed `google-genai` package is 1.75.0 and exposes `client.aio.live.connect(model=..., config=...)`.
 4. Do not pass the obsolete `thinking_config` to the 3.8 Live session; the current Live capability guidance says it is unsupported for that model.
 5. Advertise only registered capabilities with reviewed structured schemas. Unknown or unschematized actions are rejected before handlers run.
-6. Remove automatic offline assistant selection from the primary startup path. Legacy offline modules remain on disk for compatibility and focused regression tests, but `main.py` no longer routes the application into them automatically.
+6. Remove the obsolete offline assistant selection and its exclusive implementation. `main.py` starts Gemini Live directly and does not provide a hidden conversation fallback.
 
 ## MARK decisions
 

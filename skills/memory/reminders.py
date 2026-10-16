@@ -9,12 +9,22 @@ import json
 import threading
 import time
 from pathlib import Path
-from datetime import datetime
-
 from core.registry import register
-from voice.manager import speak
 from core.notifications import notify_windows_toast
 from core.diagnostics import debug_print
+from core.reminder_time import (
+    ReminderTimeError,
+    local_now,
+    normalize_stored_datetime,
+    resolve_reminder_time,
+)
+from hud.integration import HUDIntegration
+
+
+def speak(text):
+    """Load the legacy foreground voice path only when it is actually used."""
+    from voice.manager import speak as _speak
+    return _speak(text)
 
 
 # * =========================================================
@@ -25,6 +35,7 @@ DATA_DIR = Path("data")
 DATA_DIR.mkdir(exist_ok=True)
 
 REMINDERS_FILE = DATA_DIR / "reminders.json"
+_REMINDERS_LOCK = threading.RLock()
 
 
 # * =========================================================
@@ -93,6 +104,7 @@ def _save_reminders(reminders):
 def create_reminder(data=None):
 
     data = data or {}
+    reference_now = local_now()
 
     text = str(
         data.get("text", "")
@@ -118,65 +130,75 @@ def create_reminder(data=None):
 
         return False
 
-    # * Validate datetime
+    # * Resolve once from the same captured local reference used for storage.
     try:
-
-        target = datetime.fromisoformat(
-            remind_at
-        )
-
-    except Exception:
+        target = resolve_reminder_time(remind_at, now=reference_now)
+    except ReminderTimeError as error:
 
         print(
-            f"[REMINDERS ERROR] Invalid datetime: {remind_at}"
+            f"[REMINDERS ERROR] Invalid reminder time: {error}"
         )
 
         speak(
-            "I couldn't understand that reminder time."
+            "That reminder time is invalid or already past. Please give me a future time."
         )
 
         return False
 
-    reminders = _load_reminders()
+    invocation_id = str(data.get("_invocation_id", "")).strip() or None
 
-    # * Generate ID
-    if reminders:
+    with _REMINDERS_LOCK:
+        reminders = _load_reminders()
 
-        reminder_id = max(
-            int(item.get("id", 0))
-            for item in reminders
-        ) + 1
+        if invocation_id:
+            for existing in reminders:
+                if existing.get("invocation_id") == invocation_id:
+                    existing_target = normalize_stored_datetime(existing.get("remind_at"))
+                    speak(
+                        f"That reminder is already scheduled for "
+                        f"{existing_target.strftime('%A, %B %d at %I:%M %p').replace(' 0', ' ')}."
+                    )
+                    return True
 
-    else:
+        # * Generate ID
+        if reminders:
 
-        reminder_id = 1
+            reminder_id = max(
+                int(item.get("id", 0))
+                for item in reminders
+            ) + 1
 
-    reminder = {
-        "id": reminder_id,
-        "text": text,
-        "remind_at": target.isoformat(),
-        "completed": False,
-        "created_at": datetime.now().isoformat(),
-    }
+        else:
 
-    reminders.append(reminder)
+            reminder_id = 1
 
-    if not _save_reminders(reminders):
+        reminder = {
+            "id": reminder_id,
+            "text": text,
+            "remind_at": target.isoformat(),
+            "completed": False,
+            "created_at": reference_now.isoformat(),
+        }
+        if invocation_id:
+            reminder["invocation_id"] = invocation_id
 
-        speak(
-            "I couldn't save that reminder."
-        )
+        reminders.append(reminder)
 
-        return False
+        if not _save_reminders(reminders):
+
+            speak(
+                "I couldn't save that reminder."
+            )
+
+            return False
 
     print(
         f"[REMINDERS] Saved: "
         f"#{reminder_id} {text} -> {target.isoformat()}"
     )
 
-    speak(
-        f"I'll remind you at {target.strftime('%I:%M %p').lstrip('0')}."
-    )
+    display = target.strftime("%A, %B %d at %I:%M %p").replace(" 0", " ")
+    speak(f"I'll remind you on {display}.")
 
     return True
 
@@ -187,7 +209,8 @@ def create_reminder(data=None):
 
 def list_reminders(data=None):
 
-    reminders = _load_reminders()
+    with _REMINDERS_LOCK:
+        reminders = _load_reminders()
 
     active = [
         item
@@ -222,16 +245,16 @@ def list_reminders(data=None):
 
 def get_active_reminders(now=None):
     """Return active reminders due on the supplied local date, without TTS."""
-    current = now or datetime.now()
+    current = local_now(now)
     result = []
     for item in _load_reminders():
         if item.get("completed", False):
             continue
         try:
-            target = datetime.fromisoformat(str(item.get("remind_at", "")))
-        except ValueError:
+            target = normalize_stored_datetime(item.get("remind_at"))
+        except ReminderTimeError:
             continue
-        if target.date() == current.date():
+        if target.astimezone(current.tzinfo).date() == current.date():
             result.append(item)
     return result
 
@@ -258,17 +281,19 @@ def cancel_reminder(data=None):
 
         return False
 
-    reminders = _load_reminders()
+    with _REMINDERS_LOCK:
+        reminders = _load_reminders()
+        found = False
+        for reminder in reminders:
+            if int(reminder.get("id", -1)) == reminder_id:
+                reminder["completed"] = True
+                found = True
+                break
 
-    found = False
-
-    for reminder in reminders:
-
-        if int(reminder.get("id", -1)) == reminder_id:
-
-            reminder["completed"] = True
-            found = True
-            break
+        if found:
+            saved = _save_reminders(reminders)
+        else:
+            saved = False
 
     if not found:
 
@@ -278,7 +303,7 @@ def cancel_reminder(data=None):
 
         return False
 
-    if not _save_reminders(reminders):
+    if not saved:
 
         speak(
             "I couldn't update the reminder."
@@ -301,6 +326,48 @@ def cancel_reminder(data=None):
 # * Reminder Worker
 # * =========================================================
 
+def _process_due_reminders(now=None):
+    """Atomically mark due reminders complete and return pending deliveries."""
+    reference_now = local_now(now)
+    deliveries = []
+    with _REMINDERS_LOCK:
+        reminders = _load_reminders()
+        changed = False
+        for reminder in reminders:
+            if reminder.get("completed", False):
+                continue
+            try:
+                target = normalize_stored_datetime(reminder.get("remind_at"))
+            except ReminderTimeError:
+                continue
+            if target <= reference_now:
+                text = reminder.get("text", "your reminder")
+                reminder["completed"] = True
+                reminder["triggered_at"] = reference_now.isoformat()
+                deliveries.append((reminder.get("id"), text))
+                changed = True
+        if changed and not _save_reminders(reminders):
+            return []
+    return deliveries
+
+
+def _deliver_reminder_notifications(deliveries):
+    """Deliver persisted reminder events without entering the TTS path."""
+    for reminder_id, text in deliveries:
+        print(f"[REMINDERS] Triggered: #{reminder_id} {text}")
+        try:
+            HUDIntegration.notify(
+                "J.A.R.V.I.S Reminder",
+                text,
+                level="REMINDER",
+                source="reminder",
+                metadata={"id": reminder_id},
+            )
+        except Exception as error:
+            debug_print("[REMINDERS] HUD notification failed:", type(error).__name__)
+        notify_windows_toast("J.A.R.V.I.S Reminder", text)
+
+
 def _reminder_worker():
 
     debug_print(
@@ -310,71 +377,9 @@ def _reminder_worker():
     while not _scheduler_stop.is_set():
 
         try:
-
-            reminders = _load_reminders()
-
-            now = datetime.now()
-
-            changed = False
-
-            for reminder in reminders:
-
-                if reminder.get("completed", False):
-                    continue
-
-                remind_at = reminder.get("remind_at")
-
-                if not remind_at:
-                    continue
-
-                try:
-
-                    target = datetime.fromisoformat(
-                        remind_at
-                    )
-
-                except Exception:
-
-                    continue
-
-                if target <= now:
-
-                    text = reminder.get(
-                        "text",
-                        "your reminder",
-                    )
-
-                    print(
-                        f"[REMINDERS] Triggered: "
-                        f"#{reminder.get('id')} {text}"
-                    )
-
-                    speak(
-                        f"Reminder: {text}"
-                    )
-
-                    notify_windows_toast(
-                        "J.A.R.V.I.S Reminder",
-                        text,
-                    )
-
-                    reminder["completed"] = True
-
-                    reminder["triggered_at"] = (
-                        datetime.now().isoformat()
-                    )
-
-                    changed = True
-
-            if changed:
-
-                _save_reminders(reminders)
-
+            _deliver_reminder_notifications(_process_due_reminders())
         except Exception as e:
-
-            print(
-                f"[REMINDERS ERROR] Worker: {e}"
-            )
+            print(f"[REMINDERS ERROR] Worker: {e}")
 
         _scheduler_stop.wait(1)
 

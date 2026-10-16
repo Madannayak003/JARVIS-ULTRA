@@ -28,9 +28,9 @@ class HUDAdapter:
     # * =====================================================
 
     @staticmethod
-    def listening():
+    def listening(force=False):
 
-        hud.listening()
+        hud.listening(force=force)
 
     @staticmethod
     def thinking():
@@ -41,6 +41,11 @@ class HUDAdapter:
     def speaking():
 
         hud.speaking()
+
+    @staticmethod
+    def voice_activity(active):
+
+        hud.voice_activity(active)
 
     @staticmethod
     def idle():

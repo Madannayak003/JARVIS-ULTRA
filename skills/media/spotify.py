@@ -1,14 +1,10 @@
 import os
-import subprocess
-import time
 
 from pynput.keyboard import Controller, Key
 
 from services.spotify_api import (
     play_track,
     ensure_spotify,
-    resume_playback,
-    pause_playback
 )
 
 from core.registry import register
@@ -36,63 +32,83 @@ def spotify_close(data):
 
 
 def spotify_play(data):
+    try:
+        ensure_spotify()
+        keyboard.press(Key.media_play_pause)
+        keyboard.release(Key.media_play_pause)
+        message = "Play command sent to Spotify. Playback state was not verified."
+        ok = True
+    except Exception as exc:
+        ok = False
+        message = f"Spotify local playback failed: {exc}"
 
-    speak("Playing music")
-
-    ensure_spotify()
-
-    time.sleep(3)
-
-    keyboard.press(Key.media_play_pause)
-    keyboard.release(Key.media_play_pause)
-
-    return True
+    speak(message)
+    return {
+        "ok": bool(ok),
+        "status": "completed" if ok else "failed",
+        "action": "spotify_play",
+        "message": message,
+        "playback_state_verified": False,
+    }
 
 
 def spotify_pause(data):
-
-    speak("Pausing music")
-
     try:
-
-        pause_playback()
-
-    except:
-
         keyboard.press(Key.media_play_pause)
         keyboard.release(Key.media_play_pause)
+        message = "Pause command sent to Spotify. Playback state was not verified."
+        ok = True
+    except Exception as exc:
+        ok = False
+        message = f"Spotify local pause failed: {exc}"
 
-    return True
-
+    speak(message)
+    return {
+        "ok": ok,
+        "status": "completed" if ok else "failed",
+        "action": "spotify_pause",
+        "message": message,
+        "playback_state_verified": False,
+    }
 
 def spotify_next(data):
-
-    from services.spotify_api import spotify_client
-
-    speak("Next song")
-
     try:
-        spotify_client().next_track()
-    except:
         keyboard.press(Key.media_next)
         keyboard.release(Key.media_next)
+        ok = True
+        message = "Next-track command sent to Spotify. Playback state was not verified."
+    except Exception as exc:
+        ok = False
+        message = f"Spotify next-track control failed: {exc}"
 
-    return True
+    speak(message)
+    return {
+        "ok": ok,
+        "status": "completed" if ok else "failed",
+        "action": "spotify_next",
+        "message": message,
+        "playback_state_verified": False,
+    }
 
 
 def spotify_previous(data):
-
-    from services.spotify_api import spotify_client
-
-    speak("Previous song")
-
     try:
-        spotify_client().previous_track()
-    except:
         keyboard.press(Key.media_previous)
         keyboard.release(Key.media_previous)
+        ok = True
+        message = "Previous-track command sent to Spotify. Playback state was not verified."
+    except Exception as exc:
+        ok = False
+        message = f"Spotify previous-track control failed: {exc}"
 
-    return True
+    speak(message)
+    return {
+        "ok": ok,
+        "status": "completed" if ok else "failed",
+        "action": "spotify_previous",
+        "message": message,
+        "playback_state_verified": False,
+    }
 
 
 def spotify_volume_up(data):
@@ -120,19 +136,24 @@ def spotify_play_song(data):
 
         return True
 
-    speak(f"Playing {song}")
+    try:
+        ok, message = play_track(song)
+    except Exception as exc:
+        ok = False
+        message = f"Spotify playback is unavailable: {exc}"
 
-    ok, message = play_track(song)
-
-    if not ok:
-
-        speak(message)
-
-    else:
-
+    speak(message)
+    if ok:
         print("[SPOTIFY]", message)
 
-    return True
+    return {
+        "ok": bool(ok),
+        "status": "completed" if ok else "failed",
+        "action": "spotify_play_song",
+        "message": message,
+        "playback_state_verified": bool(ok),
+        "song": song,
+    }
 
 
 register("spotify_open", spotify_open)

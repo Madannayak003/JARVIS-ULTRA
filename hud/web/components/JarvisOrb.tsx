@@ -85,6 +85,27 @@ const ULTRON_COLORS: UltronColor[] = [
 
 ];
 
+const ULTRON_COLOR_STORAGE_KEY = "jarvis-ultron-color";
+
+function readSavedUltronColor(): number {
+  if (typeof window === "undefined") return ULTRON_COLORS[0].value;
+
+  try {
+    const raw = window.localStorage
+      .getItem(ULTRON_COLOR_STORAGE_KEY)
+      ?.trim()
+      .toLowerCase() ?? "";
+    const saved = /^[0-9a-f]{6}$/.test(raw)
+      ? Number.parseInt(raw, 16)
+      : Number.NaN;
+    return ULTRON_COLORS.some((color) => color.value === saved)
+      ? saved
+      : ULTRON_COLORS[0].value;
+  } catch {
+    return ULTRON_COLORS[0].value;
+  }
+}
+
 
 export default function JarvisOrb({
 }: {
@@ -104,6 +125,9 @@ export default function JarvisOrb({
 
   const trackerRef =
     useRef<HandTracker | null>(null);
+
+  const colorSelectionStartedRef =
+    useRef(false);
 
 
   // * ===================================================
@@ -127,13 +151,22 @@ export default function JarvisOrb({
 
 
   const [ultronColor, setUltronColor] =
-    useState<number>(
-      ULTRON_COLORS[0].value
-    );
+    useState<number>(ULTRON_COLORS[0].value);
 
 
   const [controlsVisible, setControlsVisible] =
     useState(true);
+
+  // Read browser-only persistence after hydration so the server HTML and
+  // the browser's first render use the same deterministic default color.
+  useEffect(() => {
+    if (colorSelectionStartedRef.current) return;
+
+    const savedColor = readSavedUltronColor();
+    if (savedColor !== ULTRON_COLORS[0].value) {
+      setUltronColor(savedColor);
+    }
+  }, []);
 
   // * =====================================================
   // * AVATAR INITIALIZATION / SWITCHING
@@ -186,9 +219,7 @@ export default function JarvisOrb({
 
     };
 
-  }, [
-    ultronColor,
-  ]);
+  }, []);
 
 
   // * =====================================================
@@ -220,13 +251,45 @@ export default function JarvisOrb({
     useCallback(
       (color: number) => {
 
-        setUltronColor(
-          color
-        );
+        if (!ULTRON_COLORS.some((item) => item.value === color)) return;
+
+        colorSelectionStartedRef.current = true;
+        setUltronColor(color);
+        try {
+          window.localStorage.setItem(
+            ULTRON_COLOR_STORAGE_KEY,
+            color.toString(16),
+          );
+        } catch {
+          // Persistence is optional; the visual selection still applies.
+        }
 
       },
       []
     );
+
+  const cycleUltronColor = useCallback(() => {
+    colorSelectionStartedRef.current = true;
+    setUltronColor((current) => {
+      const currentIndex = ULTRON_COLORS.findIndex(
+        (color) => color.value === current,
+      );
+      const next = ULTRON_COLORS[
+        (currentIndex + 1) % ULTRON_COLORS.length
+      ].value;
+
+      try {
+        window.localStorage.setItem(
+          ULTRON_COLOR_STORAGE_KEY,
+          next.toString(16),
+        );
+      } catch {
+        // Persistence is optional; the visual selection still applies.
+      }
+
+      return next;
+    });
+  }, []);
 
 
   // * =====================================================
@@ -514,6 +577,7 @@ export default function JarvisOrb({
       <div
         ref={containerRef}
         className="orb-root"
+        onDoubleClick={cycleUltronColor}
       />
 
 
@@ -783,70 +847,6 @@ export default function JarvisOrb({
           </div>
         </>
       )} 
-
-        {/* ================================================= */}
-        {/* ORB CONTROLS */}
-        {/* ================================================= */}
-      
-      {controlsVisible && (
-        <div
-          className="hud-orb-controls"
-          style={{
-            width: "100%",
-            marginTop: "2px",
-          }}
-        >
-
-          {/* ================================================= */}
-          {/* ULTRON COLOR CONTROLS */}
-          {/* ================================================= */}
-          {(
-            <div
-              className="ultron-color-panel"
-              aria-label="ULTRON color selection"
-            >
-              {/* COLOR TITLE */}
-              <div className="ultron-color-title-wrap">
-                <span className="ultron-color-label">
-                </span>
-              </div>
-
-              {/* COLORS — 2 PER ROW */}
-              <div className="ultron-color-row">
-                {ULTRON_COLORS.map((color) => {
-                  const active = ultronColor === color.value;
-                  const hex = `#${color.value.toString(16).padStart(6, "0")}`;
-
-                  return (
-                    <button
-                      key={color.name}
-                      type="button"
-                      className={`hud-btn ultron-color-btn${active ? " active" : ""}`}
-                      aria-label={`ULTRON color ${color.name}`}
-                      aria-pressed={active}
-                      title={color.name}
-                      onClick={() => changeUltronColor(color.value)}
-                    >
-                      <span
-                        className="ultron-color-dot"
-                        style={{
-                          backgroundColor: hex,
-                          boxShadow: active ? `0 0 6px ${hex}` : `0 0 2px ${hex}`,
-                        }}
-                      />
-                      <span className="ultron-color-name">
-                        {color.name}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-        </div>
-        
-      )}
 
         {/* ================================================= */}
         {/* CONTROL / MODEL MODE */}

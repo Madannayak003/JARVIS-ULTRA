@@ -36,7 +36,7 @@ class MarkdownParser:
     # * ---------------------------------------------------------
 
     FILE_HEADER_PATTERN = re.compile(
-        r"^\s*#\s*FILE:\s*(.+?)\s*$",
+        r"^\s*#{1,6}\s*FILE:\s*(.+?)\s*$",
         re.MULTILINE | re.IGNORECASE,
     )
 

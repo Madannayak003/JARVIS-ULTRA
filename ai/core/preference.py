@@ -7,7 +7,6 @@ Stores the user's temporary AI provider/model preference.
 Examples:
     use Gemini
     use GPT
-    use Ollama
     use Qwen
     auto mode
 """
@@ -21,7 +20,7 @@ from config.settings import (
 
 class AIPreference:
 
-    PROVIDER_MODES = ("auto", "ollama", "gemini", "grok", "openai")
+    PROVIDER_MODES = ("auto", "gemini", "grok", "openai")
 
     def __init__(self):
 

@@ -345,7 +345,7 @@ def create_plan(command, stop_event):
             "question": "What would you like me to search for?"
         }]
 
-    # * Continue with Ollama
+    # * Continue with the configured secondary AI provider
     if stop_event.is_set():
         return None
     

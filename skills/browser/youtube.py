@@ -60,7 +60,20 @@ def ai_youtube(data):
     )
 
     if not videos:
-        return True
+        browser_context.set_search(query=query, platform="youtube", results=[])
+        browser_context.set_youtube_queue(query=query, videos=[])
+        youtube_queue = []
+        youtube_index = -1
+        return {
+            "ok": True,
+            "status": "empty_results",
+            "action": "youtube_search",
+            "query": query,
+            "platform": "youtube",
+            "results": [],
+            "result_count": 0,
+            "message": f"YouTube returned no results for {query}.",
+        }
 
     # * -------------------------------------------------
     # * Store generic browser search context
@@ -162,12 +175,32 @@ def ai_youtube(data):
             f"Context update failed safely: {e}"
         )
 
-    return True
+    snapshot = browser_context.search_snapshot()
+    return {
+        "ok": True,
+        "status": "success",
+        "action": "youtube_search",
+        "query": query,
+        "platform": "youtube",
+        "results": snapshot["results"],
+        "result_count": len(snapshot["results"]),
+        "message": f"YouTube search returned {len(snapshot['results'])} result(s) for {query}.",
+    }
 
 
 # * =====================================================
 # * YouTube Controls
 # * =====================================================
+
+def _playback_result(action, result, message, **extra):
+    return {
+        "ok": bool(result),
+        "status": "completed" if result else "failed",
+        "action": action,
+        "message": message if result else "YouTube navigation failed.",
+        "playback_state_verified": False,
+        **extra,
+    }
 
 def youtube_play_first(data):
     
@@ -228,21 +261,39 @@ def youtube_play_first(data):
     if not is_live_execution():
         speak(f"Playing {video['title']}")
 
-    return browser.play_video(video["video_id"])
+    result = browser.play_video(video["video_id"])
+    return _playback_result(
+        "youtube_play_first",
+        result,
+        f"YouTube navigation sent for {video['title']}; playback state was not verified.",
+        video_id=video["video_id"],
+    )
 
 
 def youtube_pause(data):
-
-    speak("Pausing YouTube")
-
-    return browser.pause_video()
+    result = browser.pause_video()
+    if not is_live_execution():
+        speak("Pausing YouTube" if result else "I couldn't pause YouTube.")
+    return {
+        "ok": bool(result),
+        "status": "completed" if result else "failed",
+        "action": "youtube_pause",
+        "message": "Pause command sent to YouTube." if result else "I couldn't pause YouTube.",
+        "playback_state_verified": False,
+    }
 
 
 def youtube_resume(data):
-
-    speak("Resuming YouTube")
-
-    return browser.resume_video()
+    result = browser.resume_video()
+    if not is_live_execution():
+        speak("Resuming YouTube" if result else "I couldn't resume YouTube.")
+    return {
+        "ok": bool(result),
+        "status": "completed" if result else "failed",
+        "action": "youtube_resume",
+        "message": "Resume command sent to YouTube." if result else "I couldn't resume YouTube.",
+        "playback_state_verified": False,
+    }
 
 
 def youtube_next(data):
@@ -270,9 +321,16 @@ def youtube_next(data):
     print(f"[YouTube Queue] Playing: {video['title']}")
     print(f"[YouTube API] Video ID: {video['video_id']}")
 
-    speak(f"Playing {video['title']}")
+    if not is_live_execution():
+        speak(f"Playing {video['title']}")
 
-    return browser.play_video(video["video_id"])
+    result = browser.play_video(video["video_id"])
+    return _playback_result(
+        "youtube_next",
+        result,
+        f"YouTube navigation sent for {video['title']}; playback state was not verified.",
+        video_id=video["video_id"],
+    )
 
 
 def youtube_previous(data):
@@ -311,9 +369,16 @@ def youtube_previous(data):
         f"{video['video_id']}"
     )
 
-    speak(f"Playing {video['title']}")
+    if not is_live_execution():
+        speak(f"Playing {video['title']}")
 
-    return browser.play_video(video["video_id"])
+    result = browser.play_video(video["video_id"])
+    return _playback_result(
+        "youtube_previous",
+        result,
+        f"YouTube navigation sent for {video['title']}; playback state was not verified.",
+        video_id=video["video_id"],
+    )
 
 def youtube_play_result(data):
 
@@ -376,8 +441,12 @@ def youtube_play_result(data):
     # * Play
     # * =====================================================
 
-    return browser.play_video(
-        video_id
+    result = browser.play_video(video_id)
+    return _playback_result(
+        "youtube_play_result",
+        result,
+        "YouTube navigation sent; playback state was not verified.",
+        video_id=video_id,
     )
 
 

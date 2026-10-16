@@ -103,7 +103,7 @@ class GeminiProvider(AIProvider):
     multimodal requests containing images.
     """
 
-    DEFAULT_MODEL = "gemini-3.6-flash"
+    DEFAULT_MODEL = "gemini-3.5-flash-lite"
 
     def __init__(
         self,

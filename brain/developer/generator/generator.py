@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from brain.developer.context import DeveloperContext
 
 from brain.developer.generator.models.generated_project import GeneratedProject
-from brain.developer.generator.providers.ollama_provider import OllamaProvider
+from brain.developer.generator.providers.gemini_provider import GeminiProvider
 from brain.developer.generator.parsers.response_parser import ResponseParser
 from brain.developer.generator.metadata.metadata_builder import (
     MetadataBuilder,
@@ -28,7 +28,7 @@ class Generator:
 
     def __init__(self):
 
-        self.provider = OllamaProvider()
+        self.provider = GeminiProvider()
 
         self.parser = ResponseParser()
 

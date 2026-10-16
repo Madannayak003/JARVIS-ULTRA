@@ -33,7 +33,11 @@ def capture(data):
 
     path = CAPTURES / filename
 
-    cv2.imwrite(str(path), frame)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not cv2.imwrite(str(path), frame):
+        speak("I couldn't save the camera photo.")
+        camera.stop()
+        return False
 
     camera.stop()
 
@@ -41,7 +45,7 @@ def capture(data):
 
     print(f"[PHOTO] {path}")
 
-    return True
+    return {"ok": True, "status": "reported_success", "path": str(path), "message": f"Photo captured: {path}"}
 
 def preview(data):
 

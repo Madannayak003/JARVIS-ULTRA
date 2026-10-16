@@ -1,9 +1,7 @@
 """Legacy voice launcher for the online JARVIS runtime.
 
-The primary application no longer probes connectivity and silently switches
-to an offline AI assistant.  Offline modules remain isolated for regression
-coverage and explicit maintenance, but they are not an automatic runtime
-fallback.
+The primary application uses Gemini Live and does not switch to a second
+conversation engine when connectivity fails.
 """
 
 

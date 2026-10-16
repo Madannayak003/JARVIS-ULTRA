@@ -34,12 +34,21 @@ class HUDEmitter:
 
         if event == HUDEvent.LISTENING:
 
-            HUDAdapter.listening()
+            HUDAdapter.listening(
+                force=bool(data.get("force", False)),
+            )
             return
 
         if event == HUDEvent.SPEAKING:
 
             HUDAdapter.speaking()
+            return
+
+        if event == HUDEvent.VOICE_ACTIVITY:
+
+            HUDAdapter.voice_activity(
+                data.get("active", False),
+            )
             return
 
         if event == HUDEvent.IDLE:

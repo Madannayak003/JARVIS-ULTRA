@@ -22,6 +22,54 @@ from core.live_execution import get_live_responses
 # were inspected in the existing skills. All other registered actions remain
 # available through the generic capability and legacy command paths.
 LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
+    "spotify_open": {
+        "purpose": "Open the installed Spotify application.",
+        "properties": {},
+        "expected_result": "A real launch result or an honest failure.",
+    },
+    "spotify_close": {
+        "purpose": "Close the installed Spotify application.",
+        "properties": {},
+        "expected_result": "A real close result or an honest failure.",
+    },
+    "spotify_play": {
+        "purpose": "Resume Spotify playback using the existing Spotify integration.",
+        "properties": {},
+        "expected_result": "Confirmed playback start or an honest authentication/device failure.",
+    },
+    "spotify_pause": {
+        "purpose": "Pause Spotify playback using the existing Spotify integration.",
+        "properties": {},
+        "expected_result": "Confirmed pause request or an honest failure.",
+    },
+    "spotify_next": {
+        "purpose": "Skip to the next Spotify track.",
+        "properties": {},
+        "expected_result": "A real next-track result or an honest failure.",
+    },
+    "spotify_previous": {
+        "purpose": "Return to the previous Spotify track.",
+        "properties": {},
+        "expected_result": "A real previous-track result or an honest failure.",
+    },
+    "spotify_volume_up": {
+        "purpose": "Increase system media volume for Spotify playback.",
+        "properties": {},
+        "expected_result": "A real media-volume action.",
+    },
+    "spotify_volume_down": {
+        "purpose": "Decrease system media volume for Spotify playback.",
+        "properties": {},
+        "expected_result": "A real media-volume action.",
+    },
+    "spotify_play_song": {
+        "purpose": "Find and start a specific Spotify track through the existing Spotify API integration.",
+        "properties": {
+            "song": {"type": "string", "description": "Track or artist search text."},
+        },
+        "required": ["song"],
+        "expected_result": "Confirmed track playback or an honest authentication/device/search failure.",
+    },
     "battery": {
         "purpose": "Report current battery percentage and charging state.",
         "properties": {},
@@ -55,9 +103,44 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         "expected_result": "The actual screen analysis returned by Gemini Live, or a reported capture/analysis failure.",
     },
     "screenshot": {
-        "purpose": "Capture the current screen using the existing screenshot skill.",
+        "purpose": "Capture the desktop screen only using the existing screenshot skill. This is not a camera photograph and must not be used for photo or camera requests.",
         "properties": {},
         "expected_result": "A reported capture result; the returned boolean does not expose the file contents.",
+    },
+    "capture": {
+        "purpose": "Take a real photograph with the configured camera/photo-capture capability. Never substitute a desktop screenshot.",
+        "properties": {},
+        "expected_result": "A real camera capture result, or an honest report that the camera is unavailable.",
+    },
+    "camera_preview": {
+        "purpose": "Open the configured physical camera preview. This does not capture a desktop screenshot.",
+        "properties": {},
+        "expected_result": "The actual camera preview result or an honest camera-access failure.",
+    },
+    "camera_status": {
+        "purpose": "Report whether the configured physical camera is available and open.",
+        "properties": {},
+        "expected_result": "The actual camera status or an honest availability report.",
+    },
+    "create_reminder": {
+        "purpose": "Create and persist a personal reminder in the existing reminder scheduler.",
+        "properties": {
+            "text": {"type": "string", "description": "What to remind the user about."},
+            "remind_at": {"type": "string", "description": "A future ISO-8601 local date/time or a relative phrase such as 'in 30 seconds'."},
+        },
+        "required": ["text", "remind_at"],
+        "expected_result": "Confirmation only after the reminder is persisted, or an honest failure.",
+    },
+    "list_reminders": {
+        "purpose": "List active reminders from the existing reminder store.",
+        "properties": {},
+        "expected_result": "The actual active reminders or an empty-list response.",
+    },
+    "cancel_reminder": {
+        "purpose": "Cancel one persisted reminder by its numeric ID.",
+        "properties": {"id": {"type": "integer", "description": "Reminder ID returned by the reminder list or creation flow."}},
+        "required": ["id"],
+        "expected_result": "Confirmation only after the reminder was updated, or an honest failure.",
     },
     "volume": {
         "purpose": "Read or control Windows master volume.",
@@ -601,6 +684,7 @@ def execute_live_capability(
     parameters: Any = None,
     *,
     executor: Callable[[str, Mapping[str, Any]], Any] | None = None,
+    invocation_id: Any = None,
 ) -> dict:
     """Validate and execute one registered skill without registry fallback.
 
@@ -628,6 +712,9 @@ def execute_live_capability(
         )
         return validation_error
     payload = payload or {}
+    if action_name in {"create_reminder", "screen_vision_analyze"} and invocation_id:
+        payload = dict(payload)
+        payload["_invocation_id" if action_name == "create_reminder" else "_live_request_id"] = str(invocation_id)
 
     if not action_name:
         result = {"ok": False, "status": "invalid_request", "message": "No capability was provided."}

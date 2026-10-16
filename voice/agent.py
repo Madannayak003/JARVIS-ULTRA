@@ -48,7 +48,10 @@ from __future__ import annotations
 
 import asyncio
 import json
+import math
 import threading
+import time
+from array import array
 from pathlib import Path
 from typing import Optional
 
@@ -63,6 +66,11 @@ from core.live_execution import (
     live_execution,
     get_live_responses,
     drain_live_tasks,
+    resolve_live_task_results,
+    build_live_function_response,
+    preserve_live_media,
+    send_live_tool_response,
+    LiveInvocationDeduplicator,
 )
 from core.live_agent import (
     build_live_capability_tool,
@@ -82,6 +90,7 @@ from config.settings import (
 )
 from core.diagnostics import debug_print
 
+
 # * =============================================================
 # * CONFIGURATION
 # * =============================================================
@@ -89,6 +98,22 @@ from core.diagnostics import debug_print
 # One fixed, centrally configured primary Live model.  Do not accept a runtime
 # environment override or silently rotate to another model on failure.
 LIVE_MODEL = get_primary_gemini_live_model()
+
+
+def _is_expired_session_resumption_error(error) -> bool:
+    """Identify errors that require abandoning, rather than reusing, a handle."""
+
+    text = str(error or "").lower()
+    return (
+        "1008" in text
+        and ("session not found" in text or "expired" in text)
+    ) or "session not found or expired" in text
+
+
+def _live_reconnect_delay(attempt: int) -> float:
+    """Return a bounded delay for repeated Live connection failures."""
+
+    return min(30.0, 2.0 ** max(0, min(int(attempt) - 1, 5)))
 
 INPUT_RATE = 16000
 OUTPUT_RATE = 24000
@@ -100,6 +125,42 @@ DTYPE = "int16"
 BLOCK_SIZE = 1024
 
 INPUT_QUEUE_SIZE = 64
+VAD_START_RMS = 700.0
+VAD_END_RMS = 450.0
+VAD_SILENCE_FRAMES = 3
+SCREEN_VISION_TIMEOUT_SECONDS = 10.0
+MAX_LIVE_SCREEN_IMAGE_BYTES = 8 * 1024 * 1024
+
+
+class LiveVoiceActivityDetector:
+    """Small hysteresis detector for the existing 16-bit mic stream."""
+
+    def __init__(self):
+        self.active = False
+        self._silence_frames = 0
+
+    def update(self, rms: float) -> bool | None:
+        if self.active:
+            if rms <= VAD_END_RMS:
+                self._silence_frames += 1
+                if self._silence_frames >= VAD_SILENCE_FRAMES:
+                    self.active = False
+                    self._silence_frames = 0
+                    return False
+            else:
+                self._silence_frames = 0
+            return None
+
+        if rms >= VAD_START_RMS:
+            self.active = True
+            self._silence_frames = 0
+            return True
+
+        return None
+
+    def reset(self) -> None:
+        self.active = False
+        self._silence_frames = 0
 
 
 # * =============================================================
@@ -300,6 +361,8 @@ Examples:
 
 - "Open YouTube"
 - "Take a screenshot"
+- "Take a photo" or "Take a photo with my camera" (use the physical camera capture capability; never use screenshot)
+- "Show camera preview" (use the physical camera preview capability)
 - "Open Spotify"
 - "Turn the volume down"
 - "Search YouTube for Python tutorials"
@@ -316,6 +379,12 @@ answer normally without calling the tool.
 
 Never claim that a computer action was completed unless the
 jarvis_command tool was actually executed successfully.
+
+SOFTWARE DEVELOPMENT REQUESTS
+For requests to create, inspect, edit, repair, or test code or a project,
+use the jarvis_developer tool with the user's original wording. Do not answer
+the request as ordinary conversation and do not claim that a file or project
+was changed without the returned Developer result.
 
 STRUCTURED CAPABILITIES
 - Prefer jarvis_capability when the user's intent clearly maps to one
@@ -424,6 +493,35 @@ def _build_jarvis_command_tool() -> dict:
     }
 
 
+def _build_jarvis_developer_tool() -> dict:
+    """Declare the existing Developer Mode Live entry point."""
+    return {
+        "function_declarations": [
+            {
+                "name": "jarvis_developer",
+                "description": (
+                    "Execute a software-development request through the existing "
+                    "JARVIS Developer Mode. Use this for creating, inspecting, "
+                    "editing, repairing, or testing code and projects. Pass the "
+                    "user's original wording unchanged. Do not answer a developer "
+                    "request conversationally and do not claim success without "
+                    "the returned Developer result."
+                ),
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "command": {
+                            "type": "string",
+                            "description": "The user's original software-development request.",
+                        },
+                    },
+                    "required": ["command"],
+                },
+            }
+        ]
+    }
+
+
 # * Keep the historical export for callers that import this tool definition.
 # * Live sessions build a fresh definition so a runtime rename is reflected.
 JARVIS_COMMAND_TOOL = _build_jarvis_command_tool()
@@ -504,6 +602,17 @@ class Agent:
         self._session = None
         self._session_loop = None
         self._session_lock = threading.Lock()
+        self._speaker = None
+        self._speaker_lock = threading.Lock()
+        self._speaker_io_lock = threading.RLock()
+        self._speaker_started = False
+        self._live_generation = 0
+        self._live_discard_audio = False
+        self._live_turn_active = False
+        self._live_interrupt_pending = False
+        self._live_interrupt_lock = threading.Lock()
+        self._responded_screen_invocations = set()
+        self._live_invocations = LiveInvocationDeduplicator(max_entries=256)
 
     # * =========================================================
     # * STATE
@@ -533,6 +642,96 @@ class Agent:
     def _set_connected(self, value: bool):
         with self._state_lock:
             self._connected = bool(value)
+
+    def _next_live_generation(self) -> int:
+        with self._live_interrupt_lock:
+            self._live_generation += 1
+            return self._live_generation
+
+    def _live_generation_value(self) -> int:
+        with self._live_interrupt_lock:
+            return self._live_generation
+
+    def _live_generation_current(self, generation: int) -> bool:
+        with self._live_interrupt_lock:
+            return self._live_generation == generation
+
+    def _live_output_allowed(self, generation: int) -> bool:
+        with self._live_interrupt_lock:
+            return (
+                self._live_generation == generation
+                and not self._live_discard_audio
+            )
+
+    def _begin_live_audio_discard(self):
+        with self._live_interrupt_lock:
+            self._live_discard_audio = True
+
+    def _finish_live_audio_discard(self):
+        with self._live_interrupt_lock:
+            self._live_discard_audio = False
+
+    def _is_discarding_live_audio(self) -> bool:
+        with self._live_interrupt_lock:
+            return self._live_discard_audio
+
+    def _set_live_turn_active(self, value: bool):
+        with self._live_interrupt_lock:
+            self._live_turn_active = bool(value)
+
+    def _is_live_turn_active(self) -> bool:
+        with self._live_interrupt_lock:
+            return self._live_turn_active
+
+    async def _send_live_interrupt(self, session):
+        """End the current realtime input stream without closing Live."""
+        try:
+            # This is an installed-SDK-supported Live API operation. It keeps
+            # the session open and the next audio chunk reopens the stream.
+            await session.send_realtime_input(audio_stream_end=True)
+        except Exception as exc:
+            print("[LIVE] Interrupt signal unavailable:", exc)
+        finally:
+            with self._live_interrupt_lock:
+                self._live_interrupt_pending = False
+
+    def interrupt_live_response(self) -> bool:
+        """Stop Live output locally and signal the active session safely."""
+        with self._session_lock:
+            session = self._session
+            loop = self._session_loop
+
+        with self._speaker_lock:
+            speaker = self._speaker
+
+        if not self.connected or session is None or loop is None:
+            return False
+
+        self._next_live_generation()
+        if self._is_live_turn_active():
+            self._begin_live_audio_discard()
+        self._interrupt_speaker(speaker)
+
+        # The authoritative local playback edge is immediate; no stale chunk
+        # can write after the generation token changes.
+        self._hud_stop_speaking()
+
+        with self._live_interrupt_lock:
+            if self._live_interrupt_pending:
+                return True
+            self._live_interrupt_pending = True
+
+        try:
+            asyncio.run_coroutine_threadsafe(
+                self._send_live_interrupt(session),
+                loop,
+            )
+        except Exception as exc:
+            with self._live_interrupt_lock:
+                self._live_interrupt_pending = False
+            print("[LIVE] Interrupt dispatch failed:", exc)
+
+        return True
             
     
     # * =========================================================
@@ -542,6 +741,7 @@ class Agent:
     def set_microphone_enabled(
         self,
         enabled: bool,
+        source="runtime",
     ):
 
         with self._microphone_lock:
@@ -553,6 +753,8 @@ class Agent:
         print(
             "[LIVE] Microphone:",
             "ON" if enabled else "OFF",
+            "source=",
+            source,
         )
 
     # * ---------------------------------------------------------
@@ -631,11 +833,31 @@ class Agent:
 
     # * ---------------------------------------------------------
 
-    def _hud_stop_speaking(self):
-        if not self._hud_speaking:
+    def _handle_live_voice_activity(self, active: bool):
+        """Publish only real user-voice edges from the Live mic stream."""
+        if not self.connected or not self.microphone_enabled() or self._hud_speaking:
             return
 
         try:
+            if active:
+                HUDIntegration.voice_activity(True)
+            else:
+                HUDIntegration.voice_activity(False)
+        except Exception as exc:
+            print(
+                "[LIVE HUD] Voice activity event failed:",
+                exc,
+            )
+
+    # * ---------------------------------------------------------
+
+    def _hud_stop_speaking(self):
+        try:
+            # Live keeps the microphone/session open after assistant audio
+            # ends. Returning to IDLE here contradicted the actual runtime.
+            # A ready microphone is not the same as detected user speech.
+            # Playback completion therefore returns to quiet IDLE; the mic VAD
+            # will emit LISTENING again on the next speech-start edge.
             HUDIntegration.idle()
 
             print(
@@ -675,6 +897,12 @@ class Agent:
         with self._session_resumption_lock:
 
             self._session_resumption_handle = handle
+
+    def _clear_session_resumption_handle(self):
+        """Force the next Live connection to start a fresh session."""
+
+        with self._session_resumption_lock:
+            self._session_resumption_handle = None
             
             
     # * =========================================================
@@ -743,6 +971,58 @@ class Agent:
 
             return False
 
+    async def _execute_live_capability(
+        self,
+        action,
+        parameters,
+        *,
+        invocation_id=None,
+    ):
+        """Execute blocking screen capture away from the Live event loop."""
+
+        if action != "screen_vision_analyze":
+            return execute_live_capability(
+                action,
+                parameters,
+                invocation_id=invocation_id,
+            )
+
+        try:
+            result = await asyncio.wait_for(
+                asyncio.to_thread(
+                    execute_live_capability,
+                    action,
+                    parameters,
+                    invocation_id=invocation_id,
+                ),
+                timeout=SCREEN_VISION_TIMEOUT_SECONDS,
+            )
+            image_bytes = (
+                result.get("_live_image_bytes")
+                if isinstance(result, dict)
+                else None
+            )
+            if (
+                isinstance(image_bytes, (bytes, bytearray))
+                and len(image_bytes) > MAX_LIVE_SCREEN_IMAGE_BYTES
+            ):
+                return {
+                    "ok": False,
+                    "status": "failed",
+                    "action": action,
+                    "correlation_id": str(invocation_id or ""),
+                    "message": "Screen image exceeded the Live payload limit.",
+                }
+            return result
+        except asyncio.TimeoutError:
+            return {
+                "ok": False,
+                "status": "timeout",
+                "action": action,
+                "correlation_id": str(invocation_id or ""),
+                "message": "Screen capture timed out; Live analysis was not completed.",
+            }
+
     # * =========================================================
     # * START
     # * =========================================================
@@ -766,7 +1046,7 @@ class Agent:
         with self._startup_greeting_lock:
             self._startup_greeting_sent = False
         
-        self.set_microphone_enabled(True)
+        self.set_microphone_enabled(True, source="agent_start")
         
         print("[AGENT] Starting...")
 
@@ -891,6 +1171,7 @@ class Agent:
             
             tools=[
                 _build_jarvis_command_tool(),
+                _build_jarvis_developer_tool(),
                 build_live_capability_tool(),
                 *build_live_search_tools(),
             ],
@@ -925,6 +1206,26 @@ class Agent:
         # * MICROPHONE CALLBACK
         # * =====================================================
 
+        microphone_status_state = {"last_logged": 0.0}
+        voice_activity_detector = LiveVoiceActivityDetector()
+
+        def process_microphone_audio(audio_bytes):
+            """Process copied mic data on the Live loop, not PortAudio's callback thread."""
+            try:
+                samples = array("h")
+                samples.frombytes(audio_bytes)
+                if samples:
+                    rms = math.sqrt(
+                        sum(sample * sample for sample in samples) / len(samples)
+                    )
+                    activity_change = voice_activity_detector.update(rms)
+                    if activity_change is not None:
+                        self._handle_live_voice_activity(activity_change)
+
+                self._queue_audio(input_queue, audio_bytes)
+            except Exception as exc:
+                print("[LIVE] Microphone audio processing error:", exc)
+
         def microphone_callback(
             indata,
             frames,
@@ -944,33 +1245,29 @@ class Agent:
             # * -------------------------------------------------
 
             if not self.microphone_enabled():
-
+                voice_activity_detector.reset()
                 return
 
             if status:
+                # PortAudio invokes this callback on its real-time thread.
+                # Never print from it: terminal I/O can block the callback and
+                # contribute to the very overflow being diagnosed.
+                now = time.monotonic()
+                if now - microphone_status_state["last_logged"] >= 1.0:
+                    microphone_status_state["last_logged"] = now
+                    loop.call_soon_threadsafe(
+                        print,
+                        f"[LIVE] Microphone status: {status}",
+                    )
 
-                print(
-                    f"[LIVE] Microphone status: {status}"
-                )
-
-            try:
-
-                audio_bytes = bytes(
-                    indata
-                )
-
-                loop.call_soon_threadsafe(
-                    self._queue_audio,
-                    input_queue,
-                    audio_bytes,
-                )
-
-            except Exception as exc:
-
-                print(
-                    "[LIVE] Microphone callback error:",
-                    exc,
-                )
+            # Copy only and return immediately. RMS/VAD and queue mutation run
+            # on the Live loop so the PortAudio real-time thread never performs
+            # Python iteration, logging, or other potentially blocking work.
+            audio_bytes = bytes(indata)
+            loop.call_soon_threadsafe(
+                process_microphone_audio,
+                audio_bytes,
+            )
 
         try:
 
@@ -1010,9 +1307,14 @@ class Agent:
                 blocksize=BLOCK_SIZE,
             )
 
+            with self._speaker_lock:
+                self._speaker = speaker
+
             microphone.start()
 
-            speaker.start()
+            with self._speaker_io_lock:
+                speaker.start()
+                self._speaker_started = True
 
             print(
                 "[LIVE] Microphone active."
@@ -1051,6 +1353,7 @@ class Agent:
                 # * =================================================
 
                 connection_number = 0
+                reconnect_attempts = 0
 
                 while not self._stop_event.is_set():
 
@@ -1093,6 +1396,7 @@ class Agent:
 
                         tools=[
                             _build_jarvis_command_tool(),
+                            _build_jarvis_developer_tool(),
                             build_live_capability_tool(),
                             *build_live_search_tools(),
                         ],
@@ -1121,6 +1425,7 @@ class Agent:
                     )
 
                     connection_should_retry = False
+                    connection_started_at = 0.0
 
                     try:
 
@@ -1129,12 +1434,17 @@ class Agent:
                             config=connection_config,
                         ) as session:
 
+                            connection_started_at = time.monotonic()
+
                             print("[AGENT] Connected")
 
                             with self._session_lock:
                                 self._session = session
                                 self._session_loop = loop
                             self._set_connected(True)
+
+                            voice_activity_detector.reset()
+                            HUDIntegration.idle()
 
                             if connection_number == 1:
 
@@ -1319,6 +1629,13 @@ class Agent:
                                                 exc,
                                             )
 
+                                            if _is_expired_session_resumption_error(exc):
+                                                print(
+                                                    "[LIVE] Session resumption handle expired; "
+                                                    "starting a fresh Live session."
+                                                )
+                                                self._clear_session_resumption_handle()
+
                                             connection_should_retry = True
 
                                             break
@@ -1353,6 +1670,13 @@ class Agent:
                             exc,
                         )
 
+                        if _is_expired_session_resumption_error(exc):
+                            print(
+                                "[LIVE] Session resumption handle expired; "
+                                "starting a fresh Live session."
+                            )
+                            self._clear_session_resumption_handle()
+
                         connection_should_retry = True
 
                     # * ---------------------------------------------
@@ -1377,7 +1701,18 @@ class Agent:
                             "connection rollover..."
                         )
 
-                        await asyncio.sleep(1.0)
+                        if (
+                            connection_started_at
+                            and time.monotonic() - connection_started_at >= 10.0
+                        ):
+                            reconnect_attempts = 0
+                        reconnect_attempts += 1
+                        reconnect_delay = _live_reconnect_delay(reconnect_attempts)
+                        print(
+                            "[LIVE] Reconnect backoff:",
+                            f"{reconnect_delay:.1f}s",
+                        )
+                        await asyncio.sleep(reconnect_delay)
 
                         print(
                             "[LIVE] Resuming Agent..."
@@ -1409,6 +1744,12 @@ class Agent:
                 )
 
         finally:
+
+            voice_activity_detector.reset()
+            self._finish_live_audio_discard()
+
+            with self._speaker_lock:
+                self._speaker = None
 
             with self._session_lock:
                 self._session = None
@@ -1447,19 +1788,22 @@ class Agent:
 
             if speaker is not None:
 
-                try:
+                with self._speaker_io_lock:
+                    try:
 
-                    speaker.stop()
+                        speaker.stop()
 
-                except Exception:
-                    pass
+                    except Exception:
+                        pass
 
-                try:
+                    try:
 
-                    speaker.close()
+                        speaker.close()
 
-                except Exception:
-                    pass
+                    except Exception:
+                        pass
+
+                    self._speaker_started = False
 
             print(
                 "[LIVE] Audio devices closed."
@@ -1515,50 +1859,60 @@ class Agent:
     # * INTERRUPT LIVE SPEAKER
     # * =========================================================
 
-    @staticmethod
     def _interrupt_speaker(
+        self,
         speaker,
-    ):
+    ) -> bool:
         """
         Immediately interrupt Live audio playback.
 
         IMPORTANT:
         abort() clears the current PortAudio playback,
-        but it also leaves the stream stopped.
-
-        Therefore the same stream is immediately restarted
-        so the next Gemini response can continue using it.
+        but it leaves the stream stopped. Do not restart it
+        here: PortAudio may still be draining the device,
+        and an immediate start can raise PaErrorCode -9999.
+        The stream is reopened lazily before the next chunk.
 
         This affects ONLY the Agent speaker.
         """
 
         if speaker is None:
 
-            return
+            return True
 
-        try:
+        with self._speaker_io_lock:
+            try:
 
-            # * Immediately discard currently buffered audio.
-            speaker.abort()
+                # * Immediately discard currently buffered audio.
+                speaker.abort()
+                self._speaker_started = False
 
-            # * Re-open the same active stream for the
-            # * next Gemini response.
-            speaker.start()
+                print(
+                    "[LIVE] Speaker output interrupted."
+                )
 
-            print(
-                "[LIVE] Speaker output interrupted."
-            )
+                print(
+                    "[LIVE] Speaker stream left stopped until next output."
+                )
 
-            print(
-                "[LIVE] Speaker stream restarted."
-            )
+                return True
 
-        except Exception as exc:
+            except Exception as exc:
 
-            print(
-                "[LIVE] Speaker interruption failed:",
-                exc,
-            )
+                print(
+                    "[LIVE] Speaker interruption failed:",
+                    exc,
+                )
+                return False
+
+    def _write_speaker(self, speaker, audio: bytes):
+        """Start output only after an interrupt has fully returned."""
+        with self._speaker_io_lock:
+            if not self._speaker_started:
+                speaker.start()
+                self._speaker_started = True
+
+            speaker.write(audio)
 
     # * =========================================================
     # * SEND AUDIO
@@ -1638,6 +1992,7 @@ class Agent:
         """
         
         output_text_parts = []
+        turn_generation = self._live_generation_value()
 
         # * True when an existing JARVIS skill already produced the
         # * authoritative response for this Live turn.
@@ -1653,6 +2008,31 @@ class Agent:
             )
 
             async for response in session.receive():
+
+                self._set_live_turn_active(True)
+
+                if (
+                    not self._live_generation_current(turn_generation)
+                    and not self._is_discarding_live_audio()
+                ):
+                    self._set_live_turn_active(False)
+                    return "interrupted"
+
+                # A Live interruption can have already returned the current
+                # receive call while Gemini is still draining the interrupted
+                # turn. Keep consuming that turn, but discard every late
+                # audio/tool event until its server-side boundary arrives.
+                if self._is_discarding_live_audio():
+                    server_content = getattr(response, "server_content", None)
+                    if server_content and (
+                        getattr(server_content, "interrupted", False)
+                        or getattr(server_content, "turn_complete", False)
+                    ):
+                        self._finish_live_audio_discard()
+                        self._set_live_turn_active(False)
+                        self._hud_stop_speaking()
+                        return "turn_complete"
+                    continue
                 
                 # * =============================================
                 # * SERVER GO-AWAY NOTICE
@@ -1758,6 +2138,34 @@ class Agent:
                         response.tool_call.function_calls
                     ):
 
+                        invocation_id = str(function_call.id or "").strip()
+                        invocation_status, invocation_value = (
+                            self._live_invocations.begin(invocation_id)
+                        )
+                        if invocation_status == "cached":
+                            function_responses.append(invocation_value)
+                            continue
+                        if invocation_status == "wait":
+                            cached_response = await self._live_invocations.wait(
+                                invocation_value
+                            )
+                            if cached_response is not None:
+                                function_responses.append(cached_response)
+                            else:
+                                function_responses.append(
+                                    build_live_function_response(
+                                        types,
+                                        function_call.id,
+                                        function_call.name,
+                                        {
+                                            "success": False,
+                                            "status": "duplicate_wait_timeout",
+                                            "message": "The original Live invocation did not finish in time.",
+                                        },
+                                    )
+                                )
+                            continue
+
                         function_name = (
                             function_call.name
                         )
@@ -1767,11 +2175,13 @@ class Agent:
                             function_name,
                         )
 
+                        HUDIntegration.executing(function_name or "Live tool")
+
                         # * -----------------------------------------
                         # * JARVIS COMMAND
                         # * -----------------------------------------
 
-                        if function_name == "jarvis_command":
+                        if function_name in {"jarvis_command", "jarvis_developer"}:
 
                             args = (
                                 function_call.args
@@ -1811,10 +2221,11 @@ class Agent:
                                     with live_execution(session=session, loop=asyncio.get_running_loop()):
 
                                         dispatch_result = dispatch(
-                                            command
+                                            command,
+                                            live_invocation_id=function_call.id,
                                         )
 
-                                        await drain_live_tasks()
+                                        live_task_results = await drain_live_tasks()
 
                                         live_responses = get_live_responses()
 
@@ -1841,7 +2252,19 @@ class Agent:
                                         if response and response.strip()
                                     )
 
-                                    if authoritative_response:
+                                    result = resolve_live_task_results(
+                                        {"success": bool(dispatch_result), "status": "completed" if dispatch_result else "pending", "message": authoritative_response},
+                                        live_task_results,
+                                    )
+                                    if result.get("status") == "failed":
+
+                                        result = {
+                                            "success": False,
+                                            "status": "failed",
+                                            "message": authoritative_response or "The Live command failed during asynchronous execution.",
+                                        }
+
+                                    elif authoritative_response:
 
                                         print(
                                             f"[LIVE] {get_assistant_display_name()} skill response:",
@@ -1859,6 +2282,10 @@ class Agent:
                                             ),
                                             "authoritative": True,
                                         }
+                                        result = preserve_live_media(
+                                            result,
+                                            dispatch_result,
+                                        )
 
                                     elif isinstance(
                                         dispatch_result,
@@ -1949,13 +2376,22 @@ class Agent:
 
                             try:
                                 with live_execution(session=session, loop=asyncio.get_running_loop()):
-                                    result = execute_live_capability(
+                                    result = await self._execute_live_capability(
                                         action,
                                         args,
+                                        invocation_id=function_call.id,
                                     )
-                                    await drain_live_tasks()
+                                    live_task_results = await drain_live_tasks()
                                     live_responses = get_live_responses()
-                                    if live_responses and not result.get("authoritative"):
+                                    result = resolve_live_task_results(result, live_task_results, action)
+                                    if result.get("status") == "failed":
+                                        result = {
+                                            "ok": False,
+                                            "status": "failed",
+                                            "action": action,
+                                            "message": " ".join(live_responses) or "The Live capability failed during asynchronous execution.",
+                                        }
+                                    elif live_responses and not result.get("authoritative"):
                                         result = {
                                             "ok": True,
                                             "status": "reported_success",
@@ -1987,13 +2423,22 @@ class Agent:
                                 # Keep the existing live execution context so
                                 # skill-generated speech remains authoritative.
                                 with live_execution(session=session, loop=asyncio.get_running_loop()):
-                                    result = execute_live_capability(
+                                    result = await self._execute_live_capability(
                                         action,
                                         parameters,
+                                        invocation_id=function_call.id,
                                     )
-                                    await drain_live_tasks()
+                                    live_task_results = await drain_live_tasks()
                                     live_responses = get_live_responses()
-                                    if live_responses and not result.get("authoritative"):
+                                    result = resolve_live_task_results(result, live_task_results, action)
+                                    if result.get("status") == "failed":
+                                        result = {
+                                            "ok": False,
+                                            "status": "failed",
+                                            "action": action,
+                                            "message": " ".join(live_responses) or "The Live capability failed during asynchronous execution.",
+                                        }
+                                    elif live_responses and not result.get("authoritative"):
                                         result = {
                                             "ok": True,
                                             "status": "reported_success",
@@ -2024,12 +2469,16 @@ class Agent:
                                 ),
                             }
 
-                        function_responses.append(
-                            types.FunctionResponse(
-                                id=function_call.id,
-                                name=function_name,
-                                response=result,
-                            )
+                        live_function_response = build_live_function_response(
+                            types,
+                            function_call.id,
+                            function_name,
+                            result,
+                        )
+                        function_responses.append(live_function_response)
+                        self._live_invocations.complete(
+                            invocation_id,
+                            live_function_response,
                         )
 
                         # Keep runtime diagnostics useful without logging page
@@ -2044,13 +2493,19 @@ class Agent:
                                 "truncated=", result.get("truncated", False),
                             )
 
+                    # Tool execution is part of the response. Keep THINKING
+                    # active until Gemini produces audio or completes the turn.
+                    HUDIntegration.thinking()
+
                     # * ---------------------------------------------
                     # * Send result back to Gemini.
                     # * ---------------------------------------------
 
-                    await session.send_tool_response(
-                        function_responses=function_responses
-                    )
+                    if function_responses:
+                        await send_live_tool_response(
+                            session,
+                            function_responses=function_responses
+                        )
 
                     continue
 
@@ -2064,14 +2519,21 @@ class Agent:
 
                 if response.data:
 
+                    if not self._live_output_allowed(turn_generation):
+                        return "interrupted"
+
                     # * Gemini has produced actual speaker audio.
                     # * Tell the HUD that JARVIS is now speaking.
                     self._hud_start_speaking()
 
                     await asyncio.to_thread(
-                        speaker.write,
+                        self._write_speaker,
+                        speaker,
                         response.data,
                     )
+
+                    if not self._live_output_allowed(turn_generation):
+                        return "interrupted"
 
                 # * =============================================
                 # * SERVER CONTENT
@@ -2110,6 +2572,7 @@ class Agent:
                         )
 
                         try:
+                            HUDIntegration.thinking()
                             HUDIntegration.command(
                                 user_text
                             )
@@ -2176,6 +2639,7 @@ class Agent:
                     )
                     
                     self._hud_stop_speaking()
+                    self._set_live_turn_active(False)
 
                     self._interrupt_speaker(
                         speaker
@@ -2197,6 +2661,8 @@ class Agent:
                     "turn_complete",
                     False,
                 ):
+
+                    self._set_live_turn_active(False)
 
                     if output_text_parts:
 
@@ -2383,6 +2849,12 @@ def send_agent_text(
     return _agent.send_text(text)
 
 
+def interrupt_live_response() -> bool:
+    """Interrupt Live output without closing the persistent session."""
+
+    return _agent.interrupt_live_response()
+
+
 # * =============================================================
 # * REGISTRY ACTIONS
 # * =============================================================
@@ -2466,3 +2938,36 @@ def agent_status(
     return (
         "Agent is stopped."
     )
+
+
+def agent_state(
+    _data=None,
+):
+    """Return authoritative structured state for API consumers.
+
+    ``agent_status`` remains a backward-compatible human-readable response.
+    New API code should use these fields instead of comparing presentation
+    strings.
+    """
+
+    running = _agent.running
+    connected = _agent.connected
+
+    if connected:
+        state = "connected"
+    elif running:
+        state = "reconnecting"
+    else:
+        state = "stopped"
+
+    return {
+        "running": running,
+        "connected": connected,
+        "state": state,
+        "microphone_enabled": (
+            _agent.microphone_enabled()
+            if running
+            else False
+        ),
+        "controller": "gemini-live",
+    }
