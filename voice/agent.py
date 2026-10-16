@@ -54,6 +54,7 @@ import time
 from array import array
 from pathlib import Path
 from typing import Optional
+from uuid import uuid4
 
 import sounddevice as sd
 
@@ -86,9 +87,18 @@ from hud.integration import HUDIntegration
 from config.environment import get_env
 from config.settings import (
     get_assistant_display_name,
+    get_gemini_live_gender_setting,
+    set_gemini_live_gender_setting,
+    GEMINI_LIVE_DEFAULT_VOICE,
+    GEMINI_LIVE_FEMALE_VOICE,
     get_primary_gemini_live_model,
 )
 from core.diagnostics import debug_print
+from voice.live_context import (
+    merge_transcript_text,
+    recent_live_messages,
+    record_live_turn,
+)
 
 
 # * =============================================================
@@ -613,6 +623,13 @@ class Agent:
         self._live_interrupt_lock = threading.Lock()
         self._responded_screen_invocations = set()
         self._live_invocations = LiveInvocationDeduplicator(max_entries=256)
+        self._live_voice_lock = threading.Lock()
+        self._live_voice_enabled = get_gemini_live_gender_setting()
+        self._live_voice_applied = GEMINI_LIVE_DEFAULT_VOICE
+        self._live_voice_error = ""
+        self._live_voice_switching = False
+        self._live_voice_change = threading.Event()
+        self._live_context_session_id = None
 
     # * =========================================================
     # * STATE
@@ -642,6 +659,137 @@ class Agent:
     def _set_connected(self, value: bool):
         with self._state_lock:
             self._connected = bool(value)
+
+    def live_voice_setting(self) -> dict[str, object]:
+        with self._live_voice_lock:
+            requested_voice = (
+                GEMINI_LIVE_FEMALE_VOICE
+                if self._live_voice_enabled
+                else GEMINI_LIVE_DEFAULT_VOICE
+            )
+            return {
+                "enabled": self._live_voice_enabled,
+                "requested_voice": requested_voice,
+                "applied_voice": self._live_voice_applied,
+                "applied": self._live_voice_applied == requested_voice,
+                "reconnecting": self._live_voice_switching,
+                "error": self._live_voice_error,
+            }
+
+    def set_live_voice_setting(self, enabled: bool) -> dict[str, object]:
+        persisted_enabled = set_gemini_live_gender_setting(bool(enabled))
+        requested_voice = (
+            GEMINI_LIVE_FEMALE_VOICE
+            if persisted_enabled
+            else GEMINI_LIVE_DEFAULT_VOICE
+        )
+        with self._live_voice_lock:
+            self._live_voice_enabled = persisted_enabled
+            self._live_voice_error = ""
+            reconnecting = self.running and self.connected
+            voice_changed = requested_voice != self._live_voice_applied
+            rollover_requested = (
+                reconnecting
+                and voice_changed
+                and not self._live_voice_switching
+            )
+            if rollover_requested:
+                self._live_voice_switching = True
+                self._live_voice_change.set()
+            switching = self._live_voice_switching
+
+        if rollover_requested:
+            self.interrupt_live_response()
+
+        return {
+            "enabled": persisted_enabled,
+            "requested_voice": requested_voice,
+            "applied": not voice_changed and self.connected,
+            "active": self.running,
+            "reconnecting": switching,
+        }
+
+    def _configured_live_voice(self) -> str:
+        with self._live_voice_lock:
+            return (
+                GEMINI_LIVE_FEMALE_VOICE
+                if self._live_voice_enabled
+                else GEMINI_LIVE_DEFAULT_VOICE
+            )
+
+    def _refresh_live_voice_preference(self) -> bool:
+        """Reload the persisted gender before every new Live connection."""
+        enabled = get_gemini_live_gender_setting()
+        with self._live_voice_lock:
+            self._live_voice_enabled = enabled
+        return enabled
+
+    @staticmethod
+    def _conversation_manager():
+        try:
+            from brain.conversation_coordinator import conversation_coordinator
+
+            return conversation_coordinator.conversation
+        except Exception as exc:
+            print("[LIVE CONTEXT] Conversation manager unavailable:", exc)
+            return None
+
+    def _record_live_turn(
+        self,
+        user_text: str,
+        assistant_text: str,
+        turn_id: str,
+        tool_results=(),
+    ):
+        manager = self._conversation_manager()
+        if manager is None:
+            return
+
+        try:
+            session_id = manager.get_session_id()
+            if self._live_context_session_id != session_id:
+                self._live_context_session_id = session_id
+            if record_live_turn(
+                manager,
+                user_text,
+                assistant_text,
+                turn_id,
+                tool_results,
+            ):
+                print("[LIVE CONTEXT] Recorded completed Live turn once.")
+        except Exception as exc:
+            print("[LIVE CONTEXT] Could not record Live turn:", exc)
+
+    async def _restore_live_context(self, session) -> bool:
+        """Restore recent project conversation turns without generating a reply."""
+        manager = self._conversation_manager()
+        if manager is None:
+            return False
+
+        try:
+            session_id = manager.get_session_id()
+            if self._live_context_session_id not in (None, session_id):
+                return False
+            self._live_context_session_id = session_id
+            messages = recent_live_messages(manager, limit=10)
+            if not messages:
+                return False
+
+            turns = [
+                types.Content(
+                    role=message["role"],
+                    parts=[types.Part.from_text(text=message["content"])],
+                )
+                for message in messages
+            ]
+            await session.send_client_content(turns=turns, turn_complete=False)
+            print(
+                f"[LIVE CONTEXT] Restored {len(turns)} recent conversation turns."
+            )
+            return True
+        except Exception as exc:
+            print("[LIVE CONTEXT] Context restoration failed safely:", exc)
+            return False
 
     def _next_live_generation(self) -> int:
         with self._live_interrupt_lock:
@@ -1182,7 +1330,7 @@ class Agent:
 
                     prebuilt_voice_config=(
                         types.PrebuiltVoiceConfig(
-                            voice_name="Charon"
+                            voice_name=self._configured_live_voice()
                         )
                     )
 
@@ -1372,6 +1520,29 @@ class Agent:
                     # * immediately before connecting.
                     # * ---------------------------------------------
 
+                    requested_female = self._refresh_live_voice_preference()
+                    configured_voice = self._configured_live_voice()
+                    voice_rollover = self._live_voice_switching
+                    session_resumption_handle = (
+                        None
+                        if voice_rollover
+                        else self._get_session_resumption_handle()
+                    )
+                    if voice_rollover:
+                        # Resumption keeps the previous Live session setup,
+                        # including its voice. A voice change needs a fresh
+                        # session so the new speech_config is authoritative.
+                        self._clear_session_resumption_handle()
+                    print(
+                        "[LIVE VOICE] Requested preference:",
+                        "FEMALE" if requested_female else "MALE",
+                    )
+                    print("[LIVE VOICE] Configured voice:", configured_voice)
+                    if voice_rollover:
+                        print(
+                            "[LIVE VOICE] Using a fresh session for voice rollover."
+                        )
+
                     connection_config = types.LiveConnectConfig(
 
                         response_modalities=[
@@ -1407,7 +1578,7 @@ class Agent:
 
                                 prebuilt_voice_config=(
                                     types.PrebuiltVoiceConfig(
-                                        voice_name="Charon"
+                                        voice_name=configured_voice
                                     )
                                 )
 
@@ -1418,10 +1589,12 @@ class Agent:
                         session_resumption=(
                             types.SessionResumptionConfig(
                                 handle=(
-                                    self._get_session_resumption_handle()
+                                    session_resumption_handle
                                 ),
                             )
-                        ),
+                        )
+                        if session_resumption_handle
+                        else None,
                     )
 
                     connection_should_retry = False
@@ -1437,11 +1610,23 @@ class Agent:
                             connection_started_at = time.monotonic()
 
                             print("[AGENT] Connected")
+                            print(
+                                f"[LIVE VOICE] Connection #{connection_number} "
+                                f"ready with configured voice: {configured_voice}"
+                            )
 
                             with self._session_lock:
                                 self._session = session
                                 self._session_loop = loop
                             self._set_connected(True)
+                            with self._live_voice_lock:
+                                self._live_voice_applied = (
+                                    GEMINI_LIVE_FEMALE_VOICE
+                                    if self._live_voice_enabled
+                                    else GEMINI_LIVE_DEFAULT_VOICE
+                                )
+                                self._live_voice_error = ""
+                                self._live_voice_switching = False
 
                             voice_activity_detector.reset()
                             HUDIntegration.idle()
@@ -1460,6 +1645,9 @@ class Agent:
                                 )
 
                             print("[AGENT] Listening...")
+
+                            if voice_rollover:
+                                await self._restore_live_context(session)
 
                             # * =========================================
                             # * AUDIO SENDER
@@ -1480,6 +1668,7 @@ class Agent:
                                 # * =====================================
 
                                 startup_brief_started = False
+                                voice_change_requested = False
                                 while not self._stop_event.is_set():
 
                                     receive_task = asyncio.create_task(
@@ -1512,6 +1701,23 @@ class Agent:
                                     # * ---------------------------------
 
                                     if stop_task in done:
+
+                                        stop_reason = stop_task.result()
+
+                                        if stop_reason == "voice_change_requested":
+                                            self._live_voice_change.clear()
+                                            voice_change_requested = True
+                                            connection_should_retry = True
+
+                                            if not receive_task.done():
+                                                receive_task.cancel()
+
+                                            await asyncio.gather(
+                                                receive_task,
+                                                return_exceptions=True,
+                                            )
+
+                                            break
 
                                         self._stop_event.set()
 
@@ -1569,6 +1775,15 @@ class Agent:
 
                                             if result == "turn_complete":
 
+                                                continue
+
+                                            if result == "interrupted":
+
+                                                # A user barge-in or server-side
+                                                # interruption ends only this
+                                                # turn. It is not a connection
+                                                # failure and must not roll the
+                                                # persistent Live session.
                                                 continue
                                             
                                             # * ---------------------------------
@@ -1655,6 +1870,12 @@ class Agent:
                                     return_exceptions=True,
                                 )
 
+                                if voice_change_requested and not self._stop_event.is_set():
+                                    stop_task = asyncio.create_task(
+                                        self._wait_for_stop(),
+                                        name="JARVIS-AgentStopWatcher",
+                                    )
+
                     except asyncio.CancelledError:
 
                         raise
@@ -1669,6 +1890,28 @@ class Agent:
                             "[LIVE] Gemini Live connection error:",
                             exc,
                         )
+                        print(
+                            f"[LIVE VOICE] Connection #{connection_number} failed "
+                            f"with configured voice: {locals().get('configured_voice', 'unknown')}"
+                        )
+
+                        with self._live_voice_lock:
+                            requested_voice = (
+                                GEMINI_LIVE_FEMALE_VOICE
+                                if self._live_voice_enabled
+                                else GEMINI_LIVE_DEFAULT_VOICE
+                            )
+                            if requested_voice != self._live_voice_applied:
+                                self._live_voice_error = (
+                                    f"Gemini Live rejected the requested voice "
+                                    f"{requested_voice}: {exc}"
+                                )
+                                self._live_voice_enabled = (
+                                    self._live_voice_applied == GEMINI_LIVE_FEMALE_VOICE
+                                )
+                                self._live_voice_switching = False
+                                self._live_voice_change.clear()
+                                set_gemini_live_gender_setting(self._live_voice_enabled)
 
                         if _is_expired_session_resumption_error(exc):
                             print(
@@ -1991,7 +2234,10 @@ class Agent:
         The caller invokes this method again.
         """
         
-        output_text_parts = []
+        turn_id = uuid4().hex
+        input_text = ""
+        output_text = ""
+        tool_result_summaries = []
         turn_generation = self._live_generation_value()
 
         # * True when an existing JARVIS skill already produced the
@@ -2475,6 +2721,9 @@ class Agent:
                             function_name,
                             result,
                         )
+                        tool_result_summaries.append(
+                            json.dumps(result, ensure_ascii=False, default=str)[:1200]
+                        )
                         function_responses.append(live_function_response)
                         self._live_invocations.complete(
                             invocation_id,
@@ -2566,6 +2815,8 @@ class Agent:
 
                     if user_text:
 
+                        input_text = merge_transcript_text(input_text, user_text)
+
                         print(
                             "[YOU]",
                             user_text,
@@ -2595,15 +2846,12 @@ class Agent:
                     and output_transcription.text
                 ):
 
-                    output_text = (
+                    output_chunk = (
                         output_transcription.text.strip()
                     )
 
-                    if output_text:
-
-                        output_text_parts.append(
-                            output_text
-                        )
+                    if output_chunk:
+                        output_text = merge_transcript_text(output_text, output_chunk)
 
                 # * =============================================
                 # * MODEL RESPONSE INTERRUPTED
@@ -2664,31 +2912,33 @@ class Agent:
 
                     self._set_live_turn_active(False)
 
-                    if output_text_parts:
+                    complete_output = output_text.strip()
 
-                        complete_output = " ".join(
-                            output_text_parts
-                        ).strip()
+                    if complete_output:
 
-                        if complete_output:
+                        print(
+                            f"[{get_assistant_display_name()}]",
+                            complete_output,
+                        )
 
-                            print(
-                                f"[{get_assistant_display_name()}]",
-                                complete_output,
-                            )
+                        if not jarvis_authoritative_response:
 
-                            if not jarvis_authoritative_response:
-
-                                try:
-                                    HUDIntegration.response(
-                                        complete_output,
-                                        speaker="live",
-                                    )
-                                except Exception as exc:
-                                    print(
-                                        "[HUD LIVE RESPONSE LOG] Failed:",
-                                        exc,
-                                    )
+                            try:
+                                HUDIntegration.response(
+                                    complete_output,
+                                    speaker="live",
+                                )
+                            except Exception as exc:
+                                print(
+                                    "[HUD LIVE RESPONSE LOG] Failed:",
+                                    exc,
+                                )
+                    self._record_live_turn(
+                        input_text,
+                        complete_output,
+                        turn_id,
+                        tool_result_summaries,
+                    )
                     self._hud_stop_speaking()
 
                     print(
@@ -2735,13 +2985,13 @@ class Agent:
 
     async def _wait_for_stop(self):
 
-        while not self._stop_event.is_set():
+        while not self._stop_event.is_set() and not self._live_voice_change.is_set():
 
             await asyncio.sleep(
                 0.1
             )
 
-        return "stop requested"
+        return "stop requested" if self._stop_event.is_set() else "voice_change_requested"
 
     # * =========================================================
     # * NORMAL JARVIS MICROPHONE
@@ -2971,3 +3221,11 @@ def agent_state(
         ),
         "controller": "gemini-live",
     }
+
+
+def live_voice_state(_data=None):
+    return _agent.live_voice_setting()
+
+
+def set_live_voice_state(enabled: bool):
+    return _agent.set_live_voice_setting(enabled)

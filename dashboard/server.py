@@ -58,6 +58,9 @@ from ai.core.service import ai_service
 from config.settings import (
     get_assistant_display_name,
     get_assistant_name_lower,
+    get_gemini_live_gender_setting,
+    GEMINI_LIVE_DEFAULT_VOICE,
+    GEMINI_LIVE_FEMALE_VOICE,
     set_assistant_name,
 )
 
@@ -2872,6 +2875,48 @@ class DashboardServer:
                     status_code=500,
                 )
                 
+        # * =====================================================
+        # * LOCAL — GEMINI LIVE VOICE SETTINGS
+        # * =====================================================
+
+        @app.get("/api/local/live-voice")
+        async def local_live_voice_status(request: Request):
+            if not self._authorize_local(request):
+                return JSONResponse({"ok": False, "error": "Local access required."}, status_code=403)
+
+            runtime = {}
+            try:
+                from voice.agent import live_voice_state
+
+                runtime = live_voice_state()
+            except Exception:
+                pass
+
+            return {
+                "ok": True,
+                "enabled": get_gemini_live_gender_setting(),
+                "default_voice": GEMINI_LIVE_DEFAULT_VOICE,
+                "female_voice": GEMINI_LIVE_FEMALE_VOICE,
+                "runtime": runtime,
+            }
+
+        @app.post("/api/local/live-voice")
+        async def local_live_voice_set(request: Request):
+            if not self._authorize_local(request):
+                return JSONResponse({"ok": False, "error": "Local access required."}, status_code=403)
+
+            try:
+                body = await request.json()
+                enabled = bool(body.get("enabled", False))
+
+                from voice.agent import set_live_voice_state
+
+                result = set_live_voice_state(enabled)
+                return {"ok": True, **result}
+            except Exception as exc:
+                print("[LIVE VOICE SETTINGS ERROR]", exc)
+                return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
+
         # * =====================================================
         # AI CHATBOT
         # * =====================================================

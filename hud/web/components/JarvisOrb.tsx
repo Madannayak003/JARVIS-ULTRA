@@ -108,7 +108,11 @@ function readSavedUltronColor(): number {
 
 
 export default function JarvisOrb({
+  onReady,
+  onError,
 }: {
+  onReady?: () => void;
+  onError?: (message: string) => void;
 }) {
 
   const containerRef =
@@ -148,6 +152,9 @@ export default function JarvisOrb({
   const [error, setError] =
     useState<string | null>(null);
 
+  const [visualError, setVisualError] =
+    useState<string | null>(null);
+
 
 
   const [ultronColor, setUltronColor] =
@@ -184,10 +191,22 @@ export default function JarvisOrb({
 
     let scene: SceneApi;
 
-    scene = createOrbScene(container);
+    try {
+      scene = createOrbScene(container);
+    } catch (initializationError) {
+      const message = initializationError instanceof Error
+        ? initializationError.message
+        : "WebGL visual engine unavailable.";
+      setVisualError(message);
+      setError(message);
+      onError?.(message);
+      return;
+    }
 
     sceneRef.current =
       scene;
+
+    onReady?.();
 
     // * ---------------------------------------------------
     // * Apply current ULTRON color
@@ -219,7 +238,7 @@ export default function JarvisOrb({
 
     };
 
-  }, []);
+  }, [onError, onReady]);
 
 
   // * =====================================================
@@ -578,7 +597,14 @@ export default function JarvisOrb({
         ref={containerRef}
         className="orb-root"
         onDoubleClick={cycleUltronColor}
-      />
+      >
+        {visualError && (
+          <div className="orb-fallback" role="status" aria-label="Visual engine fallback">
+            <div className="orb-fallback-core"><span /><span /><span /></div>
+            <div className="orb-fallback-label">VISUAL ENGINE FALLBACK</div>
+          </div>
+        )}
+      </div>
 
 
       {/* ================================================= */}

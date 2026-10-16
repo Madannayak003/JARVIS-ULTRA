@@ -36,6 +36,26 @@ PRIMARY_GEMINI_LIVE_MODEL = "gemini-3.8-live"
 # foundation migration; it prevents accidental model routing chains.
 TASK_SPECIFIC_GEMINI_MODELS: dict[str, str] = {}
 
+# Keep the voice mapping in one place. The settings surface intentionally
+# exposes only gender; the concrete Live voices are implementation details.
+GEMINI_LIVE_DEFAULT_VOICE = "Charon"
+GEMINI_LIVE_FEMALE_VOICE = "Aoede"
+
+
+def get_gemini_live_gender_setting() -> bool:
+    settings = _read_persisted_settings()
+    return bool(settings.get("geminiLiveFemaleVoiceEnabled", False))
+
+
+def set_gemini_live_gender_setting(enabled: bool) -> bool:
+    settings = _read_persisted_settings()
+    settings["geminiLiveFemaleVoiceEnabled"] = bool(enabled)
+    _ASSISTANT_SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with _ASSISTANT_SETTINGS_FILE.open("w", encoding="utf-8") as file:
+        json.dump(settings, file, indent=2)
+        file.write("\n")
+    return bool(enabled)
+
 
 def get_primary_gemini_live_model() -> str:
     """Return the one fixed Gemini Live model for the main conversation."""

@@ -141,9 +141,9 @@ body {
     width: 100%;
     height: 100%;
 
-    background:  # * 050505;
+    background: #03070d;
 
-    color:  # * f5a400;
+    color: #e7f7ff;
 
     font-family:
         "Courier New",
@@ -165,6 +165,33 @@ body {
 
     flex-direction: column;
 
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 46%, rgba(0, 137, 255, 0.16), transparent 24%), linear-gradient(135deg, #03070d, #061321 55%, #02050a);
+
+}
+
+.loading::before {
+    content: "";
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border: 1px solid rgba(74, 201, 255, 0.18);
+    border-radius: 50%;
+    box-shadow: 0 0 70px rgba(0, 137, 255, 0.12), inset 0 0 70px rgba(0, 137, 255, 0.08);
+    animation: spin 12s linear infinite;
+
+}
+
+.loading::after {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border: 1px dashed rgba(74, 201, 255, 0.2);
+    border-radius: 50%;
+    animation: spin 8s linear infinite reverse;
+
 }
 
 .title {
@@ -174,6 +201,7 @@ body {
     letter-spacing: 8px;
 
     margin-bottom: 20px;
+    text-shadow: 0 0 30px rgba(49, 201, 255, 0.5);
 
 }
 
@@ -183,7 +211,23 @@ body {
 
     letter-spacing: 3px;
 
-    opacity: 0.75;
+    opacity: 0.8;
+    color: #62c9ee;
+
+}
+
+.substatus {
+    margin-top: 14px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #6c8798;
+
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 
 }
 
@@ -231,6 +275,8 @@ body {
         <span class="dot">...</span>
 
     </div>
+
+    <div class="substatus">ESTABLISHING SECURE HUD CHANNEL</div>
 
 </div>
 

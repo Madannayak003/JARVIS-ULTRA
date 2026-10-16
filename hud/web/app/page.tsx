@@ -275,6 +275,40 @@ function formatPairingRemaining(value: unknown): string {
   return `${String(minutes).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
+function BootScreen({
+  bridgeStatus,
+  orbError,
+  visible,
+}: {
+  bridgeStatus: HUDConnectionStatus;
+  orbError: string;
+  visible: boolean;
+}) {
+  const statusLabel = orbError
+    ? "VISUAL ENGINE FALLBACK ACTIVE"
+    : bridgeStatus === "offline"
+      ? "RECONNECTING TO SERVICES..."
+      : "INITIALIZING SYSTEM...";
+
+  return (
+    <div className={`boot-screen ${visible ? "boot-screen--visible" : "boot-screen--hidden"}`} aria-hidden={!visible}>
+      <div className="boot-atmosphere" aria-hidden="true">
+        <span className="boot-particle boot-particle--one" />
+        <span className="boot-particle boot-particle--two" />
+        <span className="boot-particle boot-particle--three" />
+        <span className="boot-ambient-line boot-ambient-line--top" />
+        <span className="boot-ambient-line boot-ambient-line--bottom" />
+      </div>
+      <div className="boot-content">
+        <div className="boot-eyebrow">INITIALIZING</div>
+        <h1 className="boot-brand"><span>JARVIS</span><em>ULTRA</em></h1>
+        <div className="boot-signal" aria-hidden="true"><span className="boot-signal-fill" /></div>
+        <div className="boot-status">{statusLabel}</div>
+      </div>
+    </div>
+  );
+}
+
 function ScheduleCenterSection({ tab, data }: { tab: ScheduleCenterTab; data: ScheduleCenterData }) {
   const items = data[tab];
   const next = items
@@ -313,6 +347,9 @@ function ScheduleCenterSection({ tab, data }: { tab: ScheduleCenterTab; data: Sc
 export default function Home() {
   const [hudState, setHudState] = useState<HUDState>(EMPTY_STATE);
   const [connection, setConnection] = useState<HUDConnectionStatus>("connecting");
+  const [orbReady, setOrbReady] = useState(false);
+  const [orbError, setOrbError] = useState("");
+  const [bootDismissed, setBootDismissed] = useState(false);
   const [activities, setActivities] = useState<HUDActivity[]>([]);
   const [scheduleCenterOpen, setScheduleCenterOpen] = useState(false);
   const [scheduleCenterTab, setScheduleCenterTab] = useState<ScheduleCenterTab>("reminders");
@@ -335,6 +372,23 @@ export default function Home() {
   const phoneCallDismissedRef = useRef(false);
   const [waveformLevels, setWaveformLevels] =
     useState<number[]>(Array(16).fill(0));
+
+  useEffect(() => {
+    if (connection === "connected" && (orbReady || orbError)) {
+      const timer = window.setTimeout(() => setBootDismissed(true), 220);
+      return () => window.clearTimeout(timer);
+    }
+    return undefined;
+  }, [connection, orbError, orbReady]);
+
+  const handleOrbReady = useCallback(() => {
+    setOrbReady(true);
+    setOrbError("");
+  }, []);
+
+  const handleOrbError = useCallback((message: string) => {
+    setOrbError(message);
+  }, []);
 
   const [morningBriefHeadlines, setMorningBriefHeadlines] = useState<
     Array<{
@@ -360,6 +414,10 @@ export default function Home() {
   const [autoStart, setAutoStart] = useState(false);
   const [morningBrief, setMorningBrief] = useState(true);
   const [microphoneEnabled, setMicrophoneEnabled] = useState(true);
+  const [liveFemaleVoiceEnabled, setLiveFemaleVoiceEnabled] = useState(false);
+  const [liveVoiceStatus, setLiveVoiceStatus] = useState<"idle" | "switching" | "success" | "error">("idle");
+  const [liveVoiceStatusText, setLiveVoiceStatusText] = useState("");
+  const liveVoiceRequestRef = useRef(0);
 
   const [assistantName, setAssistantName] = useState(DEFAULT_ASSISTANT_NAME);
   const [userName, setUserName] = useState("");
@@ -744,6 +802,16 @@ export default function Home() {
       if (res.ok) {
         const data = await res.json();
         if (data.ok && isMounted) setMicrophoneEnabled(Boolean(data.enabled && data.connected));
+      }
+    });
+
+    loadWithRetry(async () => {
+      const res = await fetch(`${JARVIS_DASHBOARD_URL}/api/local/live-voice`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ok && isMounted) {
+          setLiveFemaleVoiceEnabled(Boolean(data.enabled));
+        }
       }
     });
 
@@ -1460,6 +1528,60 @@ export default function Home() {
     setModal("customise");
   };
 
+  const applyLiveVoiceSettings = async (enabled = liveFemaleVoiceEnabled) => {
+    const requestId = liveVoiceRequestRef.current + 1;
+    liveVoiceRequestRef.current = requestId;
+    setLiveVoiceStatus("switching");
+    setLiveVoiceStatusText("SWITCHING LIVE VOICE...");
+    try {
+      const response = await fetch(`${JARVIS_DASHBOARD_URL}/api/local/live-voice`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({ enabled }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.error || "Could not apply Gemini Live voice.");
+      if (result.applied) {
+        if (requestId === liveVoiceRequestRef.current) {
+          setLiveVoiceStatus("success");
+          setLiveVoiceStatusText("LIVE VOICE READY");
+        }
+        return;
+      }
+
+      if (!result.active) {
+        if (requestId === liveVoiceRequestRef.current) {
+          setLiveVoiceStatus("success");
+          setLiveVoiceStatusText("VOICE PREFERENCE SAVED");
+        }
+        return;
+      }
+
+      for (let attempt = 0; attempt < 24; attempt += 1) {
+        await new Promise((resolve) => window.setTimeout(resolve, 250));
+        if (requestId !== liveVoiceRequestRef.current) return;
+
+        const stateResponse = await fetch(`${JARVIS_DASHBOARD_URL}/api/local/live-voice`, { cache: "no-store" });
+        const state = await stateResponse.json();
+        const runtime = state.runtime || {};
+        if (runtime.error) throw new Error(runtime.error);
+        if (runtime.applied && runtime.enabled === enabled && !runtime.reconnecting) {
+          setLiveVoiceStatus("success");
+          setLiveVoiceStatusText("LIVE VOICE READY");
+          return;
+        }
+      }
+
+      throw new Error("Gemini Live voice switching timed out.");
+    } catch (error) {
+      if (requestId === liveVoiceRequestRef.current) {
+        setLiveVoiceStatus("error");
+        setLiveVoiceStatusText(error instanceof Error ? error.message : "Could not switch Live voice.");
+      }
+    }
+  };
+
   const applyAssistantSettings = async () => {
     const name = normalizeAssistantName(assistantName);
     const user = userName.trim();
@@ -1714,7 +1836,7 @@ export default function Home() {
           ULTRON ENGINE
           ===================================================== */}
       <div className="ultron-layer">
-        <JarvisOrb />
+        <JarvisOrb onReady={handleOrbReady} onError={handleOrbError} />
       </div>
 
       {/* =====================================================
@@ -1758,6 +1880,12 @@ export default function Home() {
         onSettings={() => {
           setModal("settings");
         }}
+      />
+
+      <BootScreen
+        bridgeStatus={connection}
+        orbError={orbError}
+        visible={!bootDismissed}
       />
 
       {phoneCall && <PhoneCallIsland call={phoneCall} />}
@@ -2604,6 +2732,41 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* VOICE & AUDIO */}
+              <div className="settings-control-section live-voice-settings-section">
+                <div className="settings-control-header">
+                  <span className="settings-control-icon" aria-hidden="true" />
+                  <div>
+                    <div className="settings-control-title">VOICE &amp; AUDIO</div>
+                  </div>
+                </div>
+
+                <label className="settings-toggle-row live-voice-toggle-row">
+                  <span className="settings-toggle-icon">♫</span>
+                  <span className="settings-toggle-name">VOICE</span>
+                  <span className="settings-toggle-description" aria-hidden="true" />
+                  <span className="settings-toggle-state">{liveFemaleVoiceEnabled ? "FEMALE" : "MALE"}</span>
+                  <span className={`settings-switch ${liveFemaleVoiceEnabled ? "settings-switch-on" : "settings-switch-off"}`}>
+                    <span className="settings-switch-knob" />
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={liveFemaleVoiceEnabled}
+                    onChange={(event) => {
+                      const enabled = event.target.checked;
+                      setLiveFemaleVoiceEnabled(enabled);
+                      void applyLiveVoiceSettings(enabled);
+                    }}
+                    className="settings-hidden-checkbox"
+                  />
+                </label>
+                {liveVoiceStatus !== "idle" && (
+                  <div className={`live-voice-status live-voice-status-${liveVoiceStatus}`} aria-live="polite">
+                    {liveVoiceStatusText}
+                  </div>
+                )}
+              </div>
+
               {/* HUD VISIBILITY */}
               <div className="settings-visibility-section">
 
@@ -2755,6 +2918,7 @@ export default function Home() {
                             showActivityLog,
                             showSystemMonitor,
                             showQuickTools,
+                            liveFemaleVoiceEnabled,
                           })
                         );
                       } catch {}
