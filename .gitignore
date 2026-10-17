@@ -1,5 +1,5 @@
 # ==========================================================
-# JARVIS PRO
+# JARVIS ULTRA - .gitignore
 # ==========================================================
 
 # Python
@@ -120,7 +120,7 @@ out/
 # Jupyter
 .ipynb_checkpoints/
 
-# JARVIS PRO WebView2
+# JARVIS ULTRA WebView2
 hud/webview_data/
 
 # Local-only project files
@@ -130,5 +130,5 @@ test_ollama.py
 yolo11n.pt
 workspace.text
 
-# Personal JARVIS PRO notes
-JARVIS-PRO-NOTES.md
+# Personal JARVIS ULTRA notes
+JARVIS-ULTRA-NOTES.md

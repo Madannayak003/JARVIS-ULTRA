@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 HUD Events
 
 Defines events that can be displayed by the HUD.

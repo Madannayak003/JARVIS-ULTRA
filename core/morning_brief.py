@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — MORNING BRIEF
+JARVIS ULTRA — MORNING BRIEF
 =============================================================
 
 Structured RSS-based startup news briefing.

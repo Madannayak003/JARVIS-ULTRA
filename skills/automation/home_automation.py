@@ -1,6 +1,6 @@
 """
-JARVIS PRO - Home Automation
-Mark-L-main automation adapted for JARVIS PRO.
+JARVIS ULTRA - Home Automation
+Mark-L-main automation adapted for JARVIS ULTRA.
 
 Place at:
     skills/automation/home_automation.py

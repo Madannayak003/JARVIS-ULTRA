@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Wi-Fi Skill
 
 Controls and reports Windows Wi-Fi state.

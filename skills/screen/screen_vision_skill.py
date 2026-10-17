@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Live Screen Vision Skill
 
 Analyzes the current desktop directly from memory.

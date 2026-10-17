@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 One-Shot Vision Skill
 
 Vision automatically starts when a vision command is requested.

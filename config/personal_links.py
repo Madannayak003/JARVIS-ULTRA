@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Personal Links Configuration
 
 Stores user-specific websites, profiles,

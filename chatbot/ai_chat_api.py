@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Standalone AI Chatbot API
 
 HTTP/API boundary for the independent chatbot.

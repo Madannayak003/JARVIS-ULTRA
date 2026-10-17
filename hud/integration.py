@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 HUD Integration Layer
 
 Safe one-way integration between JARVIS runtime

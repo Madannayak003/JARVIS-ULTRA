@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Screenshot Skill
 
 Captures the current screen and saves it to the

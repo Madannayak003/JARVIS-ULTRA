@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - Model Manager
 
 Responsible for selecting models using:

@@ -644,7 +644,7 @@ export default function HudCockpit({
           </span>
 
           <span className="brand-pro">
-            PRO
+            ULTRA
           </span>
 
         </div>

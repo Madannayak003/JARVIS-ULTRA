@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Developer Prompt Builder
 
 Prompt Context
@@ -22,4 +22,4 @@ class PromptContext:
     analysis: AnalysisResult
 
     execution_plan: ExecutionPlan
-    
+

@@ -1,5 +1,5 @@
 """
-JARVIS PRO HUD
+JARVIS ULTRA HUD
 Event Bus
 """
 

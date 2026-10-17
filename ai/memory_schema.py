@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Memory Schema V2
 
 Central place for all memory constants.

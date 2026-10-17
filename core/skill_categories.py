@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Skill Categories
 
 Logical categorization for registered JARVIS actions.

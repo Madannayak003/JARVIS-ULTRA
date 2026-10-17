@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Brain Singleton
 
 Creates one shared AI Brain instance

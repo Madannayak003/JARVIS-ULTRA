@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Core Package
 
 The core package must NOT automatically import skills.

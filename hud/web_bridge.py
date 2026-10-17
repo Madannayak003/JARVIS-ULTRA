@@ -1,5 +1,5 @@
 # * """
-# * JARVIS PRO
+# * JARVIS ULTRA
 # * HUD Web Bridge
 
 # * UI-1.5: Python -> Web HUD event bridge.
@@ -295,7 +295,7 @@
 # * hud_web = HUDWebBridge()
 
 """
-JARVIS PRO
+JARVIS ULTRA
 HUD Web Bridge
 
 UI-1.5: Python -> Web HUD event bridge.

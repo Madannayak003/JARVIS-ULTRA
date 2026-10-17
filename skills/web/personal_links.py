@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Personal Web Skill
 
 Registers personal web destinations

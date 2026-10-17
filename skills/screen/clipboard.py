@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Clipboard Skill
 
 Provides clipboard reading and optional AI-powered

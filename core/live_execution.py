@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — LIVE EXECUTION CONTEXT
+JARVIS ULTRA — LIVE EXECUTION CONTEXT
 =============================================================
 
 Global execution state used to identify commands originating

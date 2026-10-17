@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - AI Selection Commands
 
 Converts natural AI selection commands into

@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - Model Policy
 
 Defines which AI capabilities should prefer

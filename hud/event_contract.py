@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 HUD Event Contract
 
 Defines the events that JARVIS is allowed to send to the HUD.

@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Vision Object Detector
 
 Stage 2:

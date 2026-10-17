@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Stage 4 - Context Builder
 
 Builds a unified AIContext object by collecting data from

@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — WINDOWS LOCATION SERVICE
+JARVIS ULTRA — WINDOWS LOCATION SERVICE
 =============================================================
 
 Provides the device's current geographic location using

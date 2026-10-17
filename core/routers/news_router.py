@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 News Router
 
 Routes explicit user-requested news commands.

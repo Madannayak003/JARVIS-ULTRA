@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Brightness Skill
 
 Controls and reports display brightness.

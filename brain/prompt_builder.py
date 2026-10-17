@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Stage 4 - Prompt Builder
 
 Builds the final prompt sent to the LLM.

@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - Grok Provider
 
 xAI's OpenAI-compatible chat completions provider.

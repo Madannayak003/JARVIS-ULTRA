@@ -1,7 +1,7 @@
 """
-JARVIS PRO HUD
+JARVIS ULTRA HUD
 
-Visual interface for JARVIS PRO.
+Visual interface for JARVIS ULTRA.
 
 The HUD is a display layer only.
 It does not contain JARVIS intelligence or command logic.

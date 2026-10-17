@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 HUD Settings
 
 Central configuration for HUD integration.

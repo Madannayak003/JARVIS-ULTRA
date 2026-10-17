@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Core Skill Registry
 
 Registry V3

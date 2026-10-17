@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 HUD Adapter
 
 Safe integration layer between JARVIS and the HUD.

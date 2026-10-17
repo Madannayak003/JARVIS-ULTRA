@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Bluetooth Skill
 
 Provides quick access to Windows Bluetooth settings.

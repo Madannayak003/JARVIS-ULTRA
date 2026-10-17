@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Reminders Skill
 
 Handles personal reminders and stores them in JSON.

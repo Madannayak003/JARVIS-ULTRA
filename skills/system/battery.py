@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Battery Skill
 
 Provides current battery information and automatic

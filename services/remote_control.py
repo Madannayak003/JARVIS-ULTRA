@@ -1,10 +1,10 @@
 """
 =============================================================
-JARVIS PRO - Remote Control Service
+JARVIS ULTRA - Remote Control Service
 =============================================================
 
 Mark-L-main remote/dashboard idea adapted as an optional
-JARVIS PRO service.
+JARVIS ULTRA service.
 
 The service:
 

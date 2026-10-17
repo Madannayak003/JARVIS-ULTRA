@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Task Manager Skill
 
 Provides quick system performance information:

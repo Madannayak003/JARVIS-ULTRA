@@ -1,5 +1,5 @@
 """
-JARVIS PRO greeting skill.
+JARVIS ULTRA greeting skill.
 
 The skill keeps startup speech separate from user-triggered greetings. Startup
 speech is generated locally from a small set of coherent, time-aware styles;

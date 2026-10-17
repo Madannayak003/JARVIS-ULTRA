@@ -1,9 +1,9 @@
 """
 =============================================================
-JARVIS PRO — WINDOWS INTEGRATION
+JARVIS ULTRA — WINDOWS INTEGRATION
 =============================================================
 
-Windows-only helpers used by the JARVIS PRO local HUD.
+Windows-only helpers used by the JARVIS ULTRA local HUD.
 
 Provides:
 
@@ -41,7 +41,7 @@ MAIN_PY = (
 
 ICON_PATH = PROJECT_ROOT / "assets" / "icons" / "jarvis.ico"
 
-SHORTCUT_NAME = "JARVIS PRO.lnk"
+SHORTCUT_NAME = "JARVIS ULTRA.lnk"
 
 
 # * =============================================================
@@ -125,13 +125,13 @@ def _desktop_directory() -> Path:
 
 def create_desktop_shortcut() -> str:
     """
-    Create or replace the JARVIS PRO desktop shortcut.
+    Create or replace the JARVIS ULTRA desktop shortcut.
 
     The shortcut launches:
 
         python run_jarvis.py
 
-    from the actual JARVIS PRO project directory.
+    from the actual JARVIS ULTRA project directory.
     """
 
     _require_windows()
@@ -139,7 +139,7 @@ def create_desktop_shortcut() -> str:
     if not MAIN_PY.is_file():
 
         raise FileNotFoundError(
-            f"JARVIS PRO launcher was not found: {MAIN_PY}"
+            f"JARVIS ULTRA launcher was not found: {MAIN_PY}"
         )
 
     desktop = (
@@ -174,7 +174,7 @@ $Shortcut.Arguments = $env:JARVIS_MAIN
 
 $Shortcut.WorkingDirectory = $env:JARVIS_ROOT
 
-$Shortcut.Description = "JARVIS PRO"
+$Shortcut.Description = "JARVIS ULTRA"
 
 $Shortcut.WindowStyle = 7
 
@@ -314,7 +314,7 @@ def _autostart_shortcut_path() -> Path:
 
 def get_autostart_status() -> bool:
     """
-    Return True when JARVIS PRO is configured to start
+    Return True when JARVIS ULTRA is configured to start
     automatically when the current Windows user logs in.
     """
 
@@ -331,10 +331,10 @@ def set_autostart(
     enabled: bool,
 ) -> str:
     """
-    Enable or disable JARVIS PRO Windows auto-start.
+    Enable or disable JARVIS ULTRA Windows auto-start.
 
     Enable:
-        Creates a JARVIS PRO shortcut in the user's
+        Creates a JARVIS ULTRA shortcut in the user's
         Windows Startup folder.
 
     Disable:
@@ -353,13 +353,13 @@ def set_autostart(
 
             shortcut_path.unlink()
 
-            print("[WINDOWS] JARVIS PRO auto-start disabled.")
+            print("[WINDOWS] JARVIS ULTRA auto-start disabled.")
 
         else:
 
-            print("[WINDOWS] JARVIS PRO auto-start was already disabled.")
+            print("[WINDOWS] JARVIS ULTRA auto-start was already disabled.")
 
-        return "JARVIS PRO auto-start disabled."
+        return "JARVIS ULTRA auto-start disabled."
 
     # * ---------------------------------------------------------
     # * Enable
@@ -368,7 +368,7 @@ def set_autostart(
     if not MAIN_PY.is_file():
 
         raise FileNotFoundError(
-            f"JARVIS PRO launcher was not found: {MAIN_PY}"
+            f"JARVIS ULTRA launcher was not found: {MAIN_PY}"
         )
 
     python_exe = (
@@ -388,7 +388,7 @@ $Shortcut.Arguments = $env:JARVIS_MAIN
 
 $Shortcut.WorkingDirectory = $env:JARVIS_ROOT
 
-$Shortcut.Description = "JARVIS PRO Auto Start"
+$Shortcut.Description = "JARVIS ULTRA Auto Start"
 
 if ($env:JARVIS_ICON) {
     $Shortcut.IconLocation = "$env:JARVIS_ICON,0"
@@ -458,6 +458,6 @@ $Shortcut.Save()
             "shortcut was not created."
         )
 
-    print("[WINDOWS] JARVIS PRO auto-start enabled.")
+    print("[WINDOWS] JARVIS ULTRA auto-start enabled.")
 
-    return "JARVIS PRO auto-start enabled."
+    return "JARVIS ULTRA auto-start enabled."

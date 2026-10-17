@@ -1,3 +1,3 @@
 """
-JARVIS PRO HUD Panels
+JARVIS ULTRA HUD Panels
 """

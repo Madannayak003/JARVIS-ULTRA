@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — AGENT
+JARVIS ULTRA — AGENT
 =============================================================
 
 Gemini Live native-audio conversation.

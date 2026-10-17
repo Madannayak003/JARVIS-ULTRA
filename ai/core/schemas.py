@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - Schemas
 
 Common data contracts shared by:

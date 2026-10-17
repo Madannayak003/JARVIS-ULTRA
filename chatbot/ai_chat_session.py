@@ -1,10 +1,10 @@
 """
 =============================================================
-JARVIS PRO — AI CHAT SESSION MANAGER
+JARVIS ULTRA — AI CHAT SESSION MANAGER
 =============================================================
 
 Completely independent session/history storage for the
-JARVIS PRO AI Chatbot.
+JARVIS ULTRA AI Chatbot.
 
 IMPORTANT
 ---------

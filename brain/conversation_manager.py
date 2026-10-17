@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Stage 4 - Conversation Manager
 
 Handles short-term conversation memory for the current session.

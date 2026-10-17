@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 News Skill
 
 Explicit user-requested news is independent from

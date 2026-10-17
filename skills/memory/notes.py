@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Notes Skill
 
 Handles quick personal notes.

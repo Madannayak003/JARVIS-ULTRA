@@ -1,5 +1,5 @@
 ============================================================
-JARVIS PRO
+JARVIS ULTRA
 COMPLETE PROJECT TECHNICAL DOCUMENTATION
 ============================================================
 
@@ -17,11 +17,15 @@ Secret-handling rule:
 - Sensitive files are identified by name and role only.
 - Environment-variable names are documented; values are omitted.
 
+NOTE: This report is a historical audit snapshot. JARVIS PRO references in
+the evidence sections describe the pre-migration state; the current product
+identity is JARVIS ULTRA.
+
 1. PROJECT OVERVIEW
 ===================
 
 Project identity:
-    JARVIS PRO is a Windows-oriented Python desktop assistant with a native
+    JARVIS ULTRA is a Windows-oriented Python desktop assistant with a native
     pywebview HUD, a Next.js/React HUD frontend, a voice command runtime, a
     local/remote dashboard, deterministic skill routing, AI providers, local
     memory, browser automation, camera/vision functions, Android/ADB
@@ -64,7 +68,7 @@ Current development state:
 ===================
 
 The requested product terminology says:
-    CURRENT USER-FACING NAME: JARVIS PRO
+    CURRENT USER-FACING NAME: JARVIS ULTRA
     INTERNAL / LEGACY IDENTIFIERS: JARVIS / JARVIS PRO
 
 The current repository does not consistently confirm JARVIS PRO as the active runtime

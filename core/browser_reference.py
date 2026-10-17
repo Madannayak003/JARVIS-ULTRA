@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — BROWSER REFERENCE RESOLVER
+JARVIS ULTRA — BROWSER REFERENCE RESOLVER
 =============================================================
 
 Resolves conversational references against the centralized

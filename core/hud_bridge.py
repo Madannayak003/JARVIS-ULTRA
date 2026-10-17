@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 HUD Runtime Bridge
 
 Connects JARVIS runtime information to the HUD.

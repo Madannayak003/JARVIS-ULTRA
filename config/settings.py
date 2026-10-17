@@ -1,5 +1,5 @@
 # * ===========================
-# * JARVIS PRO SETTINGS
+# * JARVIS ULTRA SETTINGS
 # * ===========================
 
 import json
@@ -11,11 +11,11 @@ from config.environment import get_env
 # * APP_NAME is the authoritative user-facing assistant identity. The existing
 # * Customize Assistant value is loaded into this same setting when the source
 # * is still using the built-in default.
-APP_NAME = "JARVIS PRO"
+APP_NAME = "JARVIS ULTRA"
 
 # * This marker identifies the built-in fallback only; it is not another active
 # * assistant-name setting.
-_BUILT_IN_APP_NAME = "JARVIS PRO"
+_BUILT_IN_APP_NAME = "JARVIS ULTRA"
 _ASSISTANT_SETTINGS_FILE = (
     Path(__file__).resolve().parent.parent
     / "data"

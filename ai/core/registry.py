@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - Model Registry
 
 Central registry for all AI providers and models.

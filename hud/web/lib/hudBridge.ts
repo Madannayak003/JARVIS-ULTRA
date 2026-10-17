@@ -1,5 +1,5 @@
 /**
- * JARVIS PRO
+ * JARVIS ULTRA
  * HUD Web Bridge
  *
  * Browser client for the Python HUD SSE bridge.

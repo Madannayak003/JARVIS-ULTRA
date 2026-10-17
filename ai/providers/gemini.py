@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - Gemini Provider
 
 Google Gemini implementation of the JARVIS AIProvider.

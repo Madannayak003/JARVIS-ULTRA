@@ -1,6 +1,6 @@
 """
 # * ============================================================
-# * ! JARVIS PRO — MAIN APPLICATION ENTRY POINT
+# * ! JARVIS ULTRA — MAIN APPLICATION ENTRY POINT
 # * ============================================================
 
 # * * Single-application desktop architecture.

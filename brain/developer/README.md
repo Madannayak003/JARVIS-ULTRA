@@ -1,6 +1,6 @@
 # Developer
 
-Developer is the software engineering subsystem of JARVIS PRO.
+Developer is the software engineering subsystem of JARVIS ULTRA.
 
 Its responsibility is to understand software development requests,
 plan projects, generate code, validate the generated output,

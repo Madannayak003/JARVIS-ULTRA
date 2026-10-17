@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Stage 4 - Context Types
 
 Shared data models for the AI Brain.

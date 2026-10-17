@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — BROWSER CONTEXT
+JARVIS ULTRA — BROWSER CONTEXT
 =============================================================
 
 Centralized runtime context for browser intelligence.

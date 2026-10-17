@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Weather Skill
 
 Provides current weather information.

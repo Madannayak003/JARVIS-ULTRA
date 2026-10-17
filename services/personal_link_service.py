@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Personal Link Service
 
 Resolves a personal-link name from configuration

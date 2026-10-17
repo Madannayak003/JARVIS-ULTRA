@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - AI Service
 
 Main public interface for the JARVIS AI Model System.

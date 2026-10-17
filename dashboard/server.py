@@ -1,9 +1,9 @@
 """
 =============================================================
-JARVIS PRO — DASHBOARD SERVER
+JARVIS ULTRA — DASHBOARD SERVER
 =============================================================
 
-Mark Remote Dashboard adapted for JARVIS PRO.
+Mark Remote Dashboard adapted for JARVIS ULTRA.
 
 Architecture:
 
@@ -1288,7 +1288,7 @@ class DashboardServer:
         # * -----------------------------------------------------
         # * CORS
         #
-        # * The JARVIS PRO HUD runs on Next.js
+        # * The JARVIS ULTRA HUD runs on Next.js
         # * while the remote dashboard runs on Python.
         # * -----------------------------------------------------
 
@@ -1298,7 +1298,7 @@ class DashboardServer:
                 "http://localhost:3000",
                 "http://127.0.0.1:3000",
 
-                # * JARVIS PRO HUD opened through the LAN address.
+                # * JARVIS ULTRA HUD opened through the LAN address.
                 f"http://{self.ip}:3000",
             ],
             allow_credentials=True,

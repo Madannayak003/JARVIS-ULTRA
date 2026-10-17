@@ -1,16 +1,16 @@
 <p align="center">
   <img
-    src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=600&size=24&pause=1000&color=00C2FF&center=true&vCenter=true&width=850&lines=🤖+JARVIS PRO+Desktop+Voice+Assistant;🎙️+Hey+JARVIS PRO+%7C+Wake+Word+Activated;🖥️+Windows+Desktop+Automation;⚡+Python+%7C+Voice+Control+%7C+AI;🚀+Iron-Man+Style+Desktop+Assistant"
+    src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=600&size=24&pause=1000&color=00C2FF&center=true&vCenter=true&width=850&lines=🤖+JARVIS ULTRA+Desktop+Voice+Assistant;🎙️+Hey+JARVIS ULTRA+%7C+Wake+Word+Activated;🖥️+Windows+Desktop+Automation;⚡+Python+%7C+Voice+Control+%7C+AI;🚀+Iron-Man+Style+Desktop+Assistant"
     alt="Typing Header"
   />
 </p>
 
 <p align="center">
-  <img src="https://giffiles.alphacoders.com/212/212508.gif" alt="JARVIS PRO HUD" width="100%">
+  <img src="https://giffiles.alphacoders.com/212/212508.gif" alt="JARVIS ULTRA HUD" width="100%">
 </p>
 
 <p align="center">
-  <strong>ASSISTANT – JARVIS PRO Desktop Voice Assistant</strong>
+  <strong>ASSISTANT – JARVIS ULTRA Desktop Voice Assistant</strong>
 </p>
 
 <p align="center">
@@ -21,15 +21,15 @@
 
 ---
 
-# JARVIS PRO Desktop Voice Assistant
+# JARVIS ULTRA Desktop Voice Assistant
 
 ## ✨ Overview
 
-JARVIS PRO is a Windows-focused desktop voice assistant built around a Python
+JARVIS ULTRA is a Windows-focused desktop voice assistant built around a Python
 automation runtime, deterministic command routing, AI providers, and a
 real-time desktop HUD.
 
-JARVIS PRO combines:
+JARVIS ULTRA combines:
 
 - Voice interaction and wake-word invocation
 - Gemini Live voice interaction with shared audio and interruption handling
@@ -47,7 +47,7 @@ JARVIS PRO combines:
 ### Voice and AI
 
 - Deterministic wake-word handling for the configured assistant name and
-  explicit JARVIS PRO/JARVIS aliases.
+  explicit JARVIS ULTRA/JARVIS aliases.
 - Voice input and retained Edge TTS output support.
 - Gemini Live as the sole primary conversational engine.
 - Gemini Lite secondary generation for approved text tasks.
@@ -114,7 +114,7 @@ JARVIS PRO combines:
 Feature availability depends on Windows permissions, installed applications,
 hardware, model files, network access, and configured credentials.
 
-## 🧠 How JARVIS PRO Works
+## 🧠 How JARVIS ULTRA Works
 
 ~~~text
 User
@@ -231,7 +231,7 @@ Some actions use optional Windows-only libraries or require user permissions.
 
 ## 🌐 Browser System
 
-JARVIS PRO owns a dedicated Chromium browser runtime instead of attaching to an
+JARVIS ULTRA owns a dedicated Chromium browser runtime instead of attaching to an
 arbitrary browser debugging endpoint.
 
 The browser system:
@@ -239,7 +239,7 @@ The browser system:
 - Detects Chrome, Edge, or Chromium.
 - Creates or reuses a persistent per-user browser profile.
 - Uses a local CDP endpoint and Playwright.
-- Records ownership/session information so only a verified JARVIS PRO-launched
+- Records ownership/session information so only a verified JARVIS ULTRA-launched
   browser session is reused.
 - Supports tabs, navigation, scrolling, Google search, YouTube, and sequential
   result references.
@@ -264,7 +264,7 @@ Browser configuration variables:
 
 ## 📱 Android Control
 
-JARVIS PRO uses one shared Android/ADB bridge:
+JARVIS ULTRA uses one shared Android/ADB bridge:
 
 ~~~text
 Android Control / Phone Calls / Payment
@@ -331,7 +331,7 @@ The official payment application remains responsible for:
 - PIN, OTP, CVV, biometric, or other security checks
 - Final authorization and payment confirmation
 
-JARVIS PRO does not scan payment QR codes with its own camera, enter payment
+JARVIS ULTRA does not scan payment QR codes with its own camera, enter payment
 credentials, simulate authorization taps, or claim that a transfer succeeded.
 
 Payment-app launching uses the Android/ADB bridge. It does not require the
@@ -357,7 +357,7 @@ operation; device permissions and Android behavior still apply.
 
 Answer, reject, and end actions are registered, but the current implementation
 explicitly reports that safe ADB control is unavailable on the audited Android
-device and asks the user to operate the phone manually. JARVIS PRO should not be
+device and asks the user to operate the phone manually. JARVIS ULTRA should not be
 treated as providing automatic telecom control.
 
 ## 👁️ Vision
@@ -440,7 +440,7 @@ Remote Control and Android ADB are different systems:
 
 | System | Purpose |
 | --- | --- |
-| Remote dashboard | Sends commands/events between a browser or phone UI and the JARVIS PRO runtime. |
+| Remote dashboard | Sends commands/events between a browser or phone UI and the JARVIS ULTRA runtime. |
 | Android/ADB bridge | Communicates directly with a connected Android device. |
 
 The dashboard is optional. Android ADB and payment-app launching do not depend
@@ -546,7 +546,7 @@ For a selected device, set <code>ANDROID_DEVICE_ID</code> or use the Android
 connection controls in the HUD. Wireless ADB accepts an address and port through
 the connection UI.
 
-## ▶️ Run JARVIS PRO
+## ▶️ Run JARVIS ULTRA
 
 From the repository root:
 
@@ -1355,7 +1355,7 @@ modules.
 ## 🔐 Safety and Design Boundaries
 
 - Payment authorization stays inside the official Android payment application.
-- JARVIS PRO does not handle UPI PINs, OTPs, CVVs, biometrics, or final payment
+- JARVIS ULTRA does not handle UPI PINs, OTPs, CVVs, biometrics, or final payment
   authorization.
 - Android commands use the shared <code>services/android/</code> bridge and
   target the phone only when the command is explicitly phone-scoped.
@@ -1372,7 +1372,7 @@ modules.
 
 Test locations include:
 
-- <code>tests/</code>: configuration, JARVIS PRO routing, browser
+- <code>tests/</code>: configuration, JARVIS ULTRA routing, browser
   references, Android/payment routing, vision, phone calls, remote events,
   providers, and personal links.
 - <code>brain/tests/</code>: clarification and intent behavior.
@@ -1409,7 +1409,7 @@ No automated test run is claimed for this documentation change.
 | Browser skill fails | Install Chrome, Edge, or Chromium and check the browser executable/profile/CDP environment values. |
 | Optional integration fails | Configure only the relevant API/OAuth variables and verify the desktop application or external service is available. |
 
-## 🤝 Contributing and Extending JARVIS PRO
+## 🤝 Contributing and Extending JARVIS ULTRA
 
 Use the existing architecture boundaries:
 

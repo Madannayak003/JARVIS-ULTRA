@@ -1,4 +1,4 @@
-# JARVIS PRO Python dependencies
+# JARVIS ULTRA Python dependencies
 # Install with: python -m pip install -r requirements.txt
 # The Browser Skill controls an installed Chrome, Edge, or Chromium browser
 # through Playwright CDP; no Playwright browser download is required for it.

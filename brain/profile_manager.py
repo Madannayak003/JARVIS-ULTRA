@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Stage 4 - Profile Manager
 
 Stores permanent user profile and preferences.

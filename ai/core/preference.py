@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 AI Core - AI Preference
 
 Stores the user's temporary AI provider/model preference.

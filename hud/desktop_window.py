@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — NATIVE DESKTOP HUD WINDOW
+JARVIS ULTRA — NATIVE DESKTOP HUD WINDOW
 =============================================================
 
 Native Windows window for the existing Next.js HUD.

@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Voice Session State
 
 Each AI response gets its own speech session.

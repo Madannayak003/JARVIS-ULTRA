@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Screenshot AI Skill
 
 Analyzes the latest captured screenshot using the

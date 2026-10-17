@@ -1,5 +1,5 @@
 """
-JARVIS PRO - Brain Package
+JARVIS ULTRA - Brain Package
 
 Public API for the AI Brain.
 """

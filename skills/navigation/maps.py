@@ -1,6 +1,6 @@
 """
 =============================================================
-JARVIS PRO — GOOGLE MAPS SKILL
+JARVIS ULTRA — GOOGLE MAPS SKILL
 =============================================================
 
 Provides Google Maps opening and destination navigation.

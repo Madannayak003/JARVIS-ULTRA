@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Standalone AI Chatbot
 
 This chatbot is completely independent from the main JARVIS system.

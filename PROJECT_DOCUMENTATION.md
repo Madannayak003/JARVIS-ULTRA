@@ -1,4 +1,4 @@
-============================================================ JARVIS PRO
+============================================================ JARVIS ULTRA
 COMPLETE PROJECT TECHNICAL DOCUMENTATION
 ============================================================
 
@@ -17,7 +17,7 @@ Environment-variable names are documented; values are omitted.
 
 # 1. PROJECT OVERVIEW
 
-Project identity: JARVIS PRO is a Windows-oriented Python desktop
+Project identity: JARVIS ULTRA is a Windows-oriented Python desktop
 assistant with a native pywebview HUD, a Next.js/React HUD frontend, a
 voice command runtime, a local/remote dashboard, deterministic skill
 routing, AI providers, local memory, browser automation, camera/vision
@@ -56,20 +56,18 @@ configured or available on a given machine.
 
 # 2. CURRENT IDENTITY
 
-The requested product terminology says: CURRENT USER-FACING NAME: JARVIS
-PRO INTERNAL / LEGACY IDENTIFIERS: JARVIS / JARVIS PRO
+The current product terminology is: CURRENT USER-FACING NAME: JARVIS ULTRA.
+INTERNAL / LEGACY IDENTIFIERS: JARVIS and JARVIS PRO where compatibility requires them.
 
-The current repository does not consistently confirm JARVIS PRO as the
-active runtime name. The authoritative settings module starts with
-APP*NAME = \"JARVIS PRO\", then loads data/settings/jarvis*settings.json
+The current repository presents JARVIS ULTRA as the product identity. The
+authoritative settings module starts with APP_NAME = \"JARVIS ULTRA\", then loads
+data/settings/jarvis_settings.json
 when present. That persisted file currently contains a customized
 assistantName of \"JARVIS\". Therefore the runtime display name resolves
 to the persisted setting on this checkout, not to JARVIS PRO.
 
-JARVIS PRO evidence: - legacy offline-AI instructions use the name JARVIS
-PRO; - browser runtime messages include JARVIS PRO in some
-descriptions; - tests and newer UI terminology refer to JARVIS PRO in
-places.
+Historical audit evidence below may still mention JARVIS PRO because it records
+the pre-migration state; those references are not current product labels.
 
 JARVIS evidence: - package/module/file names, action protocol names,
 dashboard constants, storage filenames, prompt text, and compatibility
@@ -77,9 +75,9 @@ aliases use JARVIS; - settings.py defines JARVIS PRO as the built-in
 fallback; - \"jarvis\" is an explicit legacy assistant alias; - the
 persisted runtime setting currently resolves to JARVIS.
 
-Safe conclusion: JARVIS PRO is a requested/new identity and appears in
-parts of the code, but this checkout\'s effective persisted display name
-is JARVIS. JARVIS and JARVIS PRO remain active technical identifiers.
+Safe conclusion: JARVIS ULTRA is the current product identity. JARVIS PRO
+references that remain in this document describe historical state or retained
+compatibility identifiers.
 The name system is configurable and intentionally preserves explicit
 compatibility aliases.
 

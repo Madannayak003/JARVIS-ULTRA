@@ -1,5 +1,5 @@
 """
-JARVIS PRO
+JARVIS ULTRA
 Developer Validator
 
 Validation Result
@@ -74,4 +74,4 @@ class ValidationResult:
     # * ---------------------------------------
 
     metadata: dict = field(default_factory=dict)
-    
+

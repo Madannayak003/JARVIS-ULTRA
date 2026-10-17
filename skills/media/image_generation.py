@@ -1,5 +1,5 @@
 """
-JARVIS PRO Image Generation Skill
+JARVIS ULTRA Image Generation Skill
 
 Generates images from natural-language prompts using
 Pollinations AI.
