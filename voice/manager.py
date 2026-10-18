@@ -428,18 +428,6 @@ def speak(
     if not speech_text:
         return
 
-    # Gemini Live remains the sole speech-generation provider for the entire
-    # active Live session, including announcements emitted outside the narrow
-    # tool-execution context (for example by a scheduled action).
-    if _gemini_live_active():
-        if record_conversation:
-            _record_conversation_response(str(text))
-        print(
-            "[VOICE] Gemini Live session active - "
-            "suppressing normal TTS."
-        )
-        return
-
     # * -----------------------------------------------------
     # * AGENT SPEECH GATE
     #
@@ -463,6 +451,18 @@ def speak(
             "suppressing normal TTS."
         )
 
+        return
+
+    # Gemini Live remains the sole speech-generation provider for the entire
+    # active Live session, including announcements emitted outside the narrow
+    # tool-execution context (for example by a scheduled action).
+    if _gemini_live_active():
+        if record_conversation:
+            _record_conversation_response(str(text))
+        print(
+            "[VOICE] Gemini Live session active - "
+            "suppressing normal TTS."
+        )
         return
     
     # * -----------------------------------------------------

@@ -661,6 +661,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button cockpit-nav-button-shutdown"
+            aria-label="Shutdown"
             onClick={() => onCommand("shutdown")}
           >
             <HeaderIcon name="power" />
@@ -669,6 +671,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="Running apps"
             onClick={() => onCommand("running apps")}
           >
             <HeaderIcon name="activity" />
@@ -677,6 +681,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="Weather"
             onClick={() => onCommand("weather")}
           >
             <HeaderIcon name="weather" />
@@ -685,6 +691,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="News"
             onClick={() => onCommand("news")}
           >
             <HeaderIcon name="news" />
@@ -693,6 +701,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="Play music"
             onClick={() => onCommand("play music")}
           >
             <HeaderIcon name="music" />
@@ -722,6 +732,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="What is on my screen"
             onClick={() => onCommand("what is on my screen")}
           >
             <HeaderIcon name="screen" />
@@ -730,6 +742,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="Take photo"
             onClick={() => onCommand("take photo")}
           >
             <HeaderIcon name="capture" />
@@ -738,6 +752,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="Recent files"
             onClick={() => onCommand("recent files")}
           >
             <HeaderIcon name="files" />
@@ -746,6 +762,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="Take a note"
             onClick={() => onCommand("take a note")}
           >
             <HeaderIcon name="notes" />
@@ -754,6 +772,8 @@ export default function HudCockpit({
 
           <button
             type="button"
+            className="cockpit-nav-button"
+            aria-label="Settings"
             onClick={onSettings}
           >
             <HeaderIcon name="settings" />

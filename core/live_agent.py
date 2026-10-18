@@ -873,6 +873,16 @@ def execute_live_capability(
         )
         return result
 
+    rendered = _display_result(raw)
+    if raw is False:
+        result = {"ok": False, "status": "failed", "action": action_name, "message": rendered or "The capability reported failure."}
+        _emit_live_diagnostic(
+            "completion", action=action_name, parameters=payload_for_diagnostics,
+            started=started, result=result, status=result["status"],
+            volume_reading=_volume_status_reading(action_name, payload),
+        )
+        return result
+
     authoritative = " ".join(
         text.strip() for text in get_live_responses() if text and text.strip()
     )
@@ -884,16 +894,6 @@ def execute_live_capability(
             "authoritative": True,
             "message": authoritative,
         }
-        _emit_live_diagnostic(
-            "completion", action=action_name, parameters=payload_for_diagnostics,
-            started=started, result=result, status=result["status"],
-            volume_reading=_volume_status_reading(action_name, payload),
-        )
-        return result
-
-    rendered = _display_result(raw)
-    if raw is False:
-        result = {"ok": False, "status": "failed", "action": action_name, "message": rendered or "The capability reported failure."}
         _emit_live_diagnostic(
             "completion", action=action_name, parameters=payload_for_diagnostics,
             started=started, result=result, status=result["status"],
