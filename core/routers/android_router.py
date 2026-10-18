@@ -47,6 +47,7 @@ ANDROID_APP_COMMANDS = {
 
     # * OTT / streaming
     "jiohotstar": "JioHotstar",
+    "JioHotstar": "JioHotstar",
     "jio hotstar": "JioHotstar",
     "hotstar": "JioHotstar",
 
@@ -58,6 +59,7 @@ ANDROID_APP_COMMANDS = {
 
     # * Social media
     "instagram": "Instagram",
+    "Instagram" : "Instagram",
     "snapchat": "Snapchat",
     "facebook": "Facebook",
     "linkedin": "LinkedIn",
