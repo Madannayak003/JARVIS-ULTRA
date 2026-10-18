@@ -41,7 +41,19 @@ def ai_youtube(data):
     # * Open YouTube search page
     # * -------------------------------------------------
 
-    browser.search_youtube(query)
+    opened = browser.search_youtube(query)
+    if not opened:
+        print(f"[YouTube] Search navigation failed for: {query}")
+        return {
+            "ok": False,
+            "status": "failed",
+            "action": "youtube_search",
+            "query": query,
+            "platform": "youtube",
+            "results": [],
+            "result_count": 0,
+            "message": "YouTube search navigation failed.",
+        }
 
     # * -------------------------------------------------
     # * Capture search results for NCI
@@ -273,26 +285,26 @@ def youtube_play_first(data):
 def youtube_pause(data):
     result = browser.pause_video()
     if not is_live_execution():
-        speak("Pausing YouTube" if result else "I couldn't pause YouTube.")
+        speak("YouTube is paused." if result else "I couldn't pause YouTube.")
     return {
         "ok": bool(result),
         "status": "completed" if result else "failed",
         "action": "youtube_pause",
-        "message": "Pause command sent to YouTube." if result else "I couldn't pause YouTube.",
-        "playback_state_verified": False,
+        "message": "YouTube is paused." if result else "I couldn't pause YouTube.",
+        "playback_state_verified": bool(result),
     }
 
 
 def youtube_resume(data):
     result = browser.resume_video()
     if not is_live_execution():
-        speak("Resuming YouTube" if result else "I couldn't resume YouTube.")
+        speak("YouTube is playing." if result else "I couldn't resume YouTube.")
     return {
         "ok": bool(result),
         "status": "completed" if result else "failed",
         "action": "youtube_resume",
-        "message": "Resume command sent to YouTube." if result else "I couldn't resume YouTube.",
-        "playback_state_verified": False,
+        "message": "YouTube is playing." if result else "I couldn't resume YouTube.",
+        "playback_state_verified": bool(result),
     }
 
 

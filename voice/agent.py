@@ -2379,6 +2379,7 @@ class Agent:
                 if response.tool_call:
 
                     function_responses = []
+                    batch_results = {}
 
                     for function_call in (
                         response.tool_call.function_calls
@@ -2415,6 +2416,27 @@ class Agent:
                         function_name = (
                             function_call.name
                         )
+
+                        # A single Live response can contain the same command
+                        # more than once. Coalesce only within this response
+                        # batch; separate user turns remain independent.
+                        batch_key = None
+                        if function_name in {"jarvis_command", "jarvis_capability"}:
+                            batch_key = (
+                                function_name,
+                                json.dumps(function_call.args or {}, sort_keys=True, default=str),
+                            )
+                            if batch_key in batch_results:
+                                function_responses.append(
+                                    build_live_function_response(
+                                        types,
+                                        function_call.id,
+                                        function_name,
+                                        batch_results[batch_key],
+                                    )
+                                )
+                                print("[LIVE TOOL] Duplicate command in one response batch; reusing result")
+                                continue
 
                         print(
                             "[LIVE TOOL]",
@@ -2591,7 +2613,7 @@ class Agent:
                             with live_execution(session=session, loop=asyncio.get_running_loop()):
                                 result = execute_live_search(
                                     args.get("query"),
-                                    args.get("provider", "google"),
+                                    args.get("provider"),
                                 )
                             if result.get("authoritative"):
                                 jarvis_authoritative_response = True
@@ -2714,6 +2736,9 @@ class Agent:
                                     f"{function_name}"
                                 ),
                             }
+
+                        if batch_key is not None:
+                            batch_results[batch_key] = result
 
                         live_function_response = build_live_function_response(
                             types,

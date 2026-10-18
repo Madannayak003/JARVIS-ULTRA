@@ -831,7 +831,14 @@ def execute_live_capability(
 def execute_live_search(query: Any, provider: Any = "google") -> dict:
     """Execute an existing search skill and return its real browser context."""
     query_text = str(query or "").strip()
-    provider_name = str(provider or "google").strip().lower()
+    provider_name = str(provider or "").strip().lower()
+
+    # Gemini occasionally omits the optional provider field even when the
+    # user's natural-language query names one. Preserve the explicit provider
+    # instead of silently sending a YouTube request to Google's default path.
+    if not provider_name:
+        provider_name, query_text = _infer_search_provider(query_text)
+    provider_name = provider_name or "google"
     actions = {
         "google": "google_search",
         "youtube": "youtube_search",
@@ -867,6 +874,26 @@ def execute_live_search(query: Any, provider: Any = "google") -> dict:
         result["results"] = []
         result["message"] = f"Search completed, but result metadata was unavailable: {exc}"
     return result
+
+
+def _infer_search_provider(query: str) -> tuple[str, str]:
+    """Infer only an explicitly named provider from a natural-language query."""
+    normalized = str(query or "").strip()
+    lowered = normalized.lower()
+    prefixes = (
+        ("youtube", "search youtube for "),
+        ("youtube", "search youtube "),
+        ("youtube", "search on youtube for "),
+        ("youtube", "search on youtube "),
+        ("google", "search google for "),
+        ("google", "search google "),
+        ("github", "search github for "),
+        ("github", "search github "),
+    )
+    for provider, prefix in prefixes:
+        if lowered.startswith(prefix):
+            return provider, normalized[len(prefix):].strip()
+    return "", normalized
 
 
 def execute_live_open_result(position: Any = None, url: Any = None) -> dict:

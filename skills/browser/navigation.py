@@ -1,4 +1,5 @@
 import urllib.parse
+import time
 
 from skills.browser.browser_controller import browser
 
@@ -15,14 +16,33 @@ class NavigationEngine:
         if not url:
             return False
 
-        print(f"[NAVIGATION] {url}")
+        if not urllib.parse.urlparse(url).scheme:
+            url = "https://" + url
+
+        started_at = time.monotonic()
+        print(f"[NAVIGATION] Requested URL: {url}")
 
         try:
-            browser.open(url)
+            result = browser.open(url)
+            if result is not True:
+                print(
+                    "[NAVIGATION FAILED] Browser open returned "
+                    f"{result!r} | elapsed={time.monotonic() - started_at:.2f}s"
+                )
+                return False
+
+            print(
+                "[NAVIGATION COMPLETE] "
+                f"{url} | elapsed={time.monotonic() - started_at:.2f}s"
+            )
             return True
 
-        except Exception as e:
-            print(f"[NAVIGATION ERROR] {e}")
+        except Exception as error:
+            print(
+                "[NAVIGATION ERROR] "
+                f"{type(error).__name__}: {error} | "
+                f"elapsed={time.monotonic() - started_at:.2f}s"
+            )
             return False
 
 

@@ -14,7 +14,10 @@ def ai_github(data):
 
     speak(f"Searching GitHub for {query}")
 
-    browser.search_github(query)
+    opened = browser.search_github(query)
+    if not opened:
+        print(f"[GitHub] Search navigation failed for: {query}")
+        return False
 
     set_memory("site", "github")
     set_memory("search_platform", "github")

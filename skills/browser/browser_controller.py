@@ -2,6 +2,7 @@ from playwright.sync_api import sync_playwright
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import TimeoutError as FutureTimeoutError
 import re
 from urllib.parse import urlsplit, urlunsplit
 
@@ -39,7 +40,7 @@ _browser_lock = threading.RLock()
 
 class BrowserWorker:
 
-    def __init__(self):
+    def __init__(self, operation_timeout_seconds=30.0):
 
         self.executor = ThreadPoolExecutor(
             max_workers=1,
@@ -47,6 +48,7 @@ class BrowserWorker:
         )
 
         self.worker_thread_id = None
+        self.operation_timeout_seconds = operation_timeout_seconds
 
     def run(self, function, *args, **kwargs):
 
@@ -75,7 +77,13 @@ class BrowserWorker:
             kwargs,
         )
 
-        return future.result()
+        try:
+            return future.result(timeout=self.operation_timeout_seconds)
+        except FutureTimeoutError as error:
+            raise TimeoutError(
+                "Browser worker operation timed out after "
+                f"{self.operation_timeout_seconds:.1f}s"
+            ) from error
 
     def _execute(
         self,
@@ -219,15 +227,15 @@ class BrowserController:
         *args,
         **kwargs,
     ):
-        # The worker keeps Playwright objects on one thread; this lock also
-        # keeps close-tab/close-browser operations from invalidating a page
-        # while another worker operation is extracting its results.
-        with _browser_lock:
-            return _browser_worker.run(
-                function,
-                *args,
-                **kwargs,
-            )
+        # The single-worker executor serializes browser operations.  Do not
+        # acquire _browser_lock in the caller thread before submitting: an
+        # implementation may acquire the same lock on the worker thread, and
+        # threading.RLock is owned by the thread that acquired it.
+        return _browser_worker.run(
+            function,
+            *args,
+            **kwargs,
+        )
 
     # * =====================================================
     # * START
@@ -421,63 +429,65 @@ class BrowserController:
             f"{threading.get_ident()}"
         )
 
-        with _browser_lock:
+        started_at = time.monotonic()
 
-            try:
+        try:
 
-                if not self._start_impl():
+            print(f"[Browser OPEN] Requested URL: {url}")
 
-                    print(
-                        "[Browser] "
-                        "Browser could not start"
-                    )
-
-                    return False
-
-                if not self.browser or not self.page:
-
-                    print(
-                        "[Browser] "
-                        "Browser not connected"
-                    )
-
-                    return False
+            if not self._start_impl():
 
                 print(
-                    f"[Browser] Opening: {url}"
-                )
-
-                self.page.goto(
-                    str(url),
-                    wait_until="domcontentloaded",
-                    timeout=15000,
-                )
-                
-                print(
-                    f"[Browser OPEN DEBUG] "
-                    f"GOTO COMPLETE | URL: {self.page.url} | "
-                    f"TITLE: {self.page.title()}"
-                )
-
-                self.page.bring_to_front()
-
-                self._sync_context()
-
-                print(
-                    "[Browser] "
-                    "Page opened in __ASSISTANT_NAME__ Chrome"
-                )
-
-                return True
-            
-            except Exception as e:
-
-                print(
-                    "[Browser ERROR] "
-                    f"Open failed: {e}"
+                    "[Browser OPEN FAILED] Browser could not start "
+                    f"(elapsed={time.monotonic() - started_at:.2f}s)"
                 )
 
                 return False
+
+            if not self.browser or not self.page:
+
+                print(
+                    "[Browser OPEN FAILED] Browser not connected "
+                    f"(elapsed={time.monotonic() - started_at:.2f}s)"
+                )
+
+                return False
+
+            print(f"[Browser OPEN] Method: Playwright CDP page.goto")
+            print(f"[Browser] Opening: {url}")
+
+            self.page.goto(
+                str(url),
+                wait_until="domcontentloaded",
+                timeout=15000,
+            )
+
+            print(
+                f"[Browser OPEN DEBUG] "
+                f"GOTO COMPLETE | URL: {self.page.url} | "
+                f"TITLE: {self.page.title()}"
+            )
+
+            self.page.bring_to_front()
+
+            self._sync_context()
+
+            print(
+                "[Browser OPEN COMPLETE] "
+                f"URL: {self.page.url} | "
+                f"elapsed={time.monotonic() - started_at:.2f}s"
+            )
+
+            return True
+        except Exception as error:
+
+            print(
+                "[Browser OPEN FAILED] "
+                f"{type(error).__name__}: {error} | "
+                f"elapsed={time.monotonic() - started_at:.2f}s"
+            )
+
+            return False
 
     # * =====================================================
     # * READ CURRENT PAGE
@@ -1307,12 +1317,89 @@ class BrowserController:
     # * =====================================================
 
     def pause_video(self):
-
-        return self.youtube_key("k")
+        return self._run_browser(
+            self._set_youtube_playback_state_impl,
+            False,
+        )
 
     def resume_video(self):
+        return self._run_browser(
+            self._set_youtube_playback_state_impl,
+            True,
+        )
 
-        return self.youtube_key("k")
+    def _set_youtube_playback_state_impl(self, should_play):
+        """Set the current YouTube video state without using toggle keys."""
+        try:
+            if not self._start_impl() or not self.browser:
+                return False
+
+            youtube_page = None
+            try:
+                if (
+                    self.page
+                    and not self.page.is_closed()
+                    and "youtube.com" in self.page.url
+                ):
+                    youtube_page = self.page
+            except Exception:
+                youtube_page = None
+
+            if youtube_page is None:
+                for context in self.browser.contexts:
+                    for page in context.pages:
+                        try:
+                            if "youtube.com/watch" in page.url and not page.is_closed():
+                                youtube_page = page
+                                break
+                        except Exception:
+                            continue
+                    if youtube_page is not None:
+                        break
+
+            if youtube_page is None:
+                print("[YouTube CONTROL] No active video page found")
+                return False
+
+            self.page = youtube_page
+            video = self.page.locator("video").first
+            if video.count() == 0:
+                print("[YouTube CONTROL] No video element found")
+                return False
+
+            state = video.evaluate("video => ({paused: video.paused, ended: video.ended})")
+            currently_playing = not bool(state.get("paused")) and not bool(state.get("ended"))
+            if currently_playing == bool(should_play):
+                return True
+
+            if should_play:
+                video.evaluate("video => video.play()")
+            else:
+                video.evaluate("video => { video.pause(); return true; }")
+
+            for _ in range(10):
+                time.sleep(0.1)
+                state = video.evaluate("video => ({paused: video.paused, ended: video.ended})")
+                currently_playing = not bool(state.get("paused")) and not bool(state.get("ended"))
+                if currently_playing == bool(should_play):
+                    self.page.bring_to_front()
+                    print(
+                        "[YouTube CONTROL] Playback state verified: "
+                        f"{'playing' if should_play else 'paused'}"
+                    )
+                    return True
+
+            print(
+                "[YouTube CONTROL] Playback state could not be verified: "
+                f"{'playing' if should_play else 'paused'}"
+            )
+            return False
+        except Exception as error:
+            print(
+                "[YouTube CONTROL ERROR] "
+                f"{type(error).__name__}: {error}"
+            )
+            return False
 
     def fullscreen(self):
 

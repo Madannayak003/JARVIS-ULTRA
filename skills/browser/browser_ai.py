@@ -75,7 +75,10 @@ def ai_open(data):
         if not is_live_execution():
             speak(f"Opening {app}")
 
-        navigation.open(SITES[app])
+        opened = navigation.open(SITES[app])
+        if not opened:
+            print(f"[Browser OPEN FAILED] Could not open site: {app}")
+            return False
         
         browser_context.set_page(
             url=SITES[app],
@@ -120,13 +123,13 @@ def ai_google(data):
 
     result = browser.search_google(query)
 
-    browser_context.set_page(
-        site="google",
-    )
-
     if not result:
         print("[Google] Search failed")
         return False
+
+    browser_context.set_page(
+        site="google",
+    )
 
     # * Action Memory
     set_memory("site", "google")
