@@ -8,14 +8,8 @@ from pathlib import Path
 from config.environment import get_env
 
 
-# * APP_NAME is the authoritative user-facing assistant identity. The existing
-# * Customize Assistant value is loaded into this same setting when the source
-# * is still using the built-in default.
+# * APP_NAME is the authoritative user-facing assistant identity.
 APP_NAME = "JARVIS ULTRA"
-
-# * This marker identifies the built-in fallback only; it is not another active
-# * assistant-name setting.
-_BUILT_IN_APP_NAME = "JARVIS ULTRA"
 _ASSISTANT_SETTINGS_FILE = (
     Path(__file__).resolve().parent.parent
     / "data"
@@ -95,24 +89,6 @@ def set_ai_provider_setting(provider: str) -> str:
     return normalized
 
 
-def _persisted_assistant_name() -> str | None:
-    try:
-        with _ASSISTANT_SETTINGS_FILE.open("r", encoding="utf-8") as file:
-            value = json.load(file).get("assistantName", "")
-    except (OSError, TypeError, ValueError, AttributeError):
-        return None
-
-    if not isinstance(value, str):
-        return None
-
-    value = " ".join(value.strip().split())
-    return value or None
-
-
-if APP_NAME.casefold() == _BUILT_IN_APP_NAME.casefold():
-    APP_NAME = _persisted_assistant_name() or APP_NAME
-
-
 # * These are deliberately explicit pronunciation and compatibility aliases.
 # ! Do not expand them fuzzily from the configured name.
 PRONUNCIATION_ALIASES = ()
@@ -162,16 +138,8 @@ WAKE_WORDS = list(get_wake_words())
 
 
 def set_assistant_name(name: str) -> str:
-    """Update APP_NAME for the running process after a saved customization."""
+    """Compatibility API; the product identity is fixed to JARVIS ULTRA."""
 
-    global APP_NAME
-
-    normalized = " ".join(str(name).strip().split())
-    if not normalized:
-        raise ValueError("Assistant name cannot be empty.")
-
-    APP_NAME = normalized
-    WAKE_WORDS[:] = get_wake_words()
     return APP_NAME
 
 VERSION = "1.0"

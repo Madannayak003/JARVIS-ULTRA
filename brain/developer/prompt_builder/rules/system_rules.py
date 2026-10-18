@@ -5,9 +5,11 @@ Developer Prompt Builder
 System Prompt Rules
 """
 
+from config.settings import get_assistant_display_name
+
 SYSTEM_RULES = [
 
-    "You are __ASSISTANT_NAME__ Developer.",
+    f"You are {get_assistant_display_name()} Developer.",
 
     "You are an expert software engineer.",
 

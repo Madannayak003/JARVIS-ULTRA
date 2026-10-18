@@ -9,6 +9,7 @@ from urllib.parse import urlsplit, urlunsplit
 from skills.browser.browser_config import BrowserConfigurationError
 from skills.browser.browser_resolver import BrowserExecutableNotFoundError
 from skills.browser.browser_runtime import BrowserRuntime, BrowserRuntimeError
+from config.settings import get_assistant_display_name
 
 # * =========================================================
 # * GLOBAL BROWSER LOCK
@@ -284,7 +285,7 @@ class BrowserController:
             endpoint = self.runtime.ensure_running()
 
             print(
-                "[Browser] Starting __ASSISTANT_NAME__ Browser..."
+                f"[Browser] Starting {get_assistant_display_name()} Browser..."
             )
 
         except (
@@ -335,7 +336,7 @@ class BrowserController:
             )
 
             print(
-                "[Browser] Connected to __ASSISTANT_NAME__ Chrome"
+                f"[Browser] Connected to {get_assistant_display_name()} Chrome"
             )
 
             # * -------------------------------------------------
@@ -782,7 +783,7 @@ class BrowserController:
 
                 print(
                     "[Google] "
-                    "Search opened in __ASSISTANT_NAME__ Chrome"
+                    f"Search opened in {get_assistant_display_name()} Chrome"
                 )
 
                 return True
@@ -871,7 +872,7 @@ class BrowserController:
 
                 print(
                     "[YouTube] "
-                    "Search opened in __ASSISTANT_NAME__ Chrome"
+                    f"Search opened in {get_assistant_display_name()} Chrome"
                 )
 
                 return True
@@ -943,7 +944,7 @@ class BrowserController:
 
             print(
                 "[GitHub] "
-                "Search opened in __ASSISTANT_NAME__ Chrome"
+                f"Search opened in {get_assistant_display_name()} Chrome"
             )
 
             return True
@@ -994,7 +995,7 @@ class BrowserController:
 
         print(
             "[YouTube] "
-            f"Opening in __ASSISTANT_NAME__ Chrome: {url}"
+            f"Opening in {get_assistant_display_name()} Chrome: {url}"
         )
 
         try:
@@ -1047,7 +1048,7 @@ class BrowserController:
 
             print(
                 "[YouTube] "
-                "Video opened in __ASSISTANT_NAME__ Chrome"
+                f"Video opened in {get_assistant_display_name()} Chrome"
             )
 
             self._skip_ad_impl()
@@ -1122,7 +1123,7 @@ class BrowserController:
 
             print(
                 "[YouTube] "
-                "First video opened in __ASSISTANT_NAME__ Chrome"
+                f"First video opened in {get_assistant_display_name()} Chrome"
             )
 
             return True

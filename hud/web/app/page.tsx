@@ -248,7 +248,7 @@ const HUD_BRIDGE_URL =
     ? `http://${window.location.hostname}:8766`
     : "http://127.0.0.1:8766");
 
-const DEFAULT_ASSISTANT_NAME = "";
+const DEFAULT_ASSISTANT_NAME = "JARVIS ULTRA";
 
 function normalizeAssistantName(value: unknown): string {
   if (typeof value !== "string") {
@@ -1583,7 +1583,6 @@ export default function Home() {
   };
 
   const applyAssistantSettings = async () => {
-    const name = normalizeAssistantName(assistantName);
     const user = userName.trim();
 
     const cssDefaultColour = getDefaultAssistantColour();
@@ -1591,7 +1590,6 @@ export default function Home() {
       ? assistantColour.toLowerCase()
       : cssDefaultColour;
 
-    setAssistantName(name);
     setUserName(user);
     setAssistantColour(colour);
 
@@ -1615,7 +1613,6 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         cache: "no-store",
         body: JSON.stringify({
-          assistantName: name,
           userName: user,
           assistantColour: colour,
         }),
@@ -2975,16 +2972,6 @@ export default function Home() {
             </div>
 
             <div className="customise-form">
-              <label>
-                ASSISTANT NAME
-                <input
-                  type="text"
-                  value={assistantName}
-                  onChange={(event) => setAssistantName(event.target.value)}
-                  placeholder={assistantName || "Assistant"}
-                />
-              </label>
-
               <label>
                 YOUR NAME
                 <span className="settings-field-help">leave blank for default sir / efendim</span>

@@ -16,6 +16,7 @@ from brain.developer.repair.builders.repair_context_builder import (
 from brain.developer.repair.builders.repair_instruction_builder import (
     RepairInstructionBuilder,
 )
+from config.settings import get_assistant_display_name
 
 
 class RepairPromptBuilder:
@@ -37,7 +38,7 @@ class RepairPromptBuilder:
         prompt = RepairPrompt()
 
         prompt.system_prompt = (
-            "You are __ASSISTANT_NAME__ Repair Engine.\n"
+            f"You are {get_assistant_display_name()} Repair Engine.\n"
             "Generate ONLY the missing files.\n"
             "Do NOT regenerate existing files."
         )

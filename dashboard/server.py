@@ -61,7 +61,6 @@ from config.settings import (
     get_gemini_live_gender_setting,
     GEMINI_LIVE_DEFAULT_VOICE,
     GEMINI_LIVE_FEMALE_VOICE,
-    set_assistant_name,
 )
 
 from hud.integration import HUDIntegration
@@ -757,36 +756,26 @@ class DashboardServer:
             text,
         )
 
-        # * -----------------------------------------------------
-        # * HUD Activity Log
-        #
-        # * This records the actual JARVIS response.
-        # * It does NOT control voice playback.
-        # * -----------------------------------------------------
+        # -----------------------------------------------------
+        # HUD Activity Log
+        # Avoid duplicate HUD responses during Gemini Live.
+        # Voice playback is not affected.
+        # -----------------------------------------------------
 
         try:
+            from hud.integration import HUDIntegration
+            from core.live_execution import is_live_execution
 
-            from hud.integration import (
-                HUDIntegration
-            )
-
-            from core.live_execution import (
-                is_live_execution
-            )
-
-            speaker = (
-                "live"
-                if is_live_execution()
-                else "jarvis"
-            )
+            if is_live_execution():
+                # Gemini Live handles its own HUD response.
+                return
 
             HUDIntegration.response(
                 text,
-                speaker=speaker
+                speaker="jarvis"
             )
 
         except Exception as exc:
-
             print(
                 "[HUD RESPONSE LOG] Failed:",
                 exc
@@ -2669,10 +2658,6 @@ class DashboardServer:
                     except Exception:
                         settings = {}
 
-                if "assistantName" in body and body["assistantName"]:
-                    settings["assistantName"] = set_assistant_name(
-                        body["assistantName"]
-                    )
                 if "userName" in body:
                     settings["userName"] = str(body["userName"]).strip()
                 if "assistantColour" in body and body["assistantColour"]:
@@ -2683,9 +2668,10 @@ class DashboardServer:
                     f.write("\n")
 
                 print(
-                    f"[LOCAL CUSTOMISE] Updated name: {settings.get('assistantName')} | colour: {settings.get('assistantColour')}"
+                    f"[LOCAL CUSTOMISE] Assistant name fixed to {get_assistant_display_name()} | colour: {settings.get('assistantColour')}"
                 )
 
+                settings["assistantName"] = get_assistant_display_name()
                 return {"ok": True, "settings": settings}
             except Exception as exc:
                 return JSONResponse(
