@@ -2,6 +2,24 @@ import re
 from datetime import datetime, timedelta
 
 
+def local_now():
+    """Return the machine's current local time with its UTC offset."""
+    return datetime.now().astimezone()
+
+
+def parse_whatsapp_datetime(value):
+    """Parse ISO time and normalize it to local timezone-aware time.
+
+    Legacy naive values are interpreted as local wall-clock values at the
+    persistence boundary.
+    """
+    parsed = datetime.fromisoformat(str(value).strip())
+    local_zone = local_now().tzinfo
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=local_zone)
+    return parsed.astimezone(local_zone)
+
+
 # * =========================================================
 # * Scheduled WhatsApp Message Parser
 # * =========================================================
@@ -10,7 +28,7 @@ def parse_scheduled_whatsapp(command):
 
     command = command.strip()
 
-    now = datetime.now()
+    now = local_now()
 
     # * =====================================================
     # * IN X SECONDS / MINUTES / HOURS
@@ -368,7 +386,7 @@ def parse_reschedule_scheduled_whatsapp(command):
 
         unit = match.group(3).lower()
 
-        now = datetime.now()
+        now = local_now()
 
         if unit.startswith("second"):
 
@@ -436,7 +454,7 @@ def _parse_whatsapp_clock_time(
         if parsed is None:
             return None
 
-        now = datetime.now()
+        now = local_now()
 
         target = now.replace(
             hour=parsed.hour,
@@ -503,7 +521,7 @@ def _parse_schedule_time(
         if parsed is None:
             return None
 
-        now = datetime.now()
+        now = local_now()
 
         target = now.replace(
             hour=parsed.hour,

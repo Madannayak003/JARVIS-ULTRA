@@ -322,6 +322,20 @@ def cancel_reminder(data=None):
     return True
 
 
+def delete_reminder(data=None):
+    """Permanently remove one reminder from Schedule Center."""
+    try:
+        reminder_id = int((data or {}).get("id"))
+    except (TypeError, ValueError):
+        return False
+    with _REMINDERS_LOCK:
+        reminders = _load_reminders()
+        remaining = [item for item in reminders if int(item.get("id", -1)) != reminder_id]
+        if len(remaining) == len(reminders):
+            return False
+        return _save_reminders(remaining)
+
+
 # * =========================================================
 # * Reminder Worker
 # * =========================================================

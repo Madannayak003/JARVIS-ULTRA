@@ -2110,6 +2110,8 @@ body.gallery-open .ultron-layer {
 .schedule-center-task-main { display: flex; min-width: 0; align-items: center; gap: 8px; }
 .schedule-center-task-main strong { min-width: 0; overflow: hidden; color: #e2e8f0; font-size: 12px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
 .schedule-center-task-row time { color: #64748b; font-size: 11px; white-space: nowrap; }
+.schedule-center-delete { border: 0; background: transparent; color: #64748b; cursor: pointer; font-size: 18px; line-height: 1; padding: 0 2px; }
+.schedule-center-delete:hover, .schedule-center-delete:focus-visible { color: #f87171; }
 .schedule-center-task-status {
   padding: 1px 5px;
   border-radius: 4px;

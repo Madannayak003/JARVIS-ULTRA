@@ -99,7 +99,7 @@ def create_schedule(data: dict[str, Any] | None = None):
         next_id = max((int(item.get("id", 0)) for item in items), default=0) + 1
         item = {"id": next_id, "command": command, "run_at": run_at.isoformat(),
                 "next_run_at": run_at.isoformat(), "recurrence": recurrence,
-                "enabled": True, "created_at": datetime.now().isoformat()}
+                "enabled": True, "status": "pending", "created_at": datetime.now().isoformat()}
         items.append(item)
         if not _save(items):
             return False
@@ -122,8 +122,23 @@ def cancel_schedule(data: dict[str, Any] | None = None):
         if found is None:
             return False
         found["enabled"] = False
+        found["status"] = "cancelled"
         found["cancelled_at"] = datetime.now().isoformat()
         return _save(items)
+
+
+def delete_schedule(data: dict[str, Any] | None = None):
+    """Permanently remove one scheduled task from Schedule Center."""
+    try:
+        schedule_id = int((data or {}).get("id"))
+    except (TypeError, ValueError):
+        return False
+    with _lock:
+        items = _load()
+        remaining = [item for item in items if int(item.get("id", -1)) != schedule_id]
+        if len(remaining) == len(items):
+            return False
+        return _save(remaining)
 
 
 def set_executor(executor: Callable[[str], Any] | None) -> None:
@@ -161,6 +176,11 @@ def _run_due() -> None:
                 if item.get("recurrence") == "daily":
                     _advance(item, now)
                     item["last_run_at"] = now.isoformat()
+                    item["status"] = "running"
+                else:
+                    item["enabled"] = False
+                    item["status"] = "running"
+                    item["started_at"] = now.isoformat()
                 changed = True
         if changed:
             _save(items)
@@ -178,14 +198,31 @@ def _run_due() -> None:
                 with _lock:
                     current_items = _load()
                     current = next((candidate for candidate in current_items if int(candidate.get("id", -1)) == schedule_id), None)
-                    if current is not None and current.get("enabled", True):
+                    if current is not None:
                         current["enabled"] = False
+                        current["status"] = "completed"
                         current["completed_at"] = datetime.now().isoformat()
                         current["last_run_at"] = datetime.now().isoformat()
+                        _save(current_items)
+            if item.get("recurrence") == "daily":
+                with _lock:
+                    current_items = _load()
+                    current = next((candidate for candidate in current_items if int(candidate.get("id", -1)) == schedule_id), None)
+                    if current is not None:
+                        current["status"] = "pending"
                         _save(current_items)
             HUDIntegration.notify("TASK COMPLETED", command, level="SUCCESS", source="scheduler", metadata={"schedule_id": schedule_id})
         except Exception as error:
             print(f"[SCHEDULER] Task {schedule_id} failed: {error}")
+            with _lock:
+                current_items = _load()
+                current = next((candidate for candidate in current_items if int(candidate.get("id", -1)) == schedule_id), None)
+                if current is not None:
+                    current["status"] = "failed"
+                    current["enabled"] = False
+                    current["failed_at"] = datetime.now().isoformat()
+                    current["error"] = str(error)
+                    _save(current_items)
             HUDIntegration.notify("TASK FAILED", str(error), level="ERROR", source="scheduler", metadata={"schedule_id": schedule_id})
         finally:
             with _lock:

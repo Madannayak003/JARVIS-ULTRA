@@ -20,6 +20,7 @@ from services.whatsapp_api import (
 from services.file_manager import (latest_photo,latest_screenshot,find_file)
 
 from services.contact_manager import (resolve_contact)
+from services.whatsapp_parser import local_now, parse_whatsapp_datetime
 
 from core.file_selection_memory import (
     set_files,
@@ -101,7 +102,7 @@ def whatsapp_send_message(data):
 
         speak("I couldn't send the message.")
 
-    return True
+    return bool(ok)
 
 # * =========================================================
 # * Scheduled WhatsApp Storage Helpers
@@ -215,9 +216,7 @@ def schedule_whatsapp_message(data=None):
 
     try:
 
-        target = datetime.fromisoformat(
-            send_at
-        )
+        target = parse_whatsapp_datetime(send_at)
 
     except Exception:
 
@@ -230,6 +229,10 @@ def schedule_whatsapp_message(data=None):
             "I couldn't understand the scheduled time."
         )
 
+        return False
+
+    if target <= local_now():
+        speak("That scheduled time has already passed.")
         return False
 
     # * -----------------------------------------------------
@@ -269,7 +272,7 @@ def schedule_whatsapp_message(data=None):
 
         "completed": False,
 
-        "created_at": datetime.now().isoformat(),
+        "created_at": local_now().isoformat(),
     }
 
     messages.append(
@@ -341,9 +344,7 @@ def list_scheduled_whatsapp(data=None):
 
         try:
 
-            target = datetime.fromisoformat(
-                item["send_at"]
-            )
+            target = parse_whatsapp_datetime(item["send_at"])
 
             formatted = target.strftime(
                 "%d %B at %I:%M %p"
@@ -426,7 +427,7 @@ def cancel_scheduled_whatsapp(data=None):
     found["cancelled"] = True
 
     found["cancelled_at"] = (
-        datetime.now().isoformat()
+        local_now().isoformat()
     )
 
     if not _save_scheduled_whatsapp(messages):
@@ -481,9 +482,7 @@ def reschedule_scheduled_whatsapp(data=None):
 
     try:
 
-        target = datetime.fromisoformat(
-            send_at
-        )
+        target = parse_whatsapp_datetime(send_at)
 
     except Exception:
 
@@ -493,7 +492,7 @@ def reschedule_scheduled_whatsapp(data=None):
 
         return False
 
-    if target <= datetime.now():
+    if target <= local_now():
 
         speak(
             "That time has already passed."
@@ -533,7 +532,7 @@ def reschedule_scheduled_whatsapp(data=None):
     found["send_at"] = target.isoformat()
 
     found["rescheduled_at"] = (
-        datetime.now().isoformat()
+        local_now().isoformat()
     )
 
     if not _save_scheduled_whatsapp(messages):
@@ -559,7 +558,7 @@ def reschedule_scheduled_whatsapp(data=None):
     return True
 
 
-def _whatsapp_scheduler_worker():
+def _whatsapp_scheduler_worker(*, once=False, now_provider=local_now):
 
     print(
         "[WHATSAPP SCHEDULER] Background scheduler started"
@@ -571,7 +570,7 @@ def _whatsapp_scheduler_worker():
 
             messages = _load_scheduled_whatsapp()
 
-            now = datetime.now()
+            now = now_provider()
 
             changed = False
 
@@ -595,9 +594,7 @@ def _whatsapp_scheduler_worker():
 
                 try:
 
-                    target = datetime.fromisoformat(
-                        send_at
-                    )
+                    target = parse_whatsapp_datetime(send_at)
 
                 except Exception as e:
 
@@ -674,7 +671,7 @@ def _whatsapp_scheduler_worker():
                     item["completed"] = True
 
                     item["sent_at"] = (
-                        datetime.now().isoformat()
+                        local_now().isoformat()
                     )
 
                     item["resolved_contact"] = contact
@@ -719,6 +716,8 @@ def _whatsapp_scheduler_worker():
                 e
             )
 
+        if once:
+            return
         time.sleep(1)
 
 

@@ -82,6 +82,7 @@ from core.live_agent import (
     execute_live_search,
     structured_action_from_tool_name,
 )
+from services.whatsapp_parser import parse_scheduled_whatsapp
 
 from hud.integration import HUDIntegration
 from config.environment import get_env
@@ -93,6 +94,19 @@ from config.settings import (
     GEMINI_LIVE_FEMALE_VOICE,
     get_primary_gemini_live_model,
 )
+
+
+def _live_whatsapp_schedule_key(parameters):
+    """Build a turn-local identity for one structured WhatsApp schedule."""
+    if not isinstance(parameters, dict):
+        return None
+    required = ("contact", "message", "send_at")
+    if any(not str(parameters.get(name, "")).strip() for name in required):
+        return None
+    return json.dumps(
+        {name: str(parameters[name]).strip().casefold() for name in required},
+        sort_keys=True,
+    )
 from core.diagnostics import debug_print
 from voice.live_context import (
     merge_transcript_text,
@@ -412,6 +426,10 @@ STRUCTURED CAPABILITIES
   detailed page summary when jarvis_read_page explicitly returns extracted content.
 - After a tool result, decide from that real result whether another dependent
   capability is needed. Do not execute a fixed sequence blindly.
+- After a successful create_schedule capability, do not call jarvis_command for
+  the scheduled command; scheduling stores it for the due time and is complete.
+- After a successful schedule_whatsapp_message capability, do not call
+  jarvis_command for that scheduled WhatsApp message.
 - Ordinary conversation and static questions do not need a tool call.
 
 FILE INTELLIGENCE
@@ -2239,6 +2257,7 @@ class Agent:
         output_text = ""
         tool_result_summaries = []
         turn_generation = self._live_generation_value()
+        scheduled_whatsapp_results = {}
 
         # * True when an existing JARVIS skill already produced the
         # * authoritative response for this Live turn.
@@ -2380,6 +2399,24 @@ class Agent:
 
                     function_responses = []
                     batch_results = {}
+                    scheduled_commands = {
+                        str(function_call.args.get("command", "")).strip().casefold()
+                        for function_call in response.tool_call.function_calls
+                        if structured_action_from_tool_name(function_call.name) == "create_schedule"
+                        and isinstance(function_call.args, dict)
+                        and str(function_call.args.get("command", "")).strip()
+                    }
+                    scheduled_whatsapp_messages = {
+                        (
+                            str(function_call.args.get("contact", "")).strip().casefold(),
+                            str(function_call.args.get("message", "")).strip().casefold(),
+                        )
+                        for function_call in response.tool_call.function_calls
+                        if structured_action_from_tool_name(function_call.name) == "schedule_whatsapp_message"
+                        and isinstance(function_call.args, dict)
+                        and str(function_call.args.get("contact", "")).strip()
+                        and str(function_call.args.get("message", "")).strip()
+                    }
 
                     for function_call in (
                         response.tool_call.function_calls
@@ -2480,6 +2517,26 @@ class Agent:
                             else:
 
                                 try:
+
+                                    scheduled_whatsapp = parse_scheduled_whatsapp(command)
+                                    is_scheduled_duplicate = (
+                                        command.casefold() in scheduled_commands
+                                        or (
+                                            scheduled_whatsapp is not None
+                                            and (
+                                                scheduled_whatsapp["contact"].casefold(),
+                                                scheduled_whatsapp["message"].casefold(),
+                                            ) in scheduled_whatsapp_messages
+                                        )
+                                    )
+                                    if is_scheduled_duplicate:
+                                        result = {
+                                            "success": True,
+                                            "status": "scheduled_only",
+                                            "message": "That command is already stored for scheduled execution; it was not run now.",
+                                        }
+                                        print("[LIVE TOOL] Scheduled command was not dispatched immediately:", command)
+                                        raise StopIteration
 
                                     # * ---------------------------------
                                     # * Existing JARVIS dispatcher
@@ -2593,6 +2650,8 @@ class Agent:
                                             ),
                                         }
 
+                                except StopIteration:
+                                    pass
                                 except Exception as exc:
 
                                     print(
@@ -2643,6 +2702,13 @@ class Agent:
                             action = structured_action_from_tool_name(function_name)
 
                             try:
+                                schedule_key = None
+                                if action == "schedule_whatsapp_message":
+                                    schedule_key = _live_whatsapp_schedule_key(args)
+                                    if schedule_key in scheduled_whatsapp_results:
+                                        result = scheduled_whatsapp_results[schedule_key]
+                                        print("[LIVE TOOL] Duplicate WhatsApp schedule in one turn; reusing result")
+                                        raise StopIteration
                                 with live_execution(session=session, loop=asyncio.get_running_loop()):
                                     result = await self._execute_live_capability(
                                         action,
@@ -2669,6 +2735,10 @@ class Agent:
                                         }
                                 if result.get("authoritative"):
                                     jarvis_authoritative_response = True
+                                if schedule_key is not None:
+                                    scheduled_whatsapp_results[schedule_key] = result
+                            except StopIteration:
+                                pass
                             except Exception as exc:
                                 debug_print(
                                     "[LIVE CAPABILITY ERROR]",

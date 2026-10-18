@@ -487,6 +487,21 @@ class _BridgeHandler(
                 self._json({"ok": False, "error": "Action unavailable."}, 404)
             return
 
+        if self.path == "/schedule-center/delete":
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                payload = json.loads(self.rfile.read(length) or b"{}")
+                kind = str(payload.get("kind", "")).strip().lower()
+                item_id = int(payload.get("id"))
+            except (TypeError, ValueError, json.JSONDecodeError):
+                self._json({"ok": False, "error": "Invalid schedule item."}, 400)
+                return
+            if self.bridge.delete_schedule_center_item(kind, item_id):
+                self._json({"ok": True})
+            else:
+                self._json({"ok": False, "error": "Schedule item unavailable."}, 404)
+            return
+
         if self.path == "/shutdown":
 
             self.bridge.request_shutdown()
@@ -1154,6 +1169,15 @@ class HUDWebBridge:
             "whatsapp": whatsapp,
             "schedules": schedules,
         }
+
+    def delete_schedule_center_item(self, kind: str, item_id: int) -> bool:
+        if kind == "reminders":
+            from skills.memory.reminders import delete_reminder
+            return bool(delete_reminder({"id": item_id}))
+        if kind == "schedules":
+            from skills.automation.scheduling import delete_schedule
+            return bool(delete_schedule({"id": item_id}))
+        return False
 
 
 # * =============================================================

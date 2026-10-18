@@ -37,6 +37,15 @@ from config.settings import (
 
 ONLINE = False
 
+
+def _gemini_live_active() -> bool:
+    """Return whether the persistent Gemini Live session is currently active."""
+    try:
+        from voice.agent import _agent
+        return bool(_agent.running and _agent.connected)
+    except Exception:
+        return False
+
 # * =========================================================
 # * TTS TEXT CLEANER
 # * =========================================================
@@ -398,7 +407,7 @@ def speak(
     if not text:
 
         return
-    
+
     # * -----------------------------------------------------
     # * Notify connected Remote Dashboard
     #
@@ -417,6 +426,18 @@ def speak(
     speech_text = _clean_tts_text(text)
 
     if not speech_text:
+        return
+
+    # Gemini Live remains the sole speech-generation provider for the entire
+    # active Live session, including announcements emitted outside the narrow
+    # tool-execution context (for example by a scheduled action).
+    if _gemini_live_active():
+        if record_conversation:
+            _record_conversation_response(str(text))
+        print(
+            "[VOICE] Gemini Live session active - "
+            "suppressing normal TTS."
+        )
         return
 
     # * -----------------------------------------------------

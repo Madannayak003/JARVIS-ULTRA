@@ -142,6 +142,126 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         "required": ["id"],
         "expected_result": "Confirmation only after the reminder was updated, or an honest failure.",
     },
+    "create_schedule": {
+        "purpose": "Create and persist a scheduled JARVIS task that runs the requested command at the requested time.",
+        "properties": {
+            "command": {"type": "string", "description": "The registered JARVIS command to execute when due."},
+            "run_at": {"type": "string", "description": "A future ISO-8601 local date/time."},
+            "recurrence": {"type": "string", "enum": ["none", "daily"], "description": "One-time or daily execution."},
+        },
+        "required": ["command", "run_at"],
+        "expected_result": "Confirmation only after the scheduled task is persisted, or an honest failure.",
+    },
+    "list_schedules": {
+        "purpose": "List persisted JARVIS scheduled tasks and their current states.",
+        "properties": {},
+        "expected_result": "The actual scheduled tasks or an empty-list response.",
+    },
+    "cancel_schedule": {
+        "purpose": "Cancel one persisted scheduled task by its numeric ID.",
+        "properties": {"id": {"type": "integer", "description": "Scheduled-task ID returned by the schedule list or creation flow."}},
+        "required": ["id"],
+        "expected_result": "Confirmation only after the scheduled task was updated, or an honest failure.",
+    },
+    "whatsapp_open": {
+        "purpose": "Open the existing WhatsApp application/session.",
+        "properties": {},
+        "expected_result": "The actual open result or an honest failure.",
+    },
+    "whatsapp_close": {
+        "purpose": "Close the existing WhatsApp application.",
+        "properties": {},
+        "expected_result": "A reported close result.",
+    },
+    "whatsapp_send_message": {
+        "purpose": "Send a WhatsApp text message through the existing authenticated sender.",
+        "properties": {
+            "contact": {"type": "string", "description": "Saved contact name or supported self-chat destination."},
+            "message": {"type": "string", "description": "Message text to send."},
+        },
+        "required": ["contact", "message"],
+        "expected_result": "Actual sender success or a truthful recipient/session/send failure.",
+    },
+    "whatsapp_wait_contact": {
+        "purpose": "Enter the existing WhatsApp follow-up flow when the recipient is missing.",
+        "properties": {},
+        "expected_result": "A truthful request for the missing recipient.",
+    },
+    "whatsapp_wait_message": {
+        "purpose": "Continue the existing WhatsApp follow-up flow for a known recipient.",
+        "properties": {"contact": {"type": "string", "description": "Recipient contact."}},
+        "required": ["contact"],
+        "expected_result": "A truthful request for the missing message text.",
+    },
+    "schedule_whatsapp_message": {
+        "purpose": "Persist a WhatsApp message for the existing WhatsApp scheduler without sending it now.",
+        "properties": {
+            "contact": {"type": "string", "description": "Saved contact name or supported self-chat destination."},
+            "message": {"type": "string", "description": "Message text to send later."},
+            "send_at": {"type": "string", "description": "Future ISO-8601 local date/time."},
+        },
+        "required": ["contact", "message", "send_at"],
+        "expected_result": "Confirmation only after persistence, without sending during creation.",
+    },
+    "list_scheduled_whatsapp": {
+        "purpose": "List persisted pending WhatsApp messages scheduled for later.",
+        "properties": {},
+        "expected_result": "The actual scheduled messages or an empty-list response.",
+    },
+    "cancel_scheduled_whatsapp": {
+        "purpose": "Cancel one persisted scheduled WhatsApp message by numeric ID.",
+        "properties": {"id": {"type": "integer", "description": "Scheduled WhatsApp message ID."}},
+        "required": ["id"],
+        "expected_result": "Confirmation only after the scheduled message is cancelled, or an honest failure.",
+    },
+    "reschedule_scheduled_whatsapp": {
+        "purpose": "Move one persisted scheduled WhatsApp message to a new future time.",
+        "properties": {
+            "id": {"type": "integer", "description": "Scheduled WhatsApp message ID."},
+            "send_at": {"type": "string", "description": "Future ISO-8601 local date/time."},
+        },
+        "required": ["id", "send_at"],
+        "expected_result": "Confirmation only after persistence, or an honest failure.",
+    },
+    "whatsapp_send_latest_photo": {
+        "purpose": "Send the latest captured photo to a WhatsApp contact.",
+        "properties": {"contact": {"type": "string", "description": "Recipient contact."}},
+        "required": ["contact"],
+        "expected_result": "Actual send result or a truthful failure.",
+    },
+    "whatsapp_send_latest_screenshot": {
+        "purpose": "Send the latest screenshot to a WhatsApp contact.",
+        "properties": {"contact": {"type": "string", "description": "Recipient contact."}},
+        "required": ["contact"],
+        "expected_result": "Actual send result or a truthful failure.",
+    },
+    "whatsapp_send_file": {
+        "purpose": "Send a selected file to a WhatsApp contact.",
+        "properties": {
+            "contact": {"type": "string", "description": "Recipient contact."},
+            "filename": {"type": "string", "description": "File name or search text."},
+        },
+        "required": ["contact", "filename"],
+        "expected_result": "Actual send result or a truthful failure/selection request.",
+    },
+    "whatsapp_send_selected_file": {
+        "purpose": "Send the selected pending WhatsApp file by its numeric option index.",
+        "properties": {"index": {"type": "integer", "minimum": 0, "description": "Pending file option index."}},
+        "required": ["index"],
+        "expected_result": "Actual send result or a truthful failure.",
+    },
+    "whatsapp_call": {
+        "purpose": "Start a WhatsApp voice call to a resolved contact.",
+        "properties": {"contact": {"type": "string", "description": "Recipient contact."}},
+        "required": ["contact"],
+        "expected_result": "Actual call result or a truthful failure.",
+    },
+    "whatsapp_video_call": {
+        "purpose": "Start a WhatsApp video call to a resolved contact.",
+        "properties": {"contact": {"type": "string", "description": "Recipient contact."}},
+        "required": ["contact"],
+        "expected_result": "Actual call result or a truthful failure.",
+    },
     "volume": {
         "purpose": "Read or control Windows master volume.",
         "properties": {

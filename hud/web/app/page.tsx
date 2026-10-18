@@ -309,7 +309,7 @@ function BootScreen({
   );
 }
 
-function ScheduleCenterSection({ tab, data }: { tab: ScheduleCenterTab; data: ScheduleCenterData }) {
+function ScheduleCenterSection({ tab, data, onDelete }: { tab: ScheduleCenterTab; data: ScheduleCenterData; onDelete: (tab: ScheduleCenterTab, id: number) => void }) {
   const items = data[tab];
   const next = items
     .filter((item) => item.enabled !== false && item.completed !== true && item.cancelled !== true)
@@ -319,12 +319,12 @@ function ScheduleCenterSection({ tab, data }: { tab: ScheduleCenterTab; data: Sc
   const time = next?.next_run_at ?? next?.remind_at ?? next?.send_at;
   return (
     <div className={`schedule-center-content schedule-center-content--${tab}`}>
-      {next && <div className="schedule-center-next"><span>{title}</span><strong>{summary}</strong><small>{displayTime(time)}</small></div>}
+      {next && <div className="schedule-center-next"><span>{title}</span><strong>{summary}</strong><small>{displayTime(time)}</small>{tab !== "whatsapp" && Number.isInteger(Number(next.id)) && <button type="button" className="schedule-center-delete" aria-label={`Remove ${tab === "reminders" ? "reminder" : "scheduled task"}`} onClick={() => onDelete(tab, Number(next.id))}>×</button>}</div>}
       {!next && <div className="schedule-center-empty">{tab === "reminders" ? "No reminders scheduled." : tab === "whatsapp" ? "No WhatsApp schedules." : "No scheduled tasks."}</div>}
       <div className="schedule-center-list">
         {items.filter((item) => item !== next).map((item, index) => {
           const label = tab === "reminders" ? String(item.text ?? "Reminder") : tab === "whatsapp" ? `${String(item.contact ?? "Contact")}: ${String(item.message ?? "")}` : String(item.command ?? "Scheduled task");
-          const status = item.enabled === false || item.completed === true || item.cancelled === true ? "DISABLED" : "ACTIVE";
+          const status = String(item.status ?? (item.enabled === false || item.completed === true || item.cancelled === true ? "disabled" : "active")).toUpperCase();
           if (tab === "schedules") {
             return (
               <div className="schedule-center-task-row" key={String(item.id ?? index)}>
@@ -333,10 +333,11 @@ function ScheduleCenterSection({ tab, data }: { tab: ScheduleCenterTab; data: Sc
                   <span className={`schedule-center-task-status schedule-center-task-status--${status.toLowerCase()}`}>{status}</span>
                 </div>
                 <time>{displayTime(item.next_run_at ?? item.run_at)}</time>
+                {Number.isInteger(Number(item.id)) && <button type="button" className="schedule-center-delete" aria-label="Remove scheduled task" onClick={() => onDelete(tab, Number(item.id))}>×</button>}
               </div>
             );
           }
-          return <div className="schedule-center-item" key={String(item.id ?? index)}><span>{label}</span><small>{status} · {displayTime(item.next_run_at ?? item.remind_at ?? item.send_at)}</small></div>;
+          return <div className="schedule-center-item" key={String(item.id ?? index)}><span>{label}</span><small>{status} · {displayTime(item.next_run_at ?? item.remind_at ?? item.send_at)}</small>{tab === "reminders" && Number.isInteger(Number(item.id)) && <button type="button" className="schedule-center-delete" aria-label="Remove reminder" onClick={() => onDelete(tab, Number(item.id))}>×</button>}</div>;
         })}
       </div>
     </div>
@@ -1163,6 +1164,20 @@ export default function Home() {
       const response = await fetch(`${HUD_BRIDGE_URL}/schedule-center`, { cache: "no-store" });
       if (!response.ok) throw new Error("Schedule Center unavailable");
       setScheduleCenterData(await response.json() as ScheduleCenterData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteScheduleCenterEntry = async (tab: ScheduleCenterTab, id: number) => {
+    try {
+      const response = await fetch(`${HUD_BRIDGE_URL}/schedule-center/delete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: tab, id }),
+      });
+      if (!response.ok) throw new Error("Schedule item removal failed");
+      await openScheduleCenter(tab);
     } catch (error) {
       console.error(error);
     }
@@ -2249,7 +2264,7 @@ export default function Home() {
                   </button>
                 ))}
               </div>
-              <ScheduleCenterSection tab={scheduleCenterTab} data={scheduleCenterData} />
+              <ScheduleCenterSection tab={scheduleCenterTab} data={scheduleCenterData} onDelete={deleteScheduleCenterEntry} />
             </section>
           </div>
         )}
