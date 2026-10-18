@@ -68,6 +68,19 @@ def fast_route(command):
                 " on my mobile",
             ))
         )
+        or command.startswith((
+            "turn on my phone flashlight",
+            "turn off my phone flashlight",
+            "open my phone's front camera",
+            "open my phone's rear camera",
+            "switch to the front camera",
+            "switch to the rear camera",
+            "take a photo with my phone",
+            "take a selfie with my phone",
+            "capture a photo with my phone",
+            "capture a photo using the rear camera",
+            "capture a photo using the front camera",
+        ))
     )
 
     if android_targeted:

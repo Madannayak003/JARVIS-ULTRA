@@ -62,6 +62,7 @@ class DeviceStatus:
     selected_device: AndroidDevice | None = None
     model: str = ""
     android_version: str = ""
+    error: str = ""
 
 
 @dataclass(frozen=True)
@@ -92,6 +93,7 @@ class IntentSpec:
     mime_type: str | None = None
     package: str | None = None
     component: str | None = None
+    extras: tuple[tuple[str, str, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -103,3 +105,27 @@ class AppLaunchResult:
     package: str | None = None
     error_code: str | None = None
     detail: str = ""
+
+
+@dataclass(frozen=True)
+class BatteryStatus:
+    """Parsed values from ``dumpsys battery``; missing values stay ``None``."""
+
+    percentage: int | float | None = None
+    status: str = ""
+    plugged: str = ""
+    health: str = ""
+    temperature_c: float | None = None
+    voltage_v: float | None = None
+
+
+@dataclass(frozen=True)
+class AndroidOperationResult:
+    """Truthful result for an Android operation."""
+
+    success: bool
+    action: str
+    detail: str = ""
+    package: str | None = None
+    location: str | None = None
+    supported: bool = True

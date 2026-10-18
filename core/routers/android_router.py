@@ -168,6 +168,31 @@ def android_route(command):
     }:
         return [{"action": "android_device_info"}]
 
+    if command in {"phone battery", "battery status", "check phone battery", "android battery"}:
+        return [{"action": "android_battery_status"}]
+    if command in {"list phone apps", "list android apps", "list installed apps"}:
+        return [{"action": "android_list_apps"}]
+    if command in {"what app is open on my phone", "check foreground app", "current phone app"}:
+        return [{"action": "android_foreground_app"}]
+    if command in {"go home on phone", "return to phone home screen", "phone home"}:
+        return [{"action": "android_home"}]
+    if command in {"turn on my phone flashlight", "turn on phone flashlight", "turn on my android flashlight"}:
+        return [{"action": "android_flashlight_on"}]
+    if command in {"turn off my phone flashlight", "turn off phone flashlight", "turn off my android flashlight"}:
+        return [{"action": "android_flashlight_off"}]
+    if command in {"open my phone's front camera", "open my phone front camera", "open phone front camera"}:
+        return [{"action": "android_open_front_camera"}]
+    if command in {"open my phone's rear camera", "open my phone rear camera", "open phone rear camera"}:
+        return [{"action": "android_open_rear_camera"}]
+    if command in {"switch to the front camera", "switch to my phone's front camera", "switch to phone front camera"}:
+        return [{"action": "android_open_front_camera"}]
+    if command in {"switch to the rear camera", "switch to my phone's rear camera", "switch to phone rear camera"}:
+        return [{"action": "android_open_rear_camera"}]
+    if command in {"take a photo with my phone", "take a selfie with my phone", "capture a photo with my phone"}:
+        return [{"action": "android_capture_photo", "facing": "front" if "selfie" in command else "rear"}]
+    if command in {"capture a photo using the rear camera", "capture a photo using the front camera"}:
+        return [{"action": "android_capture_photo", "facing": "front" if "front" in command else "rear"}]
+
     # * ---------------------------------------------------------
     # * Open Android apps
     #
@@ -192,6 +217,14 @@ def android_route(command):
                     "app": app,
                 }
             ]
+
+    if command.startswith("close phone ") or command.startswith("close android "):
+        app = command.split(" ", 2)[-1].strip()
+        if app:
+            return [{"action": "android_close_app", "app": app}]
+
+    if command.startswith("search youtube for "):
+        return [{"action": "android_search_youtube", "query": command.removeprefix("search youtube for ").strip()}]
 
     # * ---------------------------------------------------------
     # * Launch Android apps

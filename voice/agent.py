@@ -2458,7 +2458,7 @@ class Agent:
                         # more than once. Coalesce only within this response
                         # batch; separate user turns remain independent.
                         batch_key = None
-                        if function_name in {"jarvis_command", "jarvis_capability"}:
+                        if function_name in {"jarvis_command", "jarvis_capability"} or function_name.startswith("jarvis_capability__"):
                             batch_key = (
                                 function_name,
                                 json.dumps(function_call.args or {}, sort_keys=True, default=str),

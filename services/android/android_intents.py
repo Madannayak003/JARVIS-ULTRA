@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from urllib.parse import quote_plus
+
 from .models import IntentSpec
 
 
@@ -12,7 +14,9 @@ ACTION_CALL = "android.intent.action.CALL"
 ACTION_SENDTO = "android.intent.action.SENDTO"
 ACTION_IMAGE_CAPTURE = "android.media.action.IMAGE_CAPTURE"
 ACTION_SETTINGS = "android.settings.SETTINGS"
+ACTION_HOME = "android.intent.action.MAIN"
 CATEGORY_LAUNCHER = "android.intent.category.LAUNCHER"
+CATEGORY_HOME = "android.intent.category.HOME"
 
 
 STANDARD_APP_INTENTS = {
@@ -37,6 +41,7 @@ PACKAGE_HINTS = {
     "gallery": ("com.google.android.apps.photos",),
     "calculator": ("com.google.android.calculator",),
     "whatsapp": ("com.whatsapp",),
+    "snapchat": ("com.snapchat.android",),
 }
 
 
@@ -50,3 +55,25 @@ def standard_intent_for(app_name: str) -> IntentSpec | None:
 
 def package_hints_for(app_name: str) -> tuple[str, ...]:
     return PACKAGE_HINTS.get(normalize_app_name(app_name), ())
+
+
+def youtube_search_url(query: str) -> str:
+    value = str(query).strip()
+    if not value:
+        raise ValueError("A YouTube search query is required.")
+    return f"https://www.youtube.com/results?search_query={quote_plus(value)}"
+
+
+def web_search_url(query: str, provider: str = "google") -> str:
+    value = str(query).strip()
+    if not value:
+        raise ValueError("A web search query is required.")
+    bases = {
+        "google": "https://www.google.com/search?q=",
+        "bing": "https://www.bing.com/search?q=",
+        "duckduckgo": "https://duckduckgo.com/?q=",
+    }
+    base = bases.get(normalize_app_name(provider) or "google")
+    if base is None:
+        raise ValueError("Unsupported search provider.")
+    return base + quote_plus(value)

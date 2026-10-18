@@ -21,6 +21,8 @@ from .models import (
     AppLaunchResult,
     DeviceStatus,
     IntentSpec,
+    BatteryStatus,
+    AndroidOperationResult,
 )
 
 _manager = None
@@ -38,5 +40,5 @@ __all__ = [
     "AdbClient", "AdbCommandError", "AdbDeviceError", "AdbError",
     "AdbNotFoundError", "AdbCommandResult", "normalize_endpoint",
     "AndroidConnectionStatus", "AndroidDevice", "AndroidDeviceManager", "AppLaunchResult", "DeviceStatus",
-    "IntentSpec", "get_android_manager",
+    "IntentSpec", "BatteryStatus", "AndroidOperationResult", "get_android_manager",
 ]

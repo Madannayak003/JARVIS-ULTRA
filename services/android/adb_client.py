@@ -298,6 +298,13 @@ class AdbClient:
         self._selected_device_id = selected.serial if selected else None
         return selected
 
+    def pin_device(self, device_id: str) -> None:
+        """Persist an explicit target even while it is temporarily offline."""
+        value = str(device_id).strip()
+        if not value or any(character.isspace() for character in value):
+            raise ValueError("A valid Android device ID is required.")
+        self._selected_device_id = value
+
     def connection_type(self, device: AndroidDevice) -> str:
         """Normalize the selected transport without changing device identity."""
         if not device.is_wireless:
