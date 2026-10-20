@@ -338,6 +338,19 @@ body {
 }
 .ultron-layer { position: absolute; inset: 0; z-index: 1; }
 .hud-cockpit { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+.apex-humanoid-root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.apex-humanoid-root [data-testid="humanoid-viewport"] { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+.apex-humanoid-root [data-testid="humanoid-viewport"] { background: #050608; }
+.apex-humanoid-root [data-testid="humanoid-viewport"][data-assembling="true"] { background: #000; }
+.apex-humanoid-root [data-testid="humanoid-viewport"][data-assembling="true"] [data-testid="backdrop-layer"] { visibility: hidden; }
+.apex-humanoid-root [data-testid="backdrop-layer"] { position: absolute; inset: 0; width: 100%; height: 100%; }
+.apex-humanoid-root [data-testid="backdrop-layer"] > img,
+.apex-humanoid-root [data-testid="backdrop-layer"] > div,
+.apex-humanoid-root [data-testid="threejs-particle-mount"] { position: absolute; inset: 0; }
+.apex-humanoid-root [data-testid="backdrop-layer"] > img { width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
+.apex-humanoid-root [data-testid="humanoid-portrait-frame"] { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.apex-humanoid-root [data-testid="humanoid-portrait-frame"] > canvas { display: block; width: 100%; height: 100%; }
+.apex-humanoid-root [data-testid="assembly-shockwave-ring"] { position: fixed; left: 0; top: 0; border-radius: 50%; pointer-events: none; z-index: 10; }
 
 /* Premium native-to-web boot layer. It stays above the existing cockpit until
    the real bridge and visual engine are available, then fades out in place. */
@@ -399,6 +412,11 @@ body {
   pointer-events: none;
 }
 
+.visual-mode-switcher{position:relative;z-index:100;display:flex;align-items:center;justify-content:center;gap:6px;margin:6px auto 0;width:max-content;pointer-events:auto}
+.visual-mode-switcher button{border:1px solid rgba(56,189,248,.24);border-radius:999px;padding:6px 15px;background:rgba(3,10,18,.72);color:var(--hud-muted);font:700 7px var(--hud-font-mono);letter-spacing:.08em;cursor:pointer;white-space:nowrap}
+.visual-mode-switcher button:hover,.visual-mode-switcher button:focus-visible{color:var(--hud-text-secondary);border-color:rgba(56,189,248,.68);outline:none}
+.visual-mode-switcher button.is-active{color:var(--hud-text);border-color:var(--assistant-colour-65);background:var(--assistant-colour-10);box-shadow:0 0 12px var(--assistant-colour-10)}
+
 .cockpit-brand {
   position: relative;
   z-index: 2;
@@ -423,6 +441,17 @@ body {
   border: 1px solid rgba(251, 191, 36, 0.34);
   color: #fbbf24;
   box-shadow: 0 0 12px rgba(251, 191, 36, 0.1);
+}
+
+.cockpit-title {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Keep all your existing font, color, and text styles. */
 }
 
 .cockpit-title {

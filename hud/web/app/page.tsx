@@ -7,7 +7,9 @@ import {
   useState,
 } from "react";
 
+import ApexHumanoid from "@/components/ApexHumanoid";
 import JarvisOrb from "@/components/JarvisOrb";
+import { unlockAudioOnUserGesture } from "@/apex/utils/soundEngine";
 import HudCockpit from "@/components/HudCockpit";
 import AIChatBot from "@/components/AIChatBot";
 import PhoneCallIsland, { type PhoneCallState } from "@/components/PhoneCallIsland";
@@ -346,6 +348,11 @@ function ScheduleCenterSection({ tab, data, onDelete }: { tab: ScheduleCenterTab
 
 
 export default function Home() {
+  const [visualMode, setVisualMode] = useState<"ultron" | "apex">("ultron");
+  const handleVisualModeChange = useCallback((mode: "ultron" | "apex") => {
+    if (mode === "apex") unlockAudioOnUserGesture();
+    setVisualMode(mode);
+  }, []);
   const [hudState, setHudState] = useState<HUDState>(EMPTY_STATE);
   const [connection, setConnection] = useState<HUDConnectionStatus>("connecting");
   const [orbReady, setOrbReady] = useState(false);
@@ -1848,7 +1855,11 @@ export default function Home() {
           ULTRON ENGINE
           ===================================================== */}
       <div className="ultron-layer">
-        <JarvisOrb onReady={handleOrbReady} onError={handleOrbError} />
+        {visualMode === "ultron" ? (
+          <JarvisOrb onReady={handleOrbReady} onError={handleOrbError} />
+        ) : (
+          <ApexHumanoid mood={activityState === "executing" ? "thinking" : activityState} onReady={handleOrbReady} onError={handleOrbError} />
+        )}
       </div>
 
       {/* =====================================================
@@ -1864,6 +1875,8 @@ export default function Home() {
         showQuickTools={showQuickTools}
         onSchedules={() => void openScheduleCenter()}
         onWorkspace={openWorkspace}
+        visualMode={visualMode}
+        onVisualModeChange={handleVisualModeChange}
         morningBriefHeadlines={morningBriefHeadlines}
         onMorningBriefClose={() => {
           setMorningBriefActive(false);

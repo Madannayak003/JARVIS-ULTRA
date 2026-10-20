@@ -48,6 +48,9 @@ type Props = {
 
   onWorkspace: () => void;
 
+  visualMode: "ultron" | "apex";
+  onVisualModeChange: (mode: "ultron" | "apex") => void;
+
   showActivityLog: boolean;
   showSystemMonitor: boolean;
   showQuickTools: boolean;
@@ -458,6 +461,8 @@ export default function HudCockpit({
   onSettings,
   onSchedules,
   onWorkspace,
+  visualMode,
+  onVisualModeChange,
   showActivityLog,
   showSystemMonitor,
   showQuickTools,
@@ -718,6 +723,24 @@ export default function HudCockpit({
 
         <div className="cockpit-title">
           {assistantName || "Assistant"}
+          <div className="visual-mode-switcher" role="group" aria-label="Visual mode">
+            <button
+              type="button"
+              className={visualMode === "ultron" ? "is-active" : ""}
+              aria-pressed={visualMode === "ultron"}
+              onClick={() => onVisualModeChange("ultron")}
+            >
+              ULTRON
+            </button>
+            <button
+              type="button"
+              className={visualMode === "apex" ? "is-active" : ""}
+              aria-pressed={visualMode === "apex"}
+              onClick={() => onVisualModeChange("apex")}
+            >
+            HUMANOID
+            </button>
+          </div>
         </div>
 
 
