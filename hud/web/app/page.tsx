@@ -63,6 +63,29 @@ const EMPTY_STATE: HUDState = {
   last_update: "",
 };
 
+type VisualVoiceIntent =
+  | { type: "mode"; mode: "ultron" | "apex" }
+  | { type: "assembly" };
+
+function visualVoiceIntent(text: string): VisualVoiceIntent | null {
+  const normalized = text.toLowerCase().replace(/[.,!?]/g, " ").replace(/\s+/g, " ").trim();
+  if (!normalized) return null;
+
+  if (
+    /\b(?:reassemble|assemble again|replay (?:the )?(?:humanoid|apex)? ?assembly|show (?:the )?(?:humanoid|apex)? ?assembly)\b/.test(normalized)
+  ) {
+    return { type: "assembly" };
+  }
+
+  const modeRequest = /\b(?:switch|change|activate|enable|select|use|show|return|go)\b.{0,28}\b(ultron|apex|humanoid)(?:\s+mode)?\b/.exec(normalized);
+  if (!modeRequest) return null;
+
+  return {
+    type: "mode",
+    mode: modeRequest[1] === "ultron" ? "ultron" : "apex",
+  };
+}
+
 export type HUDActivity = {
   id: string;
   speaker: "user" | "jarvis" | "live" | "sys" | "system";
@@ -349,10 +372,29 @@ function ScheduleCenterSection({ tab, data, onDelete }: { tab: ScheduleCenterTab
 
 export default function Home() {
   const [visualMode, setVisualMode] = useState<"ultron" | "apex">("ultron");
+  const visualModeRef = useRef<"ultron" | "apex">("ultron");
+  const [apexAssemblyTrigger, setApexAssemblyTrigger] = useState(1);
   const handleVisualModeChange = useCallback((mode: "ultron" | "apex") => {
+    if (visualModeRef.current === mode) return;
+    visualModeRef.current = mode;
     if (mode === "apex") unlockAudioOnUserGesture();
     setVisualMode(mode);
   }, []);
+  const handleApexAssemblyRequest = useCallback(() => {
+    visualModeRef.current = "apex";
+    setVisualMode("apex");
+    setApexAssemblyTrigger((current) => current + 1);
+  }, []);
+  const handleVisualVoiceCommand = useCallback((text: string) => {
+    const intent = visualVoiceIntent(text);
+    if (!intent) return;
+
+    if (intent.type === "assembly") {
+      handleApexAssemblyRequest();
+    } else {
+      handleVisualModeChange(intent.mode);
+    }
+  }, [handleApexAssemblyRequest, handleVisualModeChange]);
   const [hudState, setHudState] = useState<HUDState>(EMPTY_STATE);
   const [connection, setConnection] = useState<HUDConnectionStatus>("connecting");
   const [orbReady, setOrbReady] = useState(false);
@@ -1117,6 +1159,10 @@ export default function Home() {
           return;
         }
 
+        if (event.name === "command" && text) {
+          handleVisualVoiceCommand(text);
+        }
+
         // * Consume pending user command marker to prevent duplicate logs
         if (speaker === "user") {
           const pendingIndex = pendingHudCommandsRef.current.indexOf(text);
@@ -1162,7 +1208,7 @@ export default function Home() {
       phoneCallExitTokenRef.current += 1;
 
     };
-  }, [applyPhoneCallState, handleHUDState]);
+  }, [applyPhoneCallState, handleHUDState, handleVisualVoiceCommand]);
 
   const openScheduleCenter = async (tab: ScheduleCenterTab = scheduleCenterTab) => {
     setScheduleCenterTab(tab);
@@ -1858,7 +1904,12 @@ export default function Home() {
         {visualMode === "ultron" ? (
           <JarvisOrb onReady={handleOrbReady} onError={handleOrbError} />
         ) : (
-          <ApexHumanoid mood={activityState === "executing" ? "thinking" : activityState} onReady={handleOrbReady} onError={handleOrbError} />
+          <ApexHumanoid
+            mood={activityState === "executing" ? "thinking" : activityState}
+            assemblyTrigger={apexAssemblyTrigger}
+            onReady={handleOrbReady}
+            onError={handleOrbError}
+          />
         )}
       </div>
 

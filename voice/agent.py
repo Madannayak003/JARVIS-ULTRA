@@ -113,6 +113,7 @@ from voice.live_context import (
     recent_live_messages,
     record_live_turn,
 )
+from voice.hud_intents import classify_hud_voice_intent
 
 
 # * =============================================================
@@ -341,6 +342,15 @@ VISION AND CAMERA
 - Do not paraphrase or answer vision requests from Gemini's own knowledge.
 - {assistant_name}'s camera/YOLO vision system is authoritative for visible objects,
   positions, counts, and spatial relationships.
+
+HUD VISUAL CONTROLS
+- Requests to switch between ULTRON and APEX humanoid are HUD controls, not
+  Android app commands. Confirm the requested HUD mode briefly.
+- Explicit requests to reassemble, assemble again, replay humanoid assembly,
+  or show humanoid assembly are HUD controls. Confirm the assembly action
+  briefly and do not ask what the user meant.
+- Never route these HUD controls to android_open_app, jarvis_capability, or
+  another general-purpose computer tool.
 
 VISION RESULT RULES
 
@@ -2258,6 +2268,7 @@ class Agent:
         tool_result_summaries = []
         turn_generation = self._live_generation_value()
         scheduled_whatsapp_results = {}
+        hud_intent = None
 
         # * True when an existing JARVIS skill already produced the
         # * authoritative response for this Live turn.
@@ -2486,7 +2497,21 @@ class Agent:
                         # * JARVIS COMMAND
                         # * -----------------------------------------
 
-                        if function_name in {"jarvis_command", "jarvis_developer"}:
+                        if hud_intent is not None:
+
+                            result = {
+                                "success": True,
+                                "status": "hud_action_accepted",
+                                "action": hud_intent["type"],
+                                "mode": hud_intent.get("mode"),
+                                "message": (
+                                    f"{hud_intent['confirmation']} The HUD action was accepted. "
+                                    "Do not call another tool for this request."
+                                ),
+                            }
+                            print("[LIVE HUD] Intercepted HUD intent before tool dispatch:", hud_intent["type"])
+
+                        elif function_name in {"jarvis_command", "jarvis_developer"}:
 
                             args = (
                                 function_call.args
@@ -2911,6 +2936,10 @@ class Agent:
                     if user_text:
 
                         input_text = merge_transcript_text(input_text, user_text)
+
+                        detected_hud_intent = classify_hud_voice_intent(user_text)
+                        if detected_hud_intent is not None and hud_intent is None:
+                            hud_intent = detected_hud_intent
 
                         print(
                             "[YOU]",

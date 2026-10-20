@@ -28,14 +28,16 @@ export default function ApexHumanoid({
   mood,
   onReady,
   onError,
+  assemblyTrigger,
 }: {
   mood: MoodState;
   onReady?: () => void;
   onError?: (message: string) => void;
+  assemblyTrigger: number;
 }) {
   const attentionRef = useRef({ x: 0, y: 0 });
   const micEnergyRef = useRef(0);
-  const assemblySessionRef = useRef(1);
+  const assemblySessionRef = useRef(0);
   const soundPlayedSessionRef = useRef(0);
   const isAssemblingRef = useRef(true);
   const assemblyPctRef = useRef(0);
@@ -57,7 +59,9 @@ export default function ApexHumanoid({
   }, [onReady]);
 
   useEffect(() => {
-    const session = assemblySessionRef.current;
+    const session = assemblySessionRef.current + 1;
+    assemblySessionRef.current = session;
+    isAssemblingRef.current = true;
     resetAssemblySoundSession(session);
 
     const tryPlayAssemblySound = async () => {
@@ -93,7 +97,7 @@ export default function ApexHumanoid({
       window.removeEventListener("keydown", onFirstGesture);
       stopAllActiveSounds();
     };
-  }, []);
+  }, [assemblyTrigger]);
 
   return (
     <div className="apex-humanoid-root" aria-label="APEX humanoid visualizer">
@@ -102,7 +106,7 @@ export default function ApexHumanoid({
         effectsEnabled
         reducedMotion={reducedMotion}
         compareActive={false}
-        assemblyTrigger={1}
+        assemblyTrigger={assemblyTrigger}
         skipRequested={false}
         shockwaveTrigger={0}
         tuning={DEFAULT_TUNING}
