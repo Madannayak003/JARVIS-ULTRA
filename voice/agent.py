@@ -110,7 +110,7 @@ def _live_whatsapp_schedule_key(parameters):
         {name: str(parameters[name]).strip().casefold() for name in required},
         sort_keys=True,
     )
-from core.diagnostics import debug_print
+from core.diagnostics import debug_print, status_print
 from voice.live_context import (
     merge_transcript_text,
     recent_live_messages,
@@ -796,7 +796,7 @@ class Agent:
                 turn_id,
                 tool_results,
             ):
-                print("[LIVE CONTEXT] Recorded completed Live turn once.")
+                debug_print("[LIVE CONTEXT] Recorded completed Live turn once.")
         except Exception as exc:
             print("[LIVE CONTEXT] Could not record Live turn:", exc)
 
@@ -823,7 +823,7 @@ class Agent:
                 for message in messages
             ]
             await session.send_client_content(turns=turns, turn_complete=False)
-            print(
+            debug_print(
                 f"[LIVE CONTEXT] Restored {len(turns)} recent conversation turns."
             )
             return True
@@ -878,7 +878,7 @@ class Agent:
             # the session open and the next audio chunk reopens the stream.
             await session.send_realtime_input(audio_stream_end=True)
         except Exception as exc:
-            print("[LIVE] Interrupt signal unavailable:", exc)
+            print("❌ [ERROR] Live interrupt signal unavailable:", exc)
         finally:
             with self._live_interrupt_lock:
                 self._live_interrupt_pending = False
@@ -917,7 +917,7 @@ class Agent:
         except Exception as exc:
             with self._live_interrupt_lock:
                 self._live_interrupt_pending = False
-            print("[LIVE] Interrupt dispatch failed:", exc)
+            print("❌ [ERROR] Live interrupt dispatch failed:", exc)
 
         return True
             
@@ -938,7 +938,7 @@ class Agent:
                 enabled
             )
 
-        print(
+        debug_print(
             "[LIVE] Microphone:",
             "ON" if enabled else "OFF",
             "source=",
@@ -988,12 +988,15 @@ class Agent:
                 ),
                 turn_complete=True,
             )
-            print("[LIVE] Startup briefing requested through Gemini Live.")
+            status_print(
+                "Startup briefing requested.",
+                debug_message="[LIVE] Startup briefing requested through Gemini Live.",
+            )
             return True
         except Exception as exc:
             with self._startup_greeting_lock:
                 self._startup_greeting_sent = False
-            print("[LIVE] Startup greeting unavailable:", exc)
+            print("❌ [ERROR] Startup greeting unavailable:", exc)
             return False
         
         
@@ -1009,7 +1012,7 @@ class Agent:
             HUDIntegration.speaking()
             self._hud_speaking = True
 
-            print(
+            debug_print(
                 "[LIVE HUD] SPEAKING ON"
             )
 
@@ -1048,7 +1051,7 @@ class Agent:
             # will emit LISTENING again on the next speech-start edge.
             HUDIntegration.idle()
 
-            print(
+            debug_print(
                 "[LIVE HUD] SPEAKING OFF"
             )
 
@@ -1143,7 +1146,7 @@ class Agent:
                 timeout=5,
             )
 
-            print(
+            debug_print(
                 "[LIVE TEXT] Sent to Gemini Live:",
                 text,
             )
@@ -1153,7 +1156,7 @@ class Agent:
         except Exception as exc:
 
             print(
-                "[LIVE] Failed to send typed text:",
+                "❌ [ERROR] Failed to send typed text:",
                 exc,
             )
 
@@ -1279,7 +1282,7 @@ class Agent:
         except Exception as exc:
 
             print(
-                f"[LIVE] Fatal error: {exc}"
+                f"❌ [ERROR] Live agent fatal error: {exc}"
             )
 
         finally:
@@ -1413,7 +1416,7 @@ class Agent:
 
                 self._queue_audio(input_queue, audio_bytes)
             except Exception as exc:
-                print("[LIVE] Microphone audio processing error:", exc)
+                print("❌ [ERROR] Microphone audio processing failed:", exc)
 
         def microphone_callback(
             indata,
@@ -1445,7 +1448,7 @@ class Agent:
                 if now - microphone_status_state["last_logged"] >= 1.0:
                     microphone_status_state["last_logged"] = now
                     loop.call_soon_threadsafe(
-                        print,
+                        debug_print,
                         f"[LIVE] Microphone status: {status}",
                     )
 
@@ -1505,11 +1508,11 @@ class Agent:
                 speaker.start()
                 self._speaker_started = True
 
-            print(
+            debug_print(
                 "[LIVE] Microphone active."
             )
 
-            print(
+            debug_print(
                 "[LIVE] Speaker active."
             )
 
@@ -1548,7 +1551,7 @@ class Agent:
 
                     connection_number += 1
 
-                    print(
+                    debug_print(
                         "[LIVE] Connecting Gemini Live "
                         f"connection #{connection_number}..."
                     )
@@ -1574,13 +1577,13 @@ class Agent:
                         # including its voice. A voice change needs a fresh
                         # session so the new speech_config is authoritative.
                         self._clear_session_resumption_handle()
-                    print(
+                    debug_print(
                         "[LIVE VOICE] Requested preference:",
                         "FEMALE" if requested_female else "MALE",
                     )
-                    print("[LIVE VOICE] Configured voice:", configured_voice)
+                    debug_print("[LIVE VOICE] Configured voice:", configured_voice)
                     if voice_rollover:
-                        print(
+                        debug_print(
                             "[LIVE VOICE] Using a fresh session for voice rollover."
                         )
 
@@ -1651,8 +1654,8 @@ class Agent:
 
                             connection_started_at = time.monotonic()
 
-                            print("[AGENT] Connected")
-                            print(
+                            debug_print("[AGENT] Connected")
+                            debug_print(
                                 f"[LIVE VOICE] Connection #{connection_number} "
                                 f"ready with configured voice: {configured_voice}"
                             )
@@ -1675,18 +1678,18 @@ class Agent:
 
                             if connection_number == 1:
 
-                                print(
+                                debug_print(
                                     "[LIVE] Persistent Live session active."
                                 )
 
                             else:
 
-                                print(
+                                debug_print(
                                     "[LIVE] Gemini Live connection "
                                     "resumed automatically."
                                 )
 
-                            print("[AGENT] Listening...")
+                            debug_print("[AGENT] Listening...")
 
                             if voice_rollover:
                                 await self._restore_live_context(session)
@@ -1781,7 +1784,7 @@ class Agent:
                                             sender_error = None
                                         if not self._stop_event.is_set():
                                             print(
-                                                "[LIVE] Audio sender ended; "
+                                                "❌ [ERROR] Live audio sender ended; "
                                                 "reconnecting the Live session:",
                                                 sender_error,
                                             )
@@ -1846,7 +1849,7 @@ class Agent:
 
                                             if result == "go_away":
 
-                                                print(
+                                                debug_print(
                                                     "[LIVE] GoAway handled. "
                                                     "Closing current Gemini "
                                                     "connection cleanly."
@@ -1865,7 +1868,7 @@ class Agent:
 
                                             if result == "session_closed":
 
-                                                print(
+                                                debug_print(
                                                     "[LIVE] Gemini Live "
                                                     "session closed."
                                                 )
@@ -1881,14 +1884,14 @@ class Agent:
                                         except Exception as exc:
 
                                             print(
-                                                "[LIVE] Gemini connection "
+                                                "❌ [ERROR] Gemini connection "
                                                 "ended unexpectedly:",
                                                 exc,
                                             )
 
                                             if _is_expired_session_resumption_error(exc):
                                                 print(
-                                                    "[LIVE] Session resumption handle expired; "
+                                                    "❌ [ERROR] Session resumption handle expired; "
                                                     "starting a fresh Live session."
                                                 )
                                                 self._clear_session_resumption_handle()
@@ -1929,7 +1932,7 @@ class Agent:
                             break
 
                         print(
-                            "[LIVE] Gemini Live connection error:",
+                            "❌ [ERROR] Gemini Live connection error:",
                             exc,
                         )
                         print(
@@ -1957,7 +1960,7 @@ class Agent:
 
                         if _is_expired_session_resumption_error(exc):
                             print(
-                                "[LIVE] Session resumption handle expired; "
+                                "❌ [ERROR] Session resumption handle expired; "
                                 "starting a fresh Live session."
                             )
                             self._clear_session_resumption_handle()
@@ -1981,7 +1984,7 @@ class Agent:
 
                     if connection_should_retry:
 
-                        print(
+                        debug_print(
                             "[LIVE] Preparing automatic Live "
                             "connection rollover..."
                         )
@@ -1993,13 +1996,13 @@ class Agent:
                             reconnect_attempts = 0
                         reconnect_attempts += 1
                         reconnect_delay = _live_reconnect_delay(reconnect_attempts)
-                        print(
+                        debug_print(
                             "[LIVE] Reconnect backoff:",
                             f"{reconnect_delay:.1f}s",
                         )
                         await asyncio.sleep(reconnect_delay)
 
-                        print(
+                        debug_print(
                             "[LIVE] Resuming Agent..."
                         )
 
@@ -2013,7 +2016,7 @@ class Agent:
                     # * Conversation alive rather than silently ending.
                     # * ---------------------------------------------
 
-                    print(
+                    debug_print(
                         "[LIVE] Gemini Live connection ended."
                     )
 
@@ -2090,7 +2093,7 @@ class Agent:
 
                     self._speaker_started = False
 
-            print(
+            debug_print(
                 "[LIVE] Audio devices closed."
             )
 
@@ -2100,7 +2103,7 @@ class Agent:
 
             self._resume_normal_microphone()
 
-            print(
+            debug_print(
                 f"[LIVE] Normal {get_assistant_display_name()} microphone resumed."
             )
 
@@ -2172,12 +2175,10 @@ class Agent:
                 speaker.abort()
                 self._speaker_started = False
 
-                print(
-                    "[LIVE] Speaker output interrupted."
-                )
-
-                print(
-                    "[LIVE] Speaker stream left stopped until next output."
+                status_print(
+                    "Speaker output interrupted.",
+                    debug_message="[LIVE] Speaker output interrupted. "
+                    "[LIVE] Speaker stream left stopped until next output.",
                 )
 
                 return True
@@ -2185,7 +2186,7 @@ class Agent:
             except Exception as exc:
 
                 print(
-                    "[LIVE] Speaker interruption failed:",
+                    "❌ [ERROR] Speaker interruption failed:",
                     exc,
                 )
                 return False
@@ -2248,7 +2249,7 @@ class Agent:
         except Exception as exc:
 
             print(
-                "[LIVE] Audio sender stopped:",
+                "❌ [ERROR] Live audio sender stopped:",
                 exc,
             )
 
@@ -2293,7 +2294,7 @@ class Agent:
 
         try:
             
-            print(
+            debug_print(
                 "[LIVE TURN] Waiting for user..."
             )
 
@@ -2344,7 +2345,7 @@ class Agent:
                         or "unknown"
                     )
 
-                    print(
+                    debug_print(
                         "[LIVE] Gemini Live connection "
                         f"will close soon. Time left: {time_left}"
                     )
@@ -2364,7 +2365,7 @@ class Agent:
                     # * session-resumption handle.
                     # * ---------------------------------------------
 
-                    print(
+                    debug_print(
                         "[LIVE] GoAway received. "
                         "Preparing automatic connection rollover."
                     )
@@ -2411,7 +2412,7 @@ class Agent:
                         or []
                     )
 
-                    print(
+                    debug_print(
                         "[LIVE TOOL] Tool call cancelled:",
                         cancelled_ids,
                     )
@@ -2497,10 +2498,10 @@ class Agent:
                                         batch_results[batch_key],
                                     )
                                 )
-                                print("[LIVE TOOL] Duplicate command in one response batch; reusing result")
+                                debug_print("[LIVE TOOL] Duplicate command in one response batch; reusing result")
                                 continue
 
-                        print(
+                        debug_print(
                             "[LIVE TOOL]",
                             function_name,
                         )
@@ -2523,7 +2524,7 @@ class Agent:
                                     "Do not call another tool for this request."
                                 ),
                             }
-                            print("[LIVE HUD] Intercepted HUD intent before tool dispatch:", hud_intent["type"])
+                            debug_print("[LIVE HUD] Intercepted HUD intent before tool dispatch:", hud_intent["type"])
 
                         elif function_name in {"jarvis_command", "jarvis_developer"}:
 
@@ -2539,7 +2540,7 @@ class Agent:
                                 )
                             ).strip()
 
-                            print(
+                            debug_print(
                                 "[LIVE TOOL COMMAND]",
                                 command,
                             )
@@ -2574,7 +2575,7 @@ class Agent:
                                             "status": "scheduled_only",
                                             "message": "That command is already stored for scheduled execution; it was not run now.",
                                         }
-                                        print("[LIVE TOOL] Scheduled command was not dispatched immediately:", command)
+                                        debug_print("[LIVE TOOL] Scheduled command was not dispatched immediately:", command)
                                         raise StopIteration
 
                                     # * ---------------------------------
@@ -2630,7 +2631,7 @@ class Agent:
 
                                     elif authoritative_response:
 
-                                        print(
+                                        debug_print(
                                             f"[LIVE] {get_assistant_display_name()} skill response:",
                                             authoritative_response,
                                         )
@@ -2751,7 +2752,7 @@ class Agent:
                                     schedule_key = _live_whatsapp_schedule_key(args)
                                     if schedule_key in scheduled_whatsapp_results:
                                         result = scheduled_whatsapp_results[schedule_key]
-                                        print("[LIVE TOOL] Duplicate WhatsApp schedule in one turn; reusing result")
+                                        debug_print("[LIVE TOOL] Duplicate WhatsApp schedule in one turn; reusing result")
                                         raise StopIteration
                                 with live_execution(session=session, loop=asyncio.get_running_loop()):
                                     result = await self._execute_live_capability(
@@ -2872,7 +2873,7 @@ class Agent:
                         # Keep runtime diagnostics useful without logging page
                         # content, URLs with sensitive parameters, or secrets.
                         if function_name == "jarvis_read_page" and isinstance(result, dict):
-                            print(
+                            debug_print(
                                 "[LIVE PAGE READ RESULT]",
                                 "status=", result.get("status"),
                                 "extraction_status=", result.get("extraction_status"),
@@ -2960,7 +2961,7 @@ class Agent:
                         if detected_hud_intent is not None and hud_intent is None:
                             hud_intent = detected_hud_intent
 
-                        print(
+                        debug_print(
                             "[YOU]",
                             user_text,
                         )
@@ -3019,14 +3020,9 @@ class Agent:
                     False,
                 ):
 
-                    print(
-                        "[LIVE] --------------------------------------------------"
-                    )
-                    print(
-                        "[LIVE] USER INTERRUPTED MODEL RESPONSE"
-                    )
-                    print(
-                        "[LIVE] --------------------------------------------------"
+                    status_print(
+                        "Response interrupted.",
+                        debug_message="[LIVE] USER INTERRUPTED MODEL RESPONSE",
                     )
                     
                     self._hud_stop_speaking()
@@ -3036,8 +3032,9 @@ class Agent:
                         speaker
                     )
 
-                    print(
-                        "[LIVE] Continuing same Gemini Live session."
+                    status_print(
+                        "Continuing the current session.",
+                        debug_message="[LIVE] Continuing same Gemini Live session.",
                     )
 
                     return "turn_complete"
@@ -3059,7 +3056,7 @@ class Agent:
 
                     if complete_output:
 
-                        print(
+                        debug_print(
                             f"[{get_assistant_display_name()}]",
                             complete_output,
                         )
@@ -3089,7 +3086,7 @@ class Agent:
                         asyncio.create_task(asyncio.to_thread(learn_live_memory, input_text))
                     self._hud_stop_speaking()
 
-                    print(
+                    debug_print(
                         "[LIVE] Turn complete."
                     )
 
@@ -3112,7 +3109,7 @@ class Agent:
         except Exception as exc:
 
             print(
-                "[LIVE] Gemini receive error:",
+                "❌ [ERROR] Gemini receive error:",
                 exc,
             )
 

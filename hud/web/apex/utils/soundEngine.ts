@@ -2,6 +2,10 @@ const TIMING = {
   ignition: 6.2,
 };
 
+// Final output trim for the assembly soundscape. The compressor remains
+// upstream so the louder mix stays controlled without changing its envelopes.
+const MASTER_GAIN = 0.68;
+
 let ctx: AudioContext | null = null;
 let masterGain: GainNode | null = null;
 let compressor: DynamicsCompressorNode | null = null;
@@ -50,7 +54,7 @@ function ensureAudioContext(): AudioContext | null {
   compressor.release.value = 0.25;
 
   masterGain = ctx.createGain();
-  masterGain.gain.value = soundEnabled ? 0.45 : 0;
+  masterGain.gain.value = soundEnabled ? MASTER_GAIN : 0;
 
   dryBus = ctx.createGain();
   reverbShort = ctx.createConvolver();
@@ -128,7 +132,7 @@ export async function unlockAudioOnUserGestureAsync(): Promise<boolean> {
 export function setSoundEnabled(enabled: boolean): void {
   soundEnabled = enabled;
   if (masterGain && ctx) {
-    masterGain.gain.setTargetAtTime(enabled ? 0.45 : 0, ctx.currentTime, 0.04);
+    masterGain.gain.setTargetAtTime(enabled ? MASTER_GAIN : 0, ctx.currentTime, 0.04);
   }
   if (!enabled) {
     stopAllActiveSounds();
@@ -624,3 +628,4 @@ export function playStateChime(): void {
     });
   });
 }
+  

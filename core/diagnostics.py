@@ -8,6 +8,7 @@ This deliberately avoids introducing a second logging framework.
 from __future__ import annotations
 
 import os
+import sys
 
 
 def debug_enabled() -> bool:
@@ -26,4 +27,20 @@ def debug_print(*args, **kwargs):
 
     if debug_enabled():
         print(*args, **kwargs)
+
+
+def status_print(message: str, *, debug_message: str | None = None) -> None:
+    """Print a compact robot-prefixed status, or detailed text in debug mode."""
+
+    if debug_enabled():
+        print(debug_message or message)
+        return
+
+    stream = sys.stdout
+    if hasattr(stream, "reconfigure"):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, OSError, ValueError):
+            pass
+    print("🤖", message)
 
