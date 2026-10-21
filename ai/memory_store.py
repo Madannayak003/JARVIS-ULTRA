@@ -13,13 +13,18 @@ Responsibilities
 ✓ Touch Memory
 """
 
-from ai.memory import connect
+from ai.memory import connect, MEMORY_DB_LOCK
 from ai.memory_schema import (
     Memory,
     now,
     MEDIUM,
     OTHER
 )
+
+
+def _canonical_key(key):
+    """Normalize lookup keys without changing the existing schema."""
+    return " ".join(str(key or "").strip().lower().split())
 
 
 # * ---------------------------------------
@@ -36,13 +41,28 @@ def remember(
 
 ):
 
-    conn = connect()
+    key = _canonical_key(key)
+    value = str(value or "").strip()
+    if not key or not value:
+        return False
 
-    cursor = conn.cursor()
+    with MEMORY_DB_LOCK:
+        conn = connect()
 
-    timestamp = now()
+        cursor = conn.cursor()
 
-    cursor.execute("""
+        timestamp = now()
+
+        cursor.execute("SELECT id FROM memories WHERE LOWER(key)=LOWER(?) LIMIT 1", (key,))
+        existing = cursor.fetchone()
+        if existing:
+            cursor.execute("""
+                UPDATE memories
+                SET value=?, category=?, keywords=?, importance=?, updated_at=?
+                WHERE id=?
+            """, (value, category, keywords, importance, timestamp, existing["id"]))
+        else:
+            cursor.execute("""
 
         INSERT INTO memories(
 
@@ -72,27 +92,27 @@ def remember(
 
             updated_at=excluded.updated_at
 
-    """, (
+            """, (
 
-        key,
+            key,
 
-        value,
+            value,
 
-        category,
+            category,
 
-        keywords,
+            keywords,
 
-        importance,
+            importance,
 
-        timestamp,
+            timestamp,
 
-        timestamp
+            timestamp
 
-    ))
+            ))
 
-    conn.commit()
+        conn.commit()
 
-    conn.close()
+        conn.close()
 
     return True
 
@@ -109,9 +129,9 @@ def get(key):
 
     cursor.execute(
 
-        "SELECT * FROM memories WHERE key=?",
+        "SELECT * FROM memories WHERE LOWER(key)=LOWER(?) LIMIT 1",
 
-        (key,)
+        (_canonical_key(key),)
 
     )
 
@@ -169,9 +189,9 @@ def forget(key):
 
     cursor.execute(
 
-        "DELETE FROM memories WHERE key=?",
+        "DELETE FROM memories WHERE LOWER(key)=LOWER(?)",
 
-        (key,)
+        (_canonical_key(key),)
 
     )
 
@@ -286,7 +306,7 @@ def touch(key):
 
         now(),
 
-        key
+        _canonical_key(key)
 
     ))
 

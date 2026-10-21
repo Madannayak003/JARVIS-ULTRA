@@ -288,6 +288,12 @@ function normalizeAssistantName(value: unknown): string {
   return name;
 }
 
+type VisualMode = "ultron" | "apex";
+
+function normalizeVisualMode(value: unknown): VisualMode {
+  return value === "apex" ? "apex" : "ultron";
+}
+
 function displayTime(value: unknown): string {
   if (!value) return "Time not set";
   const date = new Date(String(value));
@@ -371,20 +377,46 @@ function ScheduleCenterSection({ tab, data, onDelete }: { tab: ScheduleCenterTab
 
 
 export default function Home() {
-  const [visualMode, setVisualMode] = useState<"ultron" | "apex">("ultron");
-  const visualModeRef = useRef<"ultron" | "apex">("ultron");
+  const [visualMode, setVisualMode] = useState<VisualMode>("ultron");
+  const visualModeRef = useRef<VisualMode>("ultron");
+  const [hudModeReady, setHudModeReady] = useState(false);
+  const hudModeReadyRef = useRef(false);
+  const pendingHudModeRef = useRef<VisualMode | null>(null);
+  const hudModeWriteQueueRef = useRef(Promise.resolve());
   const [apexAssemblyTrigger, setApexAssemblyTrigger] = useState(1);
-  const handleVisualModeChange = useCallback((mode: "ultron" | "apex") => {
+  const persistVisualMode = useCallback((mode: VisualMode) => {
+    hudModeWriteQueueRef.current = hudModeWriteQueueRef.current
+      .catch(() => undefined)
+      .then(async () => {
+        const response = await fetch(`${JARVIS_DASHBOARD_URL}/api/local/hud-mode`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          cache: "no-store",
+          body: JSON.stringify({ lastActiveHud: mode }),
+        });
+        if (!response.ok) {
+          throw new Error(`HUD mode persistence failed: ${response.status}`);
+        }
+      })
+      .catch((error) => {
+        console.error("[HUD] Last active mode save failed:", error);
+      });
+  }, []);
+  const handleVisualModeChange = useCallback((mode: VisualMode) => {
     if (visualModeRef.current === mode) return;
     visualModeRef.current = mode;
+    if (!hudModeReadyRef.current) {
+      pendingHudModeRef.current = mode;
+    } else {
+      persistVisualMode(mode);
+    }
     if (mode === "apex") unlockAudioOnUserGesture();
     setVisualMode(mode);
-  }, []);
+  }, [persistVisualMode]);
   const handleApexAssemblyRequest = useCallback(() => {
-    visualModeRef.current = "apex";
-    setVisualMode("apex");
+    handleVisualModeChange("apex");
     setApexAssemblyTrigger((current) => current + 1);
-  }, []);
+  }, [handleVisualModeChange]);
   const handleVisualVoiceCommand = useCallback((text: string) => {
     const intent = visualVoiceIntent(text);
     if (!intent) return;
@@ -776,6 +808,42 @@ export default function Home() {
     }, 5000);
     return () => window.clearInterval(statusInterval);
   }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const restoreHudMode = async () => {
+      let restoredMode: VisualMode = "ultron";
+      try {
+        const response = await fetch(`${JARVIS_DASHBOARD_URL}/api/local/hud-mode`, { cache: "no-store" });
+        if (response.ok) {
+          const result = await response.json();
+          if (result?.ok) restoredMode = normalizeVisualMode(result.lastActiveHud);
+        }
+      } catch (error) {
+        console.error("[HUD] Last active mode restore failed:", error);
+      }
+
+      if (!isMounted) return;
+
+      const requestedMode = pendingHudModeRef.current;
+      const nextMode = requestedMode ?? restoredMode;
+      visualModeRef.current = nextMode;
+      setVisualMode(nextMode);
+      hudModeReadyRef.current = true;
+      setHudModeReady(true);
+
+      if (requestedMode !== null) {
+        pendingHudModeRef.current = null;
+        persistVisualMode(requestedMode);
+      }
+    };
+
+    void restoreHudMode();
+    return () => {
+      isMounted = false;
+    };
+  }, [persistVisualMode]);
 
   /* =========================================================
      LOAD SETTINGS
@@ -1901,7 +1969,7 @@ export default function Home() {
           ULTRON ENGINE
           ===================================================== */}
       <div className="ultron-layer">
-        {visualMode === "ultron" ? (
+        {!hudModeReady ? null : visualMode === "ultron" ? (
           <JarvisOrb onReady={handleOrbReady} onError={handleOrbError} />
         ) : (
           <ApexHumanoid

@@ -18,6 +18,7 @@ _ASSISTANT_SETTINGS_FILE = (
 )
 
 AI_PROVIDER_OPTIONS = ("AUTO", "GEMINI", "GROK", "OPENAI")
+HUD_MODE_OPTIONS = ("ultron", "apex")
 
 # Gemini Live is the primary conversational runtime.  Keep this identifier
 # authoritative and deliberately non-overridable: changing the main Live
@@ -64,6 +65,31 @@ def _read_persisted_settings() -> dict:
     except (OSError, TypeError, ValueError, AttributeError):
         return {}
     return value if isinstance(value, dict) else {}
+
+
+def _write_persisted_settings(settings: dict) -> None:
+    _ASSISTANT_SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with _ASSISTANT_SETTINGS_FILE.open("w", encoding="utf-8") as file:
+        json.dump(settings, file, indent=2)
+        file.write("\n")
+
+
+def get_last_active_hud() -> str:
+    """Return the saved HUD mode, falling back safely to ULTRON."""
+    value = str(_read_persisted_settings().get("lastActiveHud", "")).strip().lower()
+    return value if value in HUD_MODE_OPTIONS else "ultron"
+
+
+def set_last_active_hud(mode: str) -> str:
+    """Persist one supported HUD mode without discarding other settings."""
+    normalized = str(mode).strip().lower()
+    if normalized not in HUD_MODE_OPTIONS:
+        raise ValueError(f"Unsupported HUD mode: {mode}")
+
+    settings = _read_persisted_settings()
+    settings["lastActiveHud"] = normalized
+    _write_persisted_settings(settings)
+    return normalized
 
 
 def get_ai_provider_setting() -> str:

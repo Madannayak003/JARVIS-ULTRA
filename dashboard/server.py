@@ -59,6 +59,8 @@ from config.settings import (
     get_assistant_display_name,
     get_assistant_name_lower,
     get_gemini_live_gender_setting,
+    get_last_active_hud,
+    set_last_active_hud,
     GEMINI_LIVE_DEFAULT_VOICE,
     GEMINI_LIVE_FEMALE_VOICE,
 )
@@ -2678,6 +2680,30 @@ class DashboardServer:
                     {"ok": False, "error": str(exc)},
                     status_code=500,
                 )
+
+        # * =====================================================
+        # * LOCAL — LAST ACTIVE HUD
+        # * =====================================================
+
+        @app.get("/api/local/hud-mode")
+        async def local_get_hud_mode(request: Request):
+            if not self._authorize_local(request):
+                return JSONResponse({"ok": False, "error": "Local access required."}, status_code=403)
+            return {"ok": True, "lastActiveHud": get_last_active_hud()}
+
+        @app.post("/api/local/hud-mode")
+        async def local_save_hud_mode(request: Request):
+            if not self._authorize_local(request):
+                return JSONResponse({"ok": False, "error": "Local access required."}, status_code=403)
+            try:
+                body = await request.json()
+                mode = body.get("lastActiveHud")
+                saved_mode = set_last_active_hud(mode)
+            except ValueError as exc:
+                return JSONResponse({"ok": False, "error": str(exc)}, status_code=400)
+            except Exception as exc:
+                return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
+            return {"ok": True, "lastActiveHud": saved_mode}
 
         # * =====================================================
         # * LOCAL — AI PROVIDER

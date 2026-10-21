@@ -16,9 +16,11 @@ This file DOES NOT perform:
 """
 
 import sqlite3
+import threading
 from pathlib import Path
 
 DB = Path(__file__).parent / "memory.db"
+MEMORY_DB_LOCK = threading.RLock()
 
 
 # * ---------------------------------------
@@ -27,7 +29,7 @@ DB = Path(__file__).parent / "memory.db"
 
 def connect():
 
-    conn = sqlite3.connect(DB)
+    conn = sqlite3.connect(DB, timeout=10, check_same_thread=False)
 
     conn.row_factory = sqlite3.Row
 
@@ -39,12 +41,12 @@ def connect():
 # * ---------------------------------------
 
 def init_memory():
+    DB.parent.mkdir(parents=True, exist_ok=True)
+    with MEMORY_DB_LOCK:
+        conn = connect()
+        cursor = conn.cursor()
 
-    conn = connect()
-
-    cursor = conn.cursor()
-
-    cursor.execute("""
+        cursor.execute("""
 
         CREATE TABLE IF NOT EXISTS memories(
 
@@ -70,11 +72,11 @@ def init_memory():
 
         )
 
-    """)
+        """)
 
-    conn.commit()
+        conn.commit()
 
-    conn.close()
+        conn.close()
 
 
 # * ---------------------------------------

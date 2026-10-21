@@ -532,6 +532,203 @@ def build_live_capability_tool() -> dict:
     return {"function_declarations": declarations}
 
 
+def build_live_memory_tool() -> dict:
+    """Expose the existing durable memory service to Gemini Live."""
+    return {
+        "function_declarations": [
+            {
+                "name": "jarvis_memory",
+                "description": (
+                    "Use JARVIS's existing persistent personal-memory service. "
+                    "Use recall for personal facts, preferences, projects, and "
+                    "decisions; remember only when the user explicitly asks to "
+                    "save durable information; forget only one explicitly named "
+                    "memory. The result is authoritative: do not answer from "
+                    "guesswork when recall returns no match."
+                ),
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "operation": {
+                            "type": "string",
+                            "enum": ["recall", "remember", "forget", "list"],
+                        },
+                        "query": {
+                            "type": "string",
+                            "description": "Natural-language memory question or explicit fact to save.",
+                        },
+                        "key": {
+                            "type": "string",
+                            "description": "Exact memory key for save/update/forget operations.",
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Explicit durable value to save or update.",
+                        },
+                        "category": {
+                            "type": "string",
+                            "description": "Optional memory category such as identity, preference, project, or decision.",
+                        },
+                    },
+                    "required": ["operation"],
+                },
+            }
+        ]
+    }
+
+
+def execute_live_memory(parameters: Any = None) -> dict:
+    """Execute a bounded Live memory operation using the existing services."""
+    payload = dict(parameters) if isinstance(parameters, Mapping) else {}
+    operation = str(payload.get("operation", "")).strip().lower()
+    if operation == "recall":
+        query = str(payload.get("query", "")).strip()
+        if not query:
+            return {"ok": False, "status": "invalid_arguments", "message": "A memory question is required."}
+        try:
+            from ai.memory_answer import answer
+            from ai.memory_search import search
+
+            answer_text = answer(query)
+            matches = search(query, limit=5)
+            records = [
+                {"key": item.key, "value": item.value, "category": item.category}
+                for item in matches
+            ]
+            if not answer_text and not records:
+                return {
+                    "ok": True,
+                    "status": "not_found",
+                    "query": query,
+                    "memories": [],
+                    "message": "No stored memory matched that request. Say that you do not know.",
+                }
+            return {
+                "ok": True,
+                "status": "recalled",
+                "query": query,
+                "answer": answer_text or "",
+                "memories": records,
+                "message": answer_text or "Relevant stored memories are available in the memories field.",
+            }
+        except Exception as exc:
+            return {"ok": False, "status": "failed", "message": "Memory recall failed safely."}
+
+    if operation == "remember":
+        key = str(payload.get("key", "")).strip()
+        value = str(payload.get("value", "")).strip()
+        query = str(payload.get("query", "")).strip()
+        try:
+            if key and value:
+                from ai.memory_store import remember, get
+                previous = get(key)
+                remember(
+                    key,
+                    value,
+                    category=str(payload.get("category", "other")).strip() or "other",
+                )
+                return {
+                    "ok": True,
+                    "status": "updated" if previous and previous.value != value else "remembered",
+                    "key": key,
+                    "value": value,
+                    "message": "The durable memory was saved successfully.",
+                }
+            if query:
+                from ai.memory_pipeline import learn
+                result = learn(query)
+                if result.get("saved") or result.get("already_known"):
+                    return {
+                        "ok": True,
+                        "status": "remembered" if result.get("saved") else "already_known",
+                        "key": result.get("key"),
+                        "message": "The durable memory was saved successfully." if result.get("saved") else "That durable memory was already stored.",
+                    }
+                return {"ok": False, "status": "not_saved", "message": "The request did not contain a confirmed durable fact to save."}
+            return {"ok": False, "status": "invalid_arguments", "message": "Provide an explicit key and value or a confirmed fact to remember."}
+        except Exception:
+            return {"ok": False, "status": "failed", "message": "Memory save failed; it was not confirmed."}
+
+    if operation == "forget":
+        key = str(payload.get("key", "")).strip()
+        if not key:
+            return {"ok": False, "status": "invalid_arguments", "message": "Provide one exact memory key to forget."}
+        try:
+            from ai.memory_store import forget, get
+            existed = get(key) is not None
+            forget(key)
+            return {
+                "ok": True,
+                "status": "forgotten" if existed else "not_found",
+                "key": key,
+                "message": "The requested memory was deleted." if existed else "No stored memory matched that key.",
+            }
+        except Exception:
+            return {"ok": False, "status": "failed", "message": "Memory deletion failed; no success was claimed."}
+
+    if operation == "list":
+        try:
+            from ai.memory_store import list_all
+            records = [
+                {"key": item.key, "value": item.value, "category": item.category}
+                for item in list_all()[:20]
+            ]
+            return {"ok": True, "status": "listed", "memories": records, "message": f"{len(records)} stored memories are available."}
+        except Exception:
+            return {"ok": False, "status": "failed", "message": "Memory listing failed safely."}
+
+    return {"ok": False, "status": "invalid_arguments", "message": "Unsupported memory operation."}
+
+
+def learn_live_memory(text: Any) -> dict:
+    """Conservatively learn one safe durable fact from a completed Live turn."""
+    sentence = " ".join(str(text or "").split()).strip()
+    lowered = sentence.casefold()
+    if not sentence or sentence.endswith("?"):
+        return {"saved": False, "status": "ignored"}
+    sensitive_markers = (
+        "api key", "apikey", "token", "password", "secret", "credential",
+        "private key", "access key", "one-time code", "verification code",
+    )
+    if any(marker in lowered for marker in sensitive_markers):
+        return {"saved": False, "status": "sensitive_rejected"}
+    candidate_markers = (
+        "my ", "i prefer ", "i usually use ", "i always use ",
+        "i use ", "my project", "we decided", "we chose", "current project",
+        "project status", "project blocker", "next step",
+    )
+    if not any(marker in lowered for marker in candidate_markers):
+        return {"saved": False, "status": "not_a_candidate"}
+    uncertainty_markers = ("maybe", "might", "could be", "probably", "not sure", "i think")
+    if any(marker in lowered for marker in uncertainty_markers):
+        return {"saved": False, "status": "uncertain_rejected"}
+    try:
+        from ai.memory_ai import extract_memory
+        from ai.memory_preference import extract as extract_preference
+        from ai.memory_store import remember
+
+        data = extract_memory(sentence)
+        if not data or not data.get("remember"):
+            data = extract_preference(sentence)
+        if not data or not data.get("remember"):
+            return {"saved": False, "status": "not_saved"}
+        key = str(data.get("key", "")).strip()
+        value = str(data.get("value", "")).strip()
+        category = str(data.get("category", "other")).strip().lower() or "other"
+        if not key or not value or category in {"secret", "credential", "authentication"}:
+            return {"saved": False, "status": "rejected"}
+        remember(
+            key=key,
+            value=value,
+            category=category,
+            keywords=str(data.get("keywords", "")),
+            importance=max(1, min(int(data.get("importance", 2)), 5)),
+        )
+        return {"saved": True, "key": key, "status": "saved"}
+    except Exception:
+        return {"saved": False, "status": "failed"}
+
+
 def _validate_structured_parameters(action: str, parameters: Any) -> tuple[dict[str, Any] | None, dict | None]:
     schema = LIVE_CAPABILITY_SCHEMAS.get(action)
     if schema is None:
