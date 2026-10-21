@@ -17,7 +17,6 @@ numpy>=1.26
 sounddevice>=0.4
 
 # AI providers and Google integrations
-openai>=1.0
 google-genai>=1.0
 python-dotenv>=1.0
 google-api-python-client>=2.0
@@ -56,6 +55,3 @@ winrt-Windows.Devices.Geolocation>=3.2.1
 opencv-contrib-python>=4.8
 Pillow>=10.0
 ultralytics>=8.0
-
-# OpenAI provider TLS support on Windows
-truststore>=0.9

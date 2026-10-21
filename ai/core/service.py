@@ -26,10 +26,6 @@ from ai.core.schemas import (
 
 from ai.providers.gemini import GeminiProvider
 
-from ai.providers.openai import OpenAIProvider
-
-from ai.providers.grok import GrokProvider
-
 from ai.core.preference import AIPreference
 
 from ai.core.commands import AICommandHandler
@@ -81,26 +77,6 @@ class AIService:
 
             self.router.register_provider(
                 GeminiProvider()
-            )
-
-        # * --------------------------------------------------
-        # * OpenAI
-        # * --------------------------------------------------
-
-        if self.router.get_provider("openai") is None:
-
-            self.router.register_provider(
-                OpenAIProvider()
-            )
-
-        # * --------------------------------------------------
-        # * Grok
-        # * --------------------------------------------------
-
-        if self.router.get_provider("grok") is None:
-
-            self.router.register_provider(
-                GrokProvider()
             )
 
     # * ======================================================
@@ -331,9 +307,7 @@ class AIService:
 
         Examples:
             use Gemini
-            use GPT
-            use Qwen
-            auto mode
+            Legacy provider settings are normalized to Gemini.
         """
 
         return AICommandHandler.handle(

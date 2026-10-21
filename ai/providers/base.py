@@ -2,10 +2,7 @@
 JARVIS ULTRA
 AI Core - Base Provider
 
-Common interface implemented by:
-- GeminiProvider
-- OpenAIProvider
-- GrokProvider
+Common interface implemented by the Gemini provider.
 """
 
 from abc import ABC, abstractmethod
@@ -36,8 +33,6 @@ class AIProvider(ABC):
         Example:
             gemini
             gemini
-            openai
-            grok
         """
         pass
 

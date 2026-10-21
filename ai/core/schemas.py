@@ -4,7 +4,6 @@ AI Core - Schemas
 
 Common data contracts shared by:
 - Google Gemini
-- OpenAI / GPT
 - AI Router
 - AI Service
 - JARVIS consumers
@@ -92,8 +91,7 @@ class AIStreamChunk:
     """
     Standard streaming chunk.
 
-    Providers such as Gemini and OpenAI
-    can have different raw streaming formats.
+    Providers can have different raw streaming formats.
 
     JARVIS converts them into this common format.
     """

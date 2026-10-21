@@ -84,7 +84,6 @@ class ModelRegistry:
         return self._models.get(
             model_name
         )
-
     # * ======================================================
     # * Remove Model
     # * ======================================================
@@ -98,7 +97,6 @@ class ModelRegistry:
             model_name,
             None
         )
-
     # * ======================================================
     # * All Models
     # * ======================================================
@@ -236,78 +234,5 @@ class ModelRegistry:
             )
         )
 
-        # * --------------------------------------------------
-        # * Grok - xAI general AI model
-        # * --------------------------------------------------
-
-        self.register(
-
-            ModelDefinition(
-
-                name="grok-4.7",
-
-                provider="grok",
-
-                capabilities=[
-                    "conversation",
-                    "planning",
-                    "coding",
-                    "developer",
-                    "editing",
-                    "repair",
-                    "reasoning",
-                    "memory",
-                    "fast",
-                ],
-
-                streaming=True,
-
-                local=False,
-
-                enabled=False,
-
-                priority=15,
-
-                description="Grok model provided by xAI.",
-            )
-        )
-        
-        # * --------------------------------------------------
-        # * OpenAI GPT - Reasoning / General AI
-        # * --------------------------------------------------
-
-        self.register(
-
-            ModelDefinition(
-
-                name="gpt-5.4-mini",
-
-                provider="openai",
-
-                capabilities=[
-                    "conversation",
-                    "planning",
-                    "coding",
-                    "editing",
-                    "reasoning",
-                    "memory",
-                    "fast",
-                    "screen_vision",
-                ],
-
-                streaming=True,
-
-                vision=True,
-
-                local=False,
-
-                enabled=False,
-
-                priority=30,
-
-                description=(
-                    "OpenAI GPT model for general "
-                    "reasoning, coding and conversation."
-                ),
-            )
-        )
+# The registry intentionally contains only supported Gemini models.
+# No alternate provider registrations remain in this registry.

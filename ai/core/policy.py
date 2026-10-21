@@ -29,8 +29,6 @@ class AIModelPolicy:
 
         "coding": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -39,8 +37,6 @@ class AIModelPolicy:
 
         "developer": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -49,8 +45,6 @@ class AIModelPolicy:
 
         "editing": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -59,8 +53,6 @@ class AIModelPolicy:
 
         "repair": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -69,8 +61,6 @@ class AIModelPolicy:
 
         "reasoning": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -79,8 +69,6 @@ class AIModelPolicy:
 
         "conversation": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -89,8 +77,6 @@ class AIModelPolicy:
 
         "planning": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -99,8 +85,6 @@ class AIModelPolicy:
 
         "memory": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -109,8 +93,6 @@ class AIModelPolicy:
 
         "fast": [
             "gemini",
-            "grok",
-            "openai",
         ],
 
         # * --------------------------------------------------
@@ -120,7 +102,6 @@ class AIModelPolicy:
 
         "screen_vision": [
             "gemini",
-            "openai",
         ],
     }
 
@@ -144,7 +125,5 @@ class AIModelPolicy:
             capability,
             [
                 "gemini",
-                "grok",
-                "openai",
             ],
         )

@@ -6,9 +6,7 @@ Stores the user's temporary AI provider/model preference.
 
 Examples:
     use Gemini
-    use GPT
-    use Qwen
-    auto mode
+    Legacy provider settings are normalized to Gemini.
 """
 
 
@@ -20,12 +18,11 @@ from config.settings import (
 
 class AIPreference:
 
-    PROVIDER_MODES = ("auto", "gemini", "grok", "openai")
+    PROVIDER_MODES = ("gemini",)
 
     def __init__(self):
 
-        persisted = get_ai_provider_setting().lower()
-        self.provider = None if persisted == "auto" else persisted
+        self.provider = get_ai_provider_setting().lower()
         self.model = None
 
     # * ======================================================
@@ -38,10 +35,12 @@ class AIPreference:
     ):
 
         normalized = provider.strip().lower()
+        if normalized in {"auto", "google", "grok", "xai", "gpt", "openai"}:
+            normalized = "gemini"
         if normalized not in self.PROVIDER_MODES:
             raise ValueError(f"Unsupported AI provider: {provider}")
 
-        self.provider = None if normalized == "auto" else normalized
+        self.provider = normalized
 
         self.model = None
         set_ai_provider_setting(normalized)
@@ -67,13 +66,13 @@ class AIPreference:
 
     def clear(self):
 
-        self.provider = None
+        self.provider = "gemini"
         self.model = None
-        set_ai_provider_setting("auto")
+        set_ai_provider_setting("gemini")
 
     @property
     def mode(self) -> str:
-        return self.provider or "auto"
+        return self.provider
 
     # * ======================================================
     # * State
@@ -105,4 +104,4 @@ class AIPreference:
                 f"provider:{self.provider}"
             )
 
-        return "auto"
+        return "provider:gemini"

@@ -8,10 +8,7 @@ AI preference changes.
 Examples:
 
     use Gemini
-    use GPT
-    use OpenAI
-    use Qwen
-    auto mode
+    Legacy provider-selection commands are no longer supported.
 """
 
 import re
@@ -24,14 +21,6 @@ class AICommandHandler:
         "gemini": "gemini",
 
         "google": "gemini",
-
-        "gpt": "openai",
-
-        "openai": "openai",
-
-        "grok": "grok",
-
-        "xai": "grok",
 
     }
 
@@ -53,39 +42,11 @@ class AICommandHandler:
         command = command.strip().lower()
 
         # * --------------------------------------------------
-        # * Automatic mode
-        # * --------------------------------------------------
-
-        if command in [
-
-            "auto",
-
-            "auto mode",
-
-            "automatic mode",
-
-            "use auto",
-
-            "use automatic mode",
-
-        ]:
-
-            preference.clear()
-
-            return {
-                "handled": True,
-                "action": "auto",
-                "message": (
-                    "Automatic AI selection enabled."
-                ),
-            }
-
-        # * --------------------------------------------------
         # * Use provider
         # * --------------------------------------------------
 
         match = re.fullmatch(
-            r"use\s+(gemini|google|gpt|openai|grok|xai)",
+            r"use\s+(gemini|google)",
             command,
         )
 

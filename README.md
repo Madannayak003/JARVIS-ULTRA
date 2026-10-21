@@ -508,7 +508,7 @@ active-project context determine what can be completed.
 - Optional: Chrome, Edge, or Chromium for browser skills.
 - Optional: Android platform-tools/ADB for phone skills.
 - Optional: credentials or installed desktop applications for integrations such
-  as Gemini, OpenAI, YouTube, Spotify, Gmail, and WhatsApp.
+  as Gemini, YouTube, Spotify, Gmail, and WhatsApp.
 
 ### Install Python dependencies
 
@@ -603,7 +603,6 @@ Important environment variables include:
 | Variable | Purpose |
 | --- | --- |
 | <code>GEMINI_API_KEY</code> | Gemini provider and Agent access |
-| <code>OPENAI_API_KEY</code> | OpenAI provider access |
 | <code>YOUTUBE_API_KEY</code> | YouTube API integration |
 | <code>SPOTIFY_CLIENT_ID</code> / <code>SPOTIFY_CLIENT_SECRET</code> | Spotify integration |
 | <code>ANDROID_ADB_PATH</code> / <code>ANDROID_DEVICE_ID</code> | ADB executable and selected device |
@@ -643,9 +642,7 @@ JARVIS-PRO/
 │   │   └── service.py
 │   ├── providers
 │   │   ├── base.py
-│   │   ├── gemini.py
-│   │   ├── grok.py
-│   │   └── openai.py
+│   │   └── gemini.py
 │   ├── __init__.py
 │   ├── ai_worker.py
 │   ├── chat_prompt.py

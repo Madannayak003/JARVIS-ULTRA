@@ -38,6 +38,22 @@ class LastActiveHudSettingsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             settings.set_last_active_hud("hologram")
 
+    def test_legacy_ai_provider_values_normalize_to_gemini(self):
+        for value in (None, "AUTO", "OPENAI", "GROK", "unsupported"):
+            payload = {} if value is None else {"aiProvider": value}
+            settings._ASSISTANT_SETTINGS_FILE.write_text(json.dumps(payload), encoding="utf-8")
+            self.assertEqual(settings.get_ai_provider_setting(), "GEMINI")
+
+    def test_ai_provider_save_preserves_existing_settings(self):
+        settings._ASSISTANT_SETTINGS_FILE.write_text(
+            json.dumps({"assistantName": "JARVIS", "aiProvider": "AUTO"}),
+            encoding="utf-8",
+        )
+        self.assertEqual(settings.set_ai_provider_setting("OPENAI"), "GEMINI")
+        saved = json.loads(settings._ASSISTANT_SETTINGS_FILE.read_text(encoding="utf-8"))
+        self.assertEqual(saved["aiProvider"], "GEMINI")
+        self.assertEqual(saved["assistantName"], "JARVIS")
+
 
 if __name__ == "__main__":
     unittest.main()

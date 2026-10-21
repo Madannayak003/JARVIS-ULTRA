@@ -17,7 +17,9 @@ _ASSISTANT_SETTINGS_FILE = (
     / "jarvis_settings.json"
 )
 
-AI_PROVIDER_OPTIONS = ("AUTO", "GEMINI", "GROK", "OPENAI")
+# Gemini is the only supported standard-AI provider. Legacy persisted values
+# are normalized at the settings boundary so older installations remain safe.
+AI_PROVIDER_OPTIONS = ("GEMINI",)
 HUD_MODE_OPTIONS = ("ultron", "apex")
 
 # Gemini Live is the primary conversational runtime.  Keep this identifier
@@ -93,18 +95,19 @@ def set_last_active_hud(mode: str) -> str:
 
 
 def get_ai_provider_setting() -> str:
-    """Return the persisted provider mode, defaulting safely to AUTO."""
+    """Return the supported provider, normalizing legacy values to Gemini."""
 
-    value = str(_read_persisted_settings().get("aiProvider", "AUTO")).upper()
-    return value if value in AI_PROVIDER_OPTIONS else "AUTO"
+    value = str(_read_persisted_settings().get("aiProvider", "GEMINI")).strip().upper()
+    return "GEMINI" if value not in AI_PROVIDER_OPTIONS else value
 
 
 def set_ai_provider_setting(provider: str) -> str:
-    """Persist one of the supported provider modes."""
+    """Persist Gemini while accepting legacy values for safe migration."""
 
     normalized = str(provider).strip().upper()
-    if normalized not in AI_PROVIDER_OPTIONS:
+    if normalized not in {"AUTO", "GEMINI", "GROK", "OPENAI"}:
         raise ValueError(f"Unsupported AI provider: {provider}")
+    normalized = "GEMINI"
 
     settings = _read_persisted_settings()
     settings["aiProvider"] = normalized
