@@ -58,10 +58,25 @@ from uuid import uuid4
 
 import sounddevice as sd
 
-from google import genai
-from google.genai import types
+# The Gemini SDK is needed only when an Agent session is started.  Importing
+# it at module load time made every routing/registry test depend on aiohttp's
+# process-wide SSL initialization (and, on some Windows security-filtered
+# machines, fail before any test or non-Live command could run).  Keep the
+# provider unchanged, but defer its import to the Live boundary.
+genai = None
+types = None
 
-from core.dispatcher import dispatch
+
+def _load_gemini_sdk():
+    """Load the Gemini SDK only for an actual Live connection."""
+    global genai, types
+    if genai is None or types is None:
+        from google import genai as _genai
+        from google.genai import types as _types
+
+        genai = _genai
+        types = _types
+    return genai, types
 
 from core.live_execution import (
     live_execution,
@@ -398,6 +413,30 @@ WEB SEARCH
 {assistant_name} COMPUTER COMMANDS
 
 You are connected to the {assistant_name} computer-control system.
+
+SYSTEM POWER AND APPLICATION LIFECYCLE
+- Locking the screen, shutting down Windows, and closing {assistant_name} are
+  three different operations. Prefer the matching structured
+  jarvis_capability when it is available.
+- Use the lock capability for "lock my screen" or "lock this computer".
+- Use the shutdown capability only for "shut down my computer", "turn off
+  Windows", or equivalent Windows power-off wording. It must return a
+  confirmation request before execution; never claim shutdown from the
+  request alone.
+- Use terminate_jarvis for "shut yourself down", "close {assistant_name}",
+  "exit {assistant_name}", or "quit {assistant_name}". This closes the
+  application through its normal lifecycle and leaves Windows running.
+- Never substitute conversational refusal for a matching registered
+  capability, and never claim a system action succeeded without its result.
+
+PLATFORM-SPECIFIC APPLICATION STATUS
+- For "running apps", "running applications", or "what apps are open on my
+  computer", use the Windows `running_apps` capability.
+- Use `android_foreground_app` only when the user explicitly refers to a
+  phone, mobile device, Android, or an Android foreground app. Never infer an
+  Android request from the generic phrase "running apps".
+- Use `taskmanager` for Windows CPU, memory, and disk usage, not for Android
+  application state.
 
 When the user asks you to perform an action on the computer,
 use the jarvis_command tool instead of pretending that you
@@ -1296,6 +1335,8 @@ class Agent:
     # * =========================================================
 
     async def _run(self):
+
+        _load_gemini_sdk()
 
         api_key = _api_key()
 
@@ -2582,6 +2623,14 @@ class Agent:
                                     # * Existing JARVIS dispatcher
                                     # * remains authoritative.
                                     # * ---------------------------------
+
+                                    # Import the legacy dispatcher only when
+                                    # the Live model actually selects the
+                                    # compatibility command path.  Its normal
+                                    # AI worker graph imports provider SDKs and
+                                    # must not make lightweight Live routing
+                                    # helpers unimportable.
+                                    from core.dispatcher import dispatch
 
                                     with live_execution(session=session, loop=asyncio.get_running_loop()):
 

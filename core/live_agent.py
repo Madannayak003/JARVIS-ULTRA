@@ -83,7 +83,7 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
     "android_close_app": {"purpose": "Force-stop an installed Android application.", "properties": {"app": {"type": "string"}, "package": {"type": "string"}}, "expected_result": "A confirmed force-stop or honest failure."},
     "android_list_apps": {"purpose": "List installed Android package names.", "properties": {}, "expected_result": "The actual installed package list."},
     "android_search_apps": {"purpose": "Search installed Android applications.", "properties": {"query": {"type": "string"}}, "required": ["query"], "expected_result": "Actual matching packages."},
-    "android_foreground_app": {"purpose": "Report the current foreground Android package where available.", "properties": {}, "expected_result": "Actual foreground package or honest unavailability."},
+    "android_foreground_app": {"purpose": "Report which app is currently foregrounded on the connected Android phone. Use only when the user explicitly says phone, mobile, Android, or foreground Android app; never use for Windows running applications.", "properties": {}, "expected_result": "Actual foreground Android package or honest unavailability."},
     "android_home": {"purpose": "Return the selected Android phone to its home screen.", "properties": {}, "expected_result": "A real home intent result."},
     "android_search_youtube": {"purpose": "Search within YouTube on the Android phone.", "properties": {"query": {"type": "string"}}, "required": ["query"], "expected_result": "A real YouTube URL launch or failure."},
     "android_search_web": {"purpose": "Search the web on Android using the requested provider.", "properties": {"query": {"type": "string"}, "provider": {"type": "string", "enum": ["google", "bing", "duckduckgo"]}}, "required": ["query"], "expected_result": "A real provider URL launch or failure."},
@@ -94,9 +94,52 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
     "android_flashlight_on": {"purpose": "Turn the phone flashlight on when a verified mechanism is available.", "properties": {}, "expected_result": "Confirmed state change or honest unsupported result."},
     "android_flashlight_off": {"purpose": "Turn the phone flashlight off when a verified mechanism is available.", "properties": {}, "expected_result": "Confirmed state change or honest unsupported result."},
     "taskmanager": {
-        "purpose": "Report current CPU, memory, and disk usage.",
+        "purpose": "Report current Windows CPU, memory, and disk usage through the existing Windows task-manager skill. This is not an Android capability.",
         "properties": {},
         "expected_result": "A real system-usage response or a reported failure.",
+    },
+    "running_apps": {
+        "purpose": "List processes currently running on this Windows computer. Use for 'running apps', 'list running applications', or 'what apps are open on my computer'. Do not use the Android foreground-app capability unless the user explicitly names a phone or Android device.",
+        "properties": {},
+        "inject_action": True,
+        "expected_result": "The actual Windows process-list result or an honest failure.",
+    },
+    "lock": {
+        "purpose": (
+            "Lock the Windows workstation immediately. This is distinct from "
+            "shutting down Windows and from closing the JARVIS application. "
+            "Use for 'lock my screen', 'lock this computer', or 'lock the PC'."
+        ),
+        "properties": {},
+        "expected_result": "Confirmed Windows workstation lock or an honest failure/unavailable result.",
+    },
+    "shutdown": {
+        "purpose": (
+            "Shut down the Windows computer, not the JARVIS application. Use "
+            "for 'shut down my computer', 'turn off Windows', or 'power off "
+            "the PC'. This is disruptive and requires explicit confirmation "
+            "after JARVIS asks the user. Never use for 'shut yourself down' "
+            "or 'close JARVIS'."
+        ),
+        "properties": {
+            "confirmed": {
+                "type": "boolean",
+                "description": (
+                    "Only true after the user explicitly confirms a prior "
+                    "JARVIS shutdown prompt; omit or use false for the first request."
+                ),
+            },
+        },
+        "expected_result": "Confirmed Windows shutdown, a confirmation request, or an honest failure/unavailable result.",
+    },
+    "terminate_jarvis": {
+        "purpose": (
+            "Gracefully close the JARVIS ULTRA application while leaving "
+            "Windows running. Use for 'shut yourself down', 'close JARVIS', "
+            "'exit JARVIS', or 'quit JARVIS'. Never use for turning off Windows."
+        ),
+        "properties": {},
+        "expected_result": "Confirmed application shutdown request or an honest failure.",
     },
     "time": {
         "purpose": "Report the current local time.",
@@ -765,6 +808,8 @@ def _validate_structured_parameters(action: str, parameters: Any) -> tuple[dict[
         expected = definition.get("type")
         if expected == "string" and (not isinstance(value, str) or not value.strip()):
             errors.append(f"{name} must be a non-empty string")
+        elif expected == "boolean" and not isinstance(value, bool):
+            errors.append(f"{name} must be a boolean")
         elif expected == "integer" and (isinstance(value, bool) or not isinstance(value, int)):
             errors.append(f"{name} must be an integer")
         elif expected == "array":

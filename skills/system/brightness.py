@@ -5,7 +5,15 @@ Brightness Skill
 Controls and reports display brightness.
 """
 
-import screen_brightness_control as sbc
+try:
+    import screen_brightness_control as sbc
+    _BRIGHTNESS_IMPORT_ERROR = None
+except Exception as error:
+    # Some Windows security/display environments reject the backend during
+    # import. Keep the registered capability available so Live can report an
+    # honest unavailability result instead of losing the whole skill module.
+    sbc = None
+    _BRIGHTNESS_IMPORT_ERROR = error
 
 from core.registry import register
 from voice.manager import speak
@@ -18,6 +26,9 @@ from voice.manager import speak
 def current_brightness():
     """Return current brightness percentage."""
 
+    if sbc is None:
+        raise RuntimeError("Brightness control is unavailable in this environment") from _BRIGHTNESS_IMPORT_ERROR
+
     values = sbc.get_brightness()
 
     if not values:
@@ -28,6 +39,9 @@ def current_brightness():
 
 def set_brightness(percent):
     """Set brightness safely between 0 and 100."""
+
+    if sbc is None:
+        raise RuntimeError("Brightness control is unavailable in this environment") from _BRIGHTNESS_IMPORT_ERROR
 
     percent = max(0, min(100, int(percent)))
 
@@ -237,11 +251,14 @@ def brightness(data=None):
             f"[BRIGHTNESS ERROR] {e}"
         )
 
-        speak(
-            "I couldn't change the brightness."
-        )
+        speak("Brightness control is unavailable right now.")
 
-        return False
+        return {
+            "ok": False,
+            "status": "unavailable",
+            "action": "brightness",
+            "message": "Brightness control is unavailable in this environment.",
+        }
 
 
 # * =========================================================

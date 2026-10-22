@@ -26,6 +26,26 @@ OWNER_REPORTED_LIVE_RUNTIME = {
 }
 
 CONFIRMED_FINDINGS = {
+    "running_apps": {
+        "root_cause": "Generic Windows running-apps intent was not a structured Live capability, while the Android foreground-app tool had a semantically broad description that could attract the model.",
+        "repair": "Added a Windows running_apps Live schema, explicit platform boundaries in both tool descriptions, and exact Windows router aliases using the existing process handler.",
+    },
+    "brightness": {
+        "root_cause": "The Windows display backend could raise access-denied during module import, preventing the brightness skill from registering and making its Live tool unavailable.",
+        "repair": "Brightness backend import is now guarded; the registered capability returns an explicit unavailable result when the display backend cannot be used.",
+    },
+    "lock": {
+        "root_cause": "The Windows lock action was registered only for the legacy dispatcher and had no reviewed structured Live declaration.",
+        "repair": "Added a dedicated lock Live schema and regression coverage that keeps it separate from Windows shutdown.",
+    },
+    "shutdown": {
+        "root_cause": "Windows shutdown was absent from structured Live declarations and the legacy exact 'shutdown' route meant application shutdown, creating an ambiguous model path.",
+        "repair": "Added a dedicated Windows shutdown schema, spoken variants, and explicit confirmation enforcement before the existing handler runs.",
+    },
+    "terminate_jarvis": {
+        "root_cause": "Application termination was only available through natural-language dispatch and the system skill could stop the listener without the complete application lifecycle callback.",
+        "repair": "Added a distinct Live schema and injected the existing main application shutdown callback alongside the HUD callback, retaining a safe legacy fallback.",
+    },
     "weather": {
         "root_cause": "Live weather work was scheduled asynchronously and task outcomes were previously discarded.",
         "repair": "drain_live_tasks now returns outcomes and voice.agent reports delayed failures honestly.",
@@ -44,6 +64,26 @@ UNIT_EVIDENCE = {
     "running_apps": "test_action_edges.ActionEdgeTests.test_running_apps_reports_processes_without_termination",
     "whatsapp_wait_contact": "test_action_edges.ActionEdgeTests.test_whatsapp_wait_contact_only_enters_prompt_state",
     "youtube_play_result": "test_action_edges.ActionEdgeTests.test_youtube_result_rejects_missing_video_id",
+    "lock": "tests/test_system_live_controls.py::test_lock_calls_lock_handler_without_shutdown",
+    "shutdown": "tests/test_system_live_controls.py::test_windows_shutdown_requires_confirmation_before_handler",
+    "terminate_jarvis": "tests/test_system_live_controls.py::test_jarvis_shutdown_uses_application_callback_not_windows_shutdown",
+    "brightness": "tests/test_brightness_live.py::test_brightness_reports_unavailable_without_backend",
+}
+
+# These tests exercise the Live declaration/validation/dispatch boundary with
+# a fake registry. They are useful regression evidence, but deliberately do
+# not upgrade the underlying skill to runtime-verified status.
+MOCKED_LIVE_BOUNDARY_EVIDENCE = {
+    action: "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects"
+    for action in (
+        "file_info",
+        "open_file",
+        "volume",
+        "brightness",
+        "wifi_status",
+        "android_check_device",
+        "whatsapp_send_message",
+    )
 }
 
 
@@ -179,6 +219,7 @@ def build_inventory() -> dict:
         item["verification_status"] = "PASS_STATIC" if item["implementation_defined"] else "FAIL"
         item["runtime_evidence"] = None
         item["unit_evidence"] = UNIT_EVIDENCE.get(action)
+        item["mocked_live_boundary_evidence"] = MOCKED_LIVE_BOUNDARY_EVIDENCE.get(action)
         if item["unit_evidence"] and action not in OWNER_REPORTED_LIVE_RUNTIME:
             item["verification_status"] = "PASS_UNIT"
         item["confirmed_finding"] = CONFIRMED_FINDINGS.get(action)
@@ -221,7 +262,7 @@ if __name__ == "__main__":
         fields = [
             "action", "source", "registration_line", "live_path", "structured_tool",
             "schema_status", "static_status", "execution_status", "integration_status",
-            "verification_status", "evidence",
+            "verification_status", "evidence", "mocked_live_boundary_evidence",
         ]
         writer = csv.DictWriter(csv_buffer, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
@@ -239,6 +280,7 @@ if __name__ == "__main__":
                 "integration_status": item["integration_status"],
                 "verification_status": item["verification_status"],
                 "evidence": item["unit_evidence"] or item["runtime_evidence"] or "static AST route only",
+                "mocked_live_boundary_evidence": item.get("mocked_live_boundary_evidence") or "",
             })
         args.csv_output.write_text(csv_buffer.getvalue(), encoding="utf-8")
     print(payload, end="")

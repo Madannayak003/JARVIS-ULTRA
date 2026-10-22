@@ -18,8 +18,10 @@ It does NOT use:
 from dataclasses import dataclass
 from typing import Iterator, Optional
 
-from google import genai
-from google.genai import types
+# The standalone chatbot keeps the Gemini provider, but does not need to
+# initialize its network SDK merely to import dashboard/test helpers.
+genai = None
+types = None
 
 from chatbot.ai_chat_session import chat_sessions
 from config.environment import get_env
@@ -79,6 +81,16 @@ class AIChatBot:
 
         self.model = model
         self._client = None
+
+    @staticmethod
+    def _load_sdk():
+        global genai, types
+        if genai is None or types is None:
+            from google import genai as _genai
+            from google.genai import types as _types
+
+            genai = _genai
+            types = _types
         
     # * ==========================================================
     # * Model
@@ -104,6 +116,7 @@ class AIChatBot:
                 "GEMINI_API_KEY is not configured."
             )
 
+        self._load_sdk()
         self._client = genai.Client(
             api_key=self.api_key
         )

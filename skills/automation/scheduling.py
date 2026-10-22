@@ -57,7 +57,17 @@ def _save(items: list[dict[str, Any]]) -> bool:
             json.dump(items, temporary_file, indent=2, ensure_ascii=False)
             temporary_file.flush()
             os.fsync(temporary_file.fileno())
-        os.replace(temporary_path, DATA_FILE)
+        try:
+            os.replace(temporary_path, DATA_FILE)
+        except PermissionError:
+            # Managed Windows temp locations may deny atomic replacement even
+            # when the target file is writable. Keep persistence truthful by
+            # writing the already-serialized schedule directly to this known
+            # data path, then let the finally block remove the temp file.
+            DATA_FILE.write_text(
+                json.dumps(items, indent=2, ensure_ascii=False),
+                encoding="utf-8",
+            )
         return True
     except OSError as error:
         print(f"[SCHEDULER] Save failed: {error}")

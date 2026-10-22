@@ -17,11 +17,24 @@ import ctypes
 import platform
 import subprocess
 
-from core.confirmation import ask
+from core.confirmation import ask, get as get_confirmation
 from core.registry import register
 from voice.manager import speak
 from core.listener import request_shutdown
 from config.settings import get_assistant_display_name
+
+
+# The main application installs its complete cleanup callback at startup.
+# Keeping this callback injectable avoids importing ``main`` from the skill
+# (which would create an initialization cycle) while still allowing Live and
+# normal dispatch to use the same graceful lifecycle path.
+_application_shutdown_callback = None
+
+
+def set_application_shutdown_callback(callback) -> None:
+    """Install the application's graceful shutdown callback."""
+    global _application_shutdown_callback
+    _application_shutdown_callback = callback if callable(callback) else None
 
 # * =========================================================
 # * Helpers
@@ -32,7 +45,7 @@ def _is_windows() -> bool:
     return platform.system() == "Windows"
 
 
-def _request_confirmation(action: str, message: str) -> bool:
+def _request_confirmation(action: str, message: str) -> dict:
     """
     Ask the user to confirm a dangerous system action.
 
@@ -50,7 +63,12 @@ def _request_confirmation(action: str, message: str) -> bool:
 
     speak(message)
 
-    return True
+    return {
+        "ok": False,
+        "status": "confirmation_required",
+        "action": action,
+        "message": message,
+    }
 
 
 def _shutdown() -> bool:
@@ -144,7 +162,11 @@ def _terminate_jarvis() -> bool:
 
     speak("Goodbye Sir.")
 
-    request_shutdown()
+    if _application_shutdown_callback is not None:
+        _application_shutdown_callback()
+    else:
+        # Preserve the safe fallback for isolated/legacy use of the skill.
+        request_shutdown()
 
     return True
 
@@ -233,6 +255,15 @@ def system_action(data):
                 "shutdown",
                 "Are you sure you want to shut down your computer?",
             )
+
+        pending = get_confirmation()
+        if not pending or pending.get("action") != "shutdown":
+            return {
+                "ok": False,
+                "status": "confirmation_required",
+                "action": "shutdown",
+                "message": "Windows shutdown requires an explicit confirmation after the prompt.",
+            }
 
         speak("Shutting down the computer.")
 

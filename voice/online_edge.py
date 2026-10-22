@@ -1,6 +1,5 @@
 import asyncio
 import threading
-import edge_tts
 
 from pathlib import Path
 from uuid import uuid4
@@ -37,6 +36,13 @@ ENGLISH_VOICES = {
 }
 
 CACHE_MAX_AGE = 24 * 60 * 60
+
+
+def _load_edge_tts():
+    """Load the optional network TTS client only when audio is requested."""
+    import edge_tts
+
+    return edge_tts
 
 
 # * =========================================================
@@ -196,6 +202,7 @@ async def _generate(
     outfile,
 ):
 
+    edge_tts = _load_edge_tts()
     voice = _get_voice(text)
 
     communicate = edge_tts.Communicate(

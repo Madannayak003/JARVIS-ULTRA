@@ -236,6 +236,10 @@ def request_jarvis_shutdown():
 
 def configure_hud_shutdown():
     hud_web.set_shutdown_callback(request_jarvis_shutdown)
+    # System skill requests must use the same complete application lifecycle
+    # callback as the HUD, rather than only stopping the microphone listener.
+    from skills.system.system import set_application_shutdown_callback
+    set_application_shutdown_callback(request_jarvis_shutdown)
     debug_print("[MAIN HUD] Desktop shutdown callback registered.")
 
 

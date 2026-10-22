@@ -77,8 +77,20 @@ def _load_index() -> dict[str, dict[str, Any]]:
 def _save_index(index: dict[str, dict[str, Any]]) -> None:
     _ensure_storage()
     temporary = INDEX_PATH.with_suffix(".tmp")
-    temporary.write_text(json.dumps(index, indent=2), encoding="utf-8")
-    temporary.replace(INDEX_PATH)
+    serialized = json.dumps(index, indent=2)
+    temporary.write_text(serialized, encoding="utf-8")
+    try:
+        temporary.replace(INDEX_PATH)
+    except PermissionError:
+        # Some managed Windows locations deny replace/rename even when the
+        # directory and files are writable. Preserve the index update rather
+        # than reporting a failed upload; the direct write is still bounded
+        # to the known index path and the temporary file is cleaned up.
+        INDEX_PATH.write_text(serialized, encoding="utf-8")
+        try:
+            temporary.unlink()
+        except FileNotFoundError:
+            pass
 
 
 def _record_path(file_id: str) -> Path:

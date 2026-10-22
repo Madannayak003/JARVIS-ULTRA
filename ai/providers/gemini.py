@@ -21,8 +21,13 @@ from typing import Iterator, Optional
 
 import httpx
 import requests
-from google import genai
-from google.genai import types
+
+# Keep provider construction/imports available to the rest of the local
+# application even when the optional Gemini transport cannot initialize (for
+# example, a Windows SSL keylog/security-filter permission failure). The SDK
+# is loaded only when a request actually needs Gemini.
+genai = None
+types = None
 
 from ai.core.schemas import (
     AIRequest,
@@ -105,6 +110,16 @@ class GeminiProvider(AIProvider):
 
     DEFAULT_MODEL = "gemini-3.5-flash-lite"
 
+    @staticmethod
+    def _load_sdk():
+        global genai, types
+        if genai is None or types is None:
+            from google import genai as _genai
+            from google.genai import types as _types
+
+            genai = _genai
+            types = _types
+
     def __init__(
         self,
         api_key: Optional[str] = None,
@@ -142,6 +157,7 @@ class GeminiProvider(AIProvider):
                 "GEMINI_API_KEY is not configured."
             )
 
+        self._load_sdk()
         self._client = genai.Client(
             api_key=self.api_key
         )

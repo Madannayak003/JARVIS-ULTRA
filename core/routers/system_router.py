@@ -155,6 +155,28 @@ def system_route(command):
     if command in assistant_shutdown_commands:
         return [{"action": "terminate_jarvis"}]
 
+    if command in {
+        "shut yourself down",
+        "shut down yourself",
+        "close the jarvis application",
+        "exit the jarvis application",
+        "quit the jarvis application",
+    }:
+        return [{"action": "terminate_jarvis"}]
+
+    # * ---------- Windows Running Applications ----------
+
+    if command in {
+        "running apps",
+        "running applications",
+        "list running apps",
+        "list running applications",
+        "show running apps",
+        "what apps are open on my computer",
+        "what applications are open on my computer",
+    }:
+        return [{"action": "running_apps"}]
+
     # * ---------- Lock ----------
 
     if command in [
@@ -163,6 +185,9 @@ def system_route(command):
         "lock pc",
         "lock laptop",
         "lock screen",
+        "lock my screen",
+        "lock this computer",
+        "lock this pc",
     ]:
         return [{"action": "lock"}]
 
@@ -170,6 +195,10 @@ def system_route(command):
 
     if command in [
         "shutdown computer",
+        "shut down my computer",
+        "turn off windows",
+        "turn off my computer",
+        "power off my computer",
         "shutdown pc",
         "shutdown system",
         "shut down computer",
