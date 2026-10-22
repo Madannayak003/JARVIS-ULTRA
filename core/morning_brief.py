@@ -29,6 +29,7 @@ import xml.etree.ElementTree as ET
 
 from concurrent.futures import ThreadPoolExecutor
 
+from core.diagnostics import debug_print
 from hud.bus import hud_bus
 from hud.events import HUDEvent
 
@@ -96,7 +97,7 @@ def _fetch_feed(
     url: str,
 ) -> list[dict[str, str]]:
 
-    print(
+    debug_print(
         f"[MORNING BRIEF] Fetching {category} news..."
     )
 
@@ -126,7 +127,7 @@ def _fetch_feed(
 
     except Exception as error:
 
-        print(
+        debug_print(
             "[MORNING BRIEF] "
             f"{category} feed failed: {error}"
         )
@@ -141,7 +142,7 @@ def _fetch_feed(
 
     except ET.ParseError as error:
 
-        print(
+        debug_print(
             "[MORNING BRIEF] "
             f"{category} RSS parse failed: {error}"
         )
@@ -190,7 +191,7 @@ def _fetch_feed(
             }
         )
 
-    print(
+    debug_print(
         "[MORNING BRIEF] "
         f"{category}: {len(results)} headlines"
     )
@@ -365,7 +366,7 @@ def publish_to_hud(
             )
         )
 
-        print(
+        debug_print(
             "[MORNING BRIEF] "
             "News published to HUD."
         )
@@ -393,7 +394,7 @@ def get_morning_brief() -> str | None:
 
     if not headlines:
 
-        print(
+        debug_print(
             "[MORNING BRIEF] "
             "No headlines available."
         )
@@ -439,7 +440,7 @@ def _fetch_news_for_startup():
 
 def start_news_fetch():
 
-    print(
+    debug_print(
         "[MORNING BRIEF] "
         "Starting background news fetch..."
     )

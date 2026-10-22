@@ -445,7 +445,7 @@ def speak(
             str(text)
         )
 
-        print(
+        debug_print(
             "[VOICE] Live execution active - "
             "captured response and "
             "suppressing normal TTS."
@@ -459,7 +459,7 @@ def speak(
     if _gemini_live_active():
         if record_conversation:
             _record_conversation_response(str(text))
-        print(
+        debug_print(
             "[VOICE] Gemini Live session active - "
             "suppressing normal TTS."
         )

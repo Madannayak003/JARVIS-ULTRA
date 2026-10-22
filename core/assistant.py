@@ -125,7 +125,7 @@ def is_morning_brief_enabled() -> bool:
 
     except Exception as error:
 
-        print(
+        debug_print(
             "[MORNING BRIEF] "
             f"Settings read failed safely: {error}"
         )
@@ -179,7 +179,7 @@ def run():
 
         except Exception as e:
 
-            print(
+            debug_print(
                 "[MORNING BRIEF] "
                 f"Could not start news fetch: {e}"
             )
