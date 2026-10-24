@@ -11,7 +11,6 @@ import ApexHumanoid from "@/components/ApexHumanoid";
 import JarvisOrb from "@/components/JarvisOrb";
 import { unlockAudioOnUserGesture } from "@/apex/utils/soundEngine";
 import HudCockpit from "@/components/HudCockpit";
-import AIChatBot from "@/components/AIChatBot";
 import PhoneCallIsland, { type PhoneCallState } from "@/components/PhoneCallIsland";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -492,7 +491,6 @@ export default function Home() {
      SETTINGS & MODAL STATE
      ========================================================= */
   const [modal, setModal] = useState<SettingsModal>(null);
-  const [aiChatOpen, setAiChatOpen] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
   const [morningBrief, setMorningBrief] = useState(true);
   const [microphoneEnabled, setMicrophoneEnabled] = useState(true);
@@ -2091,12 +2089,6 @@ export default function Home() {
         </div>
       )}
 
-      <AIChatBot
-        open={aiChatOpen}
-        onClose={() => setAiChatOpen(false)}
-        assistantName={assistantName}
-      />
-
       {/* =====================================================
           COMMAND INPUT
           ===================================================== */}
@@ -2817,9 +2809,6 @@ export default function Home() {
                   <button type="button" className="hud-bar-btn" onClick={openRemoteControl}>
                     <span className="btn-icon"></span>
                     <span>REMOTE</span>
-                  </button>
-                  <button type="button" className="hud-bar-btn" onClick={() => setAiChatOpen(true)}>
-                    <span>AI CHAT</span>
                   </button>
                   <button
                     type="button"
