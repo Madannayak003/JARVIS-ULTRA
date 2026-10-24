@@ -674,7 +674,7 @@ export default function HudCockpit({
             <span>SHUTDOWN</span>
           </button>
 
-          <button
+          {/* <button
             type="button"
             className="cockpit-nav-button"
             aria-label="Running apps"
@@ -712,7 +712,7 @@ export default function HudCockpit({
           >
             <HeaderIcon name="music" />
             <span>MUSIC</span>
-          </button>
+          </button> */}
 
         </nav>
 
@@ -753,7 +753,7 @@ export default function HudCockpit({
           aria-label={`${assistantName} tools`}
         >
 
-          <button
+          {/* <button
             type="button"
             className="cockpit-nav-button"
             aria-label="What is on my screen"
@@ -791,7 +791,7 @@ export default function HudCockpit({
           >
             <HeaderIcon name="notes" />
             <span>NOTES</span>
-          </button>
+          </button> */}
 
           <button
             type="button"
