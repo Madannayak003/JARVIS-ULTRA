@@ -468,6 +468,34 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         "required": ["query"],
         "expected_result": "Actual search results or a reported failure.",
     },
+    "maps_open": {
+        "purpose": (
+            "Open Google Maps in the browser. Use for requests such as "
+            "'open Google Maps' or 'open Maps'."
+        ),
+        "properties": {},
+        "expected_result": "A reported Google Maps browser-open result or failure.",
+    },
+    "maps_directions": {
+        "purpose": (
+            "Open Google Maps driving directions. Use for destination-only "
+            "requests or routes from one named place to another. Pass place "
+            "names exactly as supplied; do not invent coordinates or claim "
+            "live traffic or GPS verification."
+        ),
+        "properties": {
+            "destination": {
+                "type": "string",
+                "description": "Required destination place name or address.",
+            },
+            "origin": {
+                "type": "string",
+                "description": "Optional starting place name or address.",
+            },
+        },
+        "required": ["destination"],
+        "expected_result": "A reported Google Maps directions browser-open result or failure.",
+    },
     "browser_open_result": {
         "purpose": "Open an exact URL from the latest JARVIS search result.",
         "properties": {
