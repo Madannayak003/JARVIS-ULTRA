@@ -10,7 +10,12 @@ def current_time(data):
 
     speak(f"The time is {now}")
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "time",
+        "time": now,
+    }
 
 
 register("time", current_time)

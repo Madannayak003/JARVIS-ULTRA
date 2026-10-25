@@ -92,7 +92,13 @@ def ai_open(data):
         
         debug_print("[MEMORY]", dump())
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "open",
+            "app": app,
+            "url": SITES[app],
+        }
 
     # * ---------- Windows Apps ----------
 
@@ -108,7 +114,13 @@ def ai_open(data):
         
         debug_print("[MEMORY]", dump())
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "open",
+            "app": app,
+            "target": WINDOWS_APPS[app],
+        }
 
 
 def ai_google(data):
@@ -139,7 +151,16 @@ def ai_google(data):
 
     print("[MEMORY]", dump())
 
-    return True
+    snapshot = browser_context.search_snapshot()
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "google_search",
+        "query": query,
+        "platform": "google",
+        "results": snapshot["results"],
+        "result_count": len(snapshot["results"]),
+    }
 
 
 def ai_youtube(data):

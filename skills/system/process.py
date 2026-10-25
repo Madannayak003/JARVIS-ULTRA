@@ -166,7 +166,13 @@ def process_action(data=None):
                 f"[PROCESS] Not found: {target}"
             )
 
-            return True
+            return {
+                "ok": True,
+                "status": "no_results",
+                "action": "close_process",
+                "process": target,
+                "message": f"No running process matched {target}.",
+            }
 
         # * -------------------------------------------------
         # * Terminate first matching process
@@ -201,7 +207,13 @@ def process_action(data=None):
                 f"{name} (PID {pid})"
             )
 
-            return True
+            return {
+                "ok": True,
+                "status": "reported_success",
+                "action": "close_process",
+                "process": name,
+                "pid": pid,
+            }
 
         except psutil.NoSuchProcess:
 

@@ -179,7 +179,13 @@ Text:
         translated_text
     )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "translate_text",
+        "text": translated_text,
+        "target": target,
+    }
 
 
 # * =============================================================

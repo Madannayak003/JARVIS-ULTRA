@@ -6,11 +6,21 @@ from voice.manager import speak
 
 def recycle(data):
 
-    send2trash(data["path"])
+    path = str(data.get("path", "")).strip()
+    if not path:
+        speak("Please provide the path to recycle.")
+        return False
+
+    send2trash(path)
 
     speak("Moved to recycle bin.")
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "recycle",
+        "path": path,
+    }
 
 
 register(

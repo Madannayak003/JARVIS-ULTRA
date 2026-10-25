@@ -61,7 +61,7 @@ def search_action(data):
             "No matching files found."
         )
 
-        return True
+        return {"ok": True, "status": "no_results", "action": "search_file", "items": [], "count": 0}
 
     # * -------------------------------------------------
     # * Remember Search Results
@@ -107,7 +107,13 @@ def search_action(data):
             f"I found {len(results)} matching files."
         )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "search_file",
+        "items": results[:10],
+        "count": len(results),
+    }
 
 
 register(

@@ -36,6 +36,7 @@ from core.whatsapp_memory import (
     get_pending_message,
     clear_pending_message
 )
+from core.live_execution import is_live_execution
 
 # * =========================================================
 # * Scheduled WhatsApp Storage
@@ -50,7 +51,9 @@ SCHEDULED_WHATSAPP_FILE = (
 
 def whatsapp_open(data):
 
-    if open_whatsapp():
+    opened = open_whatsapp()
+
+    if opened:
 
         speak("Opening WhatsApp.")
 
@@ -58,7 +61,7 @@ def whatsapp_open(data):
 
         speak("Unable to open WhatsApp.")
 
-    return True
+    return bool(opened)
 
 
 def whatsapp_close(data):
@@ -82,12 +85,26 @@ def whatsapp_send_message(data):
 
         speak("Which contact should I send it to?")
 
+        if is_live_execution():
+            return {
+                "ok": False,
+                "status": "needs_input",
+                "action": "whatsapp_send_message",
+                "message": "A WhatsApp contact is required before sending.",
+            }
         return True
 
     if not message:
 
         speak("What should I send?")
 
+        if is_live_execution():
+            return {
+                "ok": False,
+                "status": "needs_input",
+                "action": "whatsapp_send_message",
+                "message": "A message is required before sending.",
+            }
         return True
 
     speak(f"Sending your message to {contact}.")
@@ -102,6 +119,14 @@ def whatsapp_send_message(data):
 
         speak("I couldn't send the message.")
 
+    if is_live_execution():
+        return {
+            "ok": bool(ok),
+            "status": "reported_success" if ok else "failed",
+            "action": "whatsapp_send_message",
+            "contact": contact,
+            "message": "Message sent." if ok else "The WhatsApp message could not be sent.",
+        }
     return bool(ok)
 
 # * =========================================================
@@ -311,6 +336,13 @@ def schedule_whatsapp_message(data=None):
         f"to {contact} at {formatted_time}."
     )
 
+    if is_live_execution():
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "schedule_whatsapp_message",
+            "item": scheduled,
+        }
     return True
 
 # * =========================================================
@@ -336,7 +368,7 @@ def list_scheduled_whatsapp(data=None):
             "You don't have any scheduled WhatsApp messages."
         )
 
-        return True
+        return {"ok": True, "status": "no_results", "action": "list_scheduled_whatsapp", "items": [], "count": 0}
 
     print("\n[WHATSAPP SCHEDULED]")
 
@@ -368,7 +400,13 @@ def list_scheduled_whatsapp(data=None):
         f"You have {len(active)} scheduled WhatsApp messages."
     )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "list_scheduled_whatsapp",
+        "items": active,
+        "count": len(active),
+    }
 
 
 def get_scheduled_whatsapp_items():
@@ -555,6 +593,13 @@ def reschedule_scheduled_whatsapp(data=None):
         f"{target.strftime('%I:%M %p').lstrip('0')}."
     )
 
+    if is_live_execution():
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "reschedule_scheduled_whatsapp",
+            "item": dict(found),
+        }
     return True
 
 
@@ -760,6 +805,8 @@ def whatsapp_send_latest_photo(data):
 
         speak("I couldn't find any recent photo.")
 
+        if is_live_execution():
+            return {"ok": False, "status": "unavailable", "action": "whatsapp_send_latest_photo", "message": "No recent photo is available."}
         return True
 
     speak(f"Sending the latest photo to {contact}.")
@@ -777,6 +824,8 @@ def whatsapp_send_latest_photo(data):
 
         speak("I couldn't send the photo.")
 
+    if is_live_execution():
+        return {"ok": bool(ok), "status": "reported_success" if ok else "failed", "action": "whatsapp_send_latest_photo", "contact": contact, "path": str(photo)}
     return True
 
 def whatsapp_send_latest_screenshot(data):
@@ -791,6 +840,8 @@ def whatsapp_send_latest_screenshot(data):
 
         speak("I couldn't find any screenshot.")
 
+        if is_live_execution():
+            return {"ok": False, "status": "unavailable", "action": "whatsapp_send_latest_screenshot", "message": "No screenshot is available."}
         return True
 
     speak(f"Sending the latest screenshot to {contact}.")
@@ -808,6 +859,8 @@ def whatsapp_send_latest_screenshot(data):
 
         speak("I couldn't send the screenshot.")
 
+    if is_live_execution():
+        return {"ok": bool(ok), "status": "reported_success" if ok else "failed", "action": "whatsapp_send_latest_screenshot", "contact": contact, "path": str(image)}
     return True
 
 def whatsapp_send_file(data):
@@ -824,6 +877,8 @@ def whatsapp_send_file(data):
 
         speak(f"I couldn't find {filename}.")
 
+        if is_live_execution():
+            return {"ok": False, "status": "not_found", "action": "whatsapp_send_file", "message": f"No file matched {filename}."}
         return True
 
     # * Only one file
@@ -846,6 +901,8 @@ def whatsapp_send_file(data):
 
             speak("I couldn't send the file.")
 
+        if is_live_execution():
+            return {"ok": bool(ok), "status": "reported_success" if ok else "failed", "action": "whatsapp_send_file", "contact": contact, "path": str(file)}
         return True
 
     # * Multiple files
@@ -866,6 +923,8 @@ def whatsapp_send_file(data):
 
     speak("Which one should I send?")
 
+    if is_live_execution():
+        return {"ok": False, "status": "needs_input", "action": "whatsapp_send_file", "count": len(matches), "message": "Multiple files matched; select one before sending."}
     return True
 
 def whatsapp_send_selected_file(data):
@@ -876,6 +935,8 @@ def whatsapp_send_selected_file(data):
 
         speak("There isn't any pending file selection.")
 
+        if is_live_execution():
+            return {"ok": False, "status": "invalid_state", "action": "whatsapp_send_selected_file", "message": "There is no pending file selection."}
         return True
 
     files = pending["files"]
@@ -887,6 +948,8 @@ def whatsapp_send_selected_file(data):
 
         speak("That option doesn't exist.")
 
+        if is_live_execution():
+            return {"ok": False, "status": "invalid_arguments", "action": "whatsapp_send_selected_file", "message": "That file option does not exist."}
         return True
 
     file = files[index]
@@ -908,6 +971,8 @@ def whatsapp_send_selected_file(data):
 
         speak("Unable to send the file.")
 
+    if is_live_execution():
+        return {"ok": bool(ok), "status": "reported_success" if ok else "failed", "action": "whatsapp_send_selected_file", "contact": contact, "path": str(file)}
     return True
 
 def whatsapp_wait_contact(data):
@@ -928,6 +993,14 @@ def whatsapp_wait_message(data):
 
     speak(f"What would you like me to send to {contact}?")
 
+    if is_live_execution():
+        return {
+            "ok": True,
+            "status": "needs_input",
+            "action": "whatsapp_wait_message",
+            "contact": contact,
+            "message": "The recipient is stored; the message text is still required.",
+        }
     return True
 
 # * =========================================================

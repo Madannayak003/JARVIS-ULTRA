@@ -76,7 +76,14 @@ def taskmanager(data=None):
             f"Disk {disk}%"
         )
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "taskmanager",
+            "cpu_percent": cpu,
+            "memory_percent": ram,
+            "disk_percent": disk,
+        }
 
     except Exception as e:
 

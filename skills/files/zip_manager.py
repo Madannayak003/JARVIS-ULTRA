@@ -13,7 +13,7 @@ def zip_action(data):
 
         output = data["output"]
 
-        shutil.make_archive(
+        archive = shutil.make_archive(
 
             output,
 
@@ -25,7 +25,12 @@ def zip_action(data):
 
         speak("Folder compressed successfully.")
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "zip",
+            "archive": archive,
+        }
 
     elif action == "extract":
 
@@ -39,7 +44,13 @@ def zip_action(data):
 
         speak("Archive extracted.")
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "extract",
+            "archive": data["zip"],
+            "destination": data["destination"],
+        }
 
     return False
 

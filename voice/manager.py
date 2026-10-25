@@ -304,6 +304,19 @@ def prepare_speech(
 
         return None
 
+    # Gemini Live remains the native speech provider for the entire
+    # persistent session. A legacy chat worker can outlive the short
+    # live_execution() context, so checking only that context would still
+    # allow TTSPipeline to make an unnecessary Edge TTS request.
+    if _gemini_live_active():
+
+        print(
+            "[VOICE] Gemini Live session active - "
+            "suppressing speech preparation."
+        )
+
+        return None
+
     if not is_current(session):
 
         return None

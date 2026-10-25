@@ -111,6 +111,38 @@ SYSTEM = {
         "action": "time"
     },
 
+    # * Keep legacy/generic command callers compatible with natural time
+    # * paraphrases. Live-first requests should prefer jarvis_capability__time,
+    # * but these aliases prevent a compatibility command from falling into the
+    # * general chat worker.
+    "what time is it right now": {
+        "action": "time"
+    },
+
+    "what time is it now": {
+        "action": "time"
+    },
+
+    "what is the current time": {
+        "action": "time"
+    },
+
+    "tell me the current time": {
+        "action": "time"
+    },
+
+    "tell me the time": {
+        "action": "time"
+    },
+
+    "what time is it at the moment": {
+        "action": "time"
+    },
+
+    "what's the time at the moment": {
+        "action": "time"
+    },
+
     "current time": {
         "action": "time"
     },

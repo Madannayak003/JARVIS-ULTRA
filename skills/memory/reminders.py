@@ -19,6 +19,7 @@ from core.reminder_time import (
     resolve_reminder_time,
 )
 from hud.integration import HUDIntegration
+from core.live_execution import is_live_execution
 
 
 def speak(text):
@@ -158,6 +159,13 @@ def create_reminder(data=None):
                         f"That reminder is already scheduled for "
                         f"{existing_target.strftime('%A, %B %d at %I:%M %p').replace(' 0', ' ')}."
                     )
+                    if is_live_execution():
+                        return {
+                            "ok": True,
+                            "status": "already_exists",
+                            "action": "create_reminder",
+                            "item": dict(existing),
+                        }
                     return True
 
         # * Generate ID
@@ -200,6 +208,13 @@ def create_reminder(data=None):
     display = target.strftime("%A, %B %d at %I:%M %p").replace(" 0", " ")
     speak(f"I'll remind you on {display}.")
 
+    if is_live_execution():
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "create_reminder",
+            "item": dict(reminder),
+        }
     return True
 
 
@@ -224,7 +239,7 @@ def list_reminders(data=None):
             "You don't have any active reminders."
         )
 
-        return True
+        return {"ok": True, "status": "no_results", "action": "list_reminders", "items": [], "count": 0}
 
     print("\n[REMINDERS]")
 
@@ -240,7 +255,13 @@ def list_reminders(data=None):
         f"You have {len(active)} active reminders."
     )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "list_reminders",
+        "items": active,
+        "count": len(active),
+    }
 
 
 def get_active_reminders(now=None):

@@ -22,6 +22,261 @@ from core.live_execution import get_live_responses
 # were inspected in the existing skills. All other registered actions remain
 # available through the generic capability and legacy command paths.
 LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
+    "assistant_name": {
+        "purpose": "Report the configured JARVIS assistant name.",
+        "properties": {},
+        "expected_result": "The configured assistant name or an honest failure.",
+    },
+    "greet": {
+        "purpose": "Give a local JARVIS greeting; optionally preserve a supplied good-morning, afternoon, or evening style.",
+        "properties": {
+            "command": {
+                "type": "string",
+                "description": "Optional greeting text supplied by the user.",
+            },
+        },
+        "expected_result": "The local greeting result or an honest failure.",
+    },
+    "how_are_you": {
+        "purpose": "Give JARVIS's local response to a how-are-you question.",
+        "properties": {},
+        "expected_result": "The local response or an honest failure.",
+    },
+    "goodbye": {
+        "purpose": "Give JARVIS's local goodbye response without changing application state.",
+        "properties": {},
+        "expected_result": "The local goodbye response or an honest failure.",
+    },
+    "back": {
+        "purpose": "Navigate the existing browser back one page.",
+        "properties": {},
+        "expected_result": "The browser navigation result or an honest failure.",
+    },
+    "forward": {
+        "purpose": "Navigate the existing browser forward one page.",
+        "properties": {},
+        "expected_result": "The browser navigation result or an honest failure.",
+    },
+    "close_tab": {
+        "purpose": "Close the active browser tab through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser tab close result or an honest failure.",
+    },
+    "refresh": {
+        "purpose": "Refresh the active browser page through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser refresh result or an honest failure.",
+    },
+    "bluetooth_devices": {
+        "purpose": "Open Windows Bluetooth device settings. This does not claim that a device was paired or changed.",
+        "properties": {},
+        "inject_action": True,
+        "expected_result": "The actual settings-launch result or an honest failure.",
+    },
+    "bluetooth_status": {
+        "purpose": "Open Windows Bluetooth status/settings. This does not claim a device connection state was changed.",
+        "properties": {},
+        "inject_action": True,
+        "expected_result": "The actual settings-launch result or an honest failure.",
+    },
+    "camera_close": {
+        "purpose": "Close the configured physical camera through the existing camera manager.",
+        "properties": {},
+        "expected_result": "The camera close result or an honest failure.",
+    },
+    "camera_preview": {
+        "purpose": "Open the configured physical camera preview. This is not a desktop screenshot.",
+        "properties": {},
+        "expected_result": "The camera preview result or an honest camera-access failure.",
+    },
+    "camera_status": {
+        "purpose": "Report the configured physical camera availability.",
+        "properties": {},
+        "expected_result": "The actual camera status or an honest availability report.",
+    },
+    "list_notes": {
+        "purpose": "Read the user's existing saved notes without modifying them.",
+        "properties": {},
+        "expected_result": "The actual saved-note list or an honest failure.",
+    },
+    "clipboard": {
+        "purpose": "Read the current clipboard or request a bounded summary/explanation through the existing clipboard skill.",
+        "properties": {
+            "mode": {
+                "type": "string",
+                "enum": ["read", "summary", "explain"],
+                "description": "Read, summarize, or explain the clipboard contents.",
+            },
+        },
+        "expected_result": "The actual clipboard result or an honest access/processing failure.",
+    },
+    "recent_files": {
+        "purpose": "List the ten most recently modified files in the user's Downloads folder.",
+        "properties": {},
+        "expected_result": "The actual recent-file list or an honest unavailable result.",
+    },
+    "search_file": {
+        "purpose": "Search local files using the existing JARVIS file-search service.",
+        "properties": {
+            "query": {"type": "string", "description": "File name or path text to search for."},
+            "extension": {"type": "string", "description": "Optional file extension filter."},
+        },
+        "expected_result": "The actual matching file paths or an honest failure.",
+    },
+    "file_intelligence_request": {
+        "purpose": "Process the active uploaded file request using the existing file-intelligence service.",
+        "properties": {"request": {"type": "string", "description": "Read, summarize, or ask a question about the active file."}},
+        "required": ["request"],
+        "inject_action": True,
+        "expected_result": "The actual file-intelligence result or an honest unavailable/error result.",
+    },
+    "file_question_request": {
+        "purpose": "Ask a question about the active uploaded file using the existing file-intelligence service.",
+        "properties": {"question": {"type": "string", "description": "Question to answer from the active file."}},
+        "required": ["question"],
+        "inject_action": True,
+        "expected_result": "The actual answer or an honest unavailable/error result.",
+    },
+    "file_search_request": {
+        "purpose": "Search the active uploaded file using the existing file-intelligence service.",
+        "properties": {"query": {"type": "string", "description": "Text to find in the active file."}},
+        "required": ["query"],
+        "inject_action": True,
+        "expected_result": "The actual file matches or an honest unavailable/error result.",
+    },
+    "show_contacts": {
+        "purpose": "List saved personal contacts without changing them.",
+        "properties": {},
+        "expected_result": "The actual saved contacts or an empty-list response.",
+    },
+    "show_email_contacts": {
+        "purpose": "List saved email contacts without changing them.",
+        "properties": {},
+        "expected_result": "The actual saved email contacts or an empty-list response.",
+    },
+    "show_personal_links": {
+        "purpose": "List configured personal websites without opening one.",
+        "properties": {},
+        "expected_result": "The actual configured-link summary or an honest unavailable result.",
+    },
+    "clear_notes": {
+        "purpose": "Clear all saved JARVIS notes after the user's explicit request.",
+        "properties": {},
+        "expected_result": "Confirmed note clearing or an honest failure.",
+    },
+    "remember_contact": {
+        "purpose": "Save one personal contact alias and its real name.",
+        "properties": {
+            "alias": {"type": "string", "description": "Short name used to refer to the contact."},
+            "real_name": {"type": "string", "description": "Contact's real name."},
+        },
+        "required": ["alias", "real_name"],
+        "expected_result": "Confirmed saved contact or an honest failure.",
+    },
+    "forget_contact": {
+        "purpose": "Remove one saved personal contact by alias.",
+        "properties": {"alias": {"type": "string", "description": "Saved contact alias."}},
+        "required": ["alias"],
+        "expected_result": "Confirmed removal or an honest not-found/failure result.",
+    },
+    "close_process": {
+        "purpose": "Close one named Windows process after the user's explicit request.",
+        "properties": {"process": {"type": "string", "description": "Process name or distinctive substring."}},
+        "required": ["process"],
+        "inject_action": True,
+        "expected_result": "Confirmed process termination, no-match result, or honest permission failure.",
+    },
+    "zip": {
+        "purpose": "Create a ZIP archive from a specified folder.",
+        "properties": {
+            "folder": {"type": "string", "description": "Folder to archive."},
+            "output": {"type": "string", "description": "Output archive path without the .zip suffix."},
+        },
+        "required": ["folder", "output"],
+        "inject_action": True,
+        "expected_result": "Confirmed archive path or honest failure.",
+    },
+    "extract": {
+        "purpose": "Extract a specified archive into a destination folder.",
+        "properties": {
+            "zip": {"type": "string", "description": "Archive path."},
+            "destination": {"type": "string", "description": "Extraction destination folder."},
+        },
+        "required": ["zip", "destination"],
+        "inject_action": True,
+        "expected_result": "Confirmed extraction destination or honest failure.",
+    },
+    "recycle": {
+        "purpose": "Move one specified local path to the Windows recycle bin.",
+        "properties": {"path": {"type": "string", "description": "Existing file or folder path."}},
+        "required": ["path"],
+        "expected_result": "Confirmed recycle-bin operation or honest failure.",
+    },
+    "open_personal_link": {
+        "purpose": "Open one configured personal website by its configured name.",
+        "properties": {
+            "name": {"type": "string", "description": "Configured personal website name."},
+        },
+        "required": ["name"],
+        "expected_result": "A reported browser-open result or an honest missing-configuration failure.",
+    },
+    "welcome": {
+        "purpose": "Respond to a user's thanks with the existing local JARVIS greeting.",
+        "properties": {},
+        "expected_result": "A reported local greeting result.",
+    },
+    "new_tab": {
+        "purpose": "Open a new tab in the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser new-tab result or an honest failure.",
+    },
+    "scroll_down": {
+        "purpose": "Scroll the active browser page down through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser scroll result or an honest failure.",
+    },
+    "scroll_up": {
+        "purpose": "Scroll the active browser page up through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser scroll result or an honest failure.",
+    },
+    "close": {
+        "purpose": "Close the active browser window through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser close result or an honest failure.",
+    },
+    "create_image": {
+        "purpose": "Generate and save an image from a text prompt through the configured image service.",
+        "properties": {
+            "prompt": {"type": "string", "description": "Description of the image to generate."},
+        },
+        "required": ["prompt"],
+        "expected_result": "The saved image location or an honest service, validation, or unavailable failure.",
+    },
+    "send_email": {
+        "purpose": "Send an email through the configured Gmail service, or begin the existing local draft flow when only a recipient is supplied.",
+        "properties": {
+            "recipient": {"type": "string", "description": "Recipient email address or saved email alias."},
+            "subject": {"type": "string", "description": "Optional email subject."},
+            "body": {"type": "string", "description": "Optional email body."},
+        },
+        "required": ["recipient"],
+        "expected_result": "A reported send/draft result or an honest validation or service failure.",
+    },
+    "screenshot_ai": {
+        "purpose": "Request analysis of an existing screenshot file. Gemini Live reports this capability as unsupported because Live analyzes its own correlated screen image.",
+        "properties": {},
+        "expected_result": "An honest unsupported result inside Gemini Live; never claim screenshot-file analysis occurred.",
+    },
+    "home_automation": {
+        "purpose": "Control or query a configured home-automation device through the existing ESP32 integration.",
+        "properties": {
+            "command": {"type": "string", "description": "Device command such as status, turn_on, or turn_off."},
+            "device": {"type": "string", "description": "Configured device such as light, led, or fan; omit for status."},
+        },
+        "required": ["command"],
+        "expected_result": "The actual device/status result or an honest unavailable or invalid-command result.",
+    },
     "spotify_open": {
         "purpose": "Open the installed Spotify application.",
         "properties": {},
@@ -243,6 +498,21 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         "required": ["contact", "message"],
         "expected_result": "Actual sender success or a truthful recipient/session/send failure.",
     },
+    "remember_email_contact": {
+        "purpose": "Save an email contact alias and address in the existing email-contact store.",
+        "properties": {
+            "alias": {"type": "string", "description": "Name used to refer to the email contact."},
+            "email": {"type": "string", "description": "Email address."},
+        },
+        "required": ["alias", "email"],
+        "expected_result": "Confirmed saved email contact or honest failure.",
+    },
+    "forget_email_contact": {
+        "purpose": "Remove one saved email contact by alias.",
+        "properties": {"alias": {"type": "string", "description": "Saved email contact alias."}},
+        "required": ["alias"],
+        "expected_result": "Confirmed removal or honest not-found/failure result.",
+    },
     "whatsapp_wait_contact": {
         "purpose": "Enter the existing WhatsApp follow-up flow when the recipient is missing.",
         "properties": {},
@@ -375,6 +645,21 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         "inject_action": True,
         "expected_result": "A real Wi-Fi status response or failure.",
     },
+    "wifi_list": {
+        "purpose": "List nearby Windows Wi-Fi network names without connecting to any network.",
+        "properties": {},
+        "inject_action": True,
+        "expected_result": "The actual discovered network names or an honest failure.",
+    },
+    "translate_text": {
+        "purpose": "Translate supplied text with the existing JARVIS translation service.",
+        "properties": {
+            "text": {"type": "string", "description": "Text to translate."},
+            "target": {"type": "string", "description": "Target language name or code."},
+        },
+        "required": ["text", "target"],
+        "expected_result": "The translated text or an honest failure.",
+    },
     "open_file": {
         "purpose": "Open an existing local file through JARVIS file handling.",
         "properties": {
@@ -452,6 +737,12 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         "required": ["query"],
         "expected_result": "Actual search results or a reported failure.",
     },
+    "open": {
+        "purpose": "Open one supported website or Windows application by its configured name.",
+        "properties": {"app": {"type": "string", "description": "Supported website or Windows application name."}},
+        "required": ["app"],
+        "expected_result": "The opened target details or an honest unsupported/failure result.",
+    },
     "youtube_search": {
         "purpose": "Search YouTube using the existing browser search skill.",
         "properties": {
@@ -459,6 +750,31 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         },
         "required": ["query"],
         "expected_result": "Actual search results or a reported failure.",
+    },
+    "youtube_play_first": {
+        "purpose": "Play the first result from a YouTube search, or search the supplied query first.",
+        "properties": {"query": {"type": "string", "description": "Optional YouTube search terms."}},
+        "expected_result": "A YouTube navigation result with playback verification status.",
+    },
+    "youtube_pause": {
+        "purpose": "Pause the active YouTube video in the existing browser.",
+        "properties": {},
+        "expected_result": "A reported pause result or honest browser failure.",
+    },
+    "youtube_resume": {
+        "purpose": "Resume the active YouTube video in the existing browser.",
+        "properties": {},
+        "expected_result": "A reported resume result or honest browser failure.",
+    },
+    "youtube_next": {
+        "purpose": "Play the next item in the current YouTube result queue.",
+        "properties": {},
+        "expected_result": "A reported navigation result or honest empty-queue failure.",
+    },
+    "youtube_previous": {
+        "purpose": "Play the previous item in the current YouTube result queue.",
+        "properties": {},
+        "expected_result": "A reported navigation result or honest empty-queue failure.",
     },
     "github_search": {
         "purpose": "Search GitHub using the existing browser search skill.",
@@ -495,6 +811,11 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         },
         "required": ["destination"],
         "expected_result": "A reported Google Maps directions browser-open result or failure.",
+    },
+    "translate_open": {
+        "purpose": "Open Google Translate in the browser.",
+        "properties": {},
+        "expected_result": "A reported Google Translate browser-open result or failure.",
     },
     "browser_open_result": {
         "purpose": "Open an exact URL from the latest JARVIS search result.",
@@ -550,7 +871,10 @@ def build_live_capability_tool() -> dict:
         "file, communication, automation, media, or information action when "
         "you can identify the capability and its parameters. The application "
         "executes the registered handler and returns the real result; never "
-        "claim success from the request alone. For ordinary conversation, "
+        "claim success from the request alone. Prefer the dedicated "
+        "jarvis_capability__<action> declaration when it is available; use "
+        "this generic declaration only when a dedicated declaration is not "
+        "available. For ordinary conversation, "
         "questions, unsupported tasks, or dispatcher-dependent natural-language "
         "commands, do not call this tool. Available capabilities: "
         f"{catalog or 'none currently registered'}."
@@ -1049,6 +1373,19 @@ def _file_result_payload(action: str, raw: Any) -> dict[str, Any] | None:
     }
 
 
+def _list_result_payload(action: str, raw: Any) -> dict[str, Any] | None:
+    """Preserve legacy list returns while giving Live a structured payload."""
+    if action != "list_schedules" or not isinstance(raw, list):
+        return None
+    return {
+        "ok": True,
+        "status": "no_results" if not raw else "reported_success",
+        "action": action,
+        "items": raw,
+        "count": len(raw),
+    }
+
+
 def _emit_live_diagnostic(
     event: str,
     *,
@@ -1214,6 +1551,13 @@ def execute_live_capability(
             volume_reading=_volume_status_reading(action_name, payload),
         )
         return file_result
+    list_result = _list_result_payload(action_name, raw)
+    if list_result is not None:
+        _emit_live_diagnostic(
+            "completion", action=action_name, parameters=payload_for_diagnostics,
+            started=started, result=list_result, status=list_result["status"],
+        )
+        return list_result
     if rendered:
         result = {"ok": True, "status": "reported_success", "action": action_name, "message": rendered}
         _emit_live_diagnostic(

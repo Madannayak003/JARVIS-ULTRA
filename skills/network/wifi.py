@@ -61,7 +61,12 @@ def wifi_action(data=None):
 
             print("[WIFI] Enabled")
 
-            return True
+            return {
+                "ok": True,
+                "status": "reported_success",
+                "action": action,
+                "state": "enabled",
+            }
 
         print(
             f"[WIFI ERROR] Enable failed: "
@@ -88,7 +93,12 @@ def wifi_action(data=None):
 
             print("[WIFI] Disabled")
 
-            return True
+            return {
+                "ok": True,
+                "status": "reported_success",
+                "action": action,
+                "state": "disabled",
+            }
 
         print(
             f"[WIFI ERROR] Disable failed: "
@@ -130,9 +140,10 @@ def wifi_action(data=None):
         # * Detect connection
         # * -------------------------------------------------
 
-        if "state" in lower and "connected" in lower:
+        connected = "state" in lower and "connected" in lower
+        ssid = None
 
-            ssid = None
+        if connected:
 
             for line in output.splitlines():
 
@@ -170,7 +181,13 @@ def wifi_action(data=None):
 
             print("[WIFI] Not connected")
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": action,
+            "connected": connected,
+            "ssid": ssid,
+        }
 
     # * -----------------------------------------------------
     # * LIST AVAILABLE NETWORKS
@@ -239,7 +256,13 @@ def wifi_action(data=None):
             f"[WIFI] Networks found: {len(networks)}"
         )
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": action,
+            "networks": networks,
+            "count": len(networks),
+        }
 
     # * -----------------------------------------------------
     # * Unknown action

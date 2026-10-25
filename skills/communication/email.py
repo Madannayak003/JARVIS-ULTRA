@@ -311,7 +311,7 @@ def remember_email_contact(data=None):
 
     try:
 
-        add_email_contact(
+        saved = add_email_contact(
             alias,
             email,
         )
@@ -328,11 +328,21 @@ def remember_email_contact(data=None):
 
         return False
 
+    if saved is False:
+        speak("I could not save that email contact.")
+        return False
+
     speak(
         f"Email contact {alias} saved successfully."
     )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "remember_email_contact",
+        "alias": alias.lower(),
+        "email": email,
+    }
 
 
 # * =========================================================
@@ -371,7 +381,12 @@ def forget_email_contact(data=None):
         f"Email contact {alias} removed successfully."
     )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "forget_email_contact",
+        "alias": alias.lower(),
+    }
 
 
 # * =========================================================
@@ -388,7 +403,7 @@ def show_email_contacts(data=None):
             "There are no saved email contacts."
         )
 
-        return True
+        return {"ok": True, "status": "no_results", "action": "show_email_contacts", "items": {}, "count": 0}
 
     print(
         "[EMAIL CONTACTS]"
@@ -409,7 +424,7 @@ def show_email_contacts(data=None):
         f"Your saved email contacts are: {contact_text}"
     )
 
-    return True
+    return {"ok": True, "status": "reported_success", "action": "show_email_contacts", "items": dict(contacts), "count": len(contacts)}
 
 # * =========================================================
 # * Register Skills

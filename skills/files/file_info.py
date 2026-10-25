@@ -86,7 +86,16 @@ def info(data=None):
 
             speak("File information printed.")
 
-        return True
+        return {
+            "ok": True,
+            "status": "reported_success",
+            "action": "file_info",
+            "path": path,
+            "name": os.path.basename(path),
+            "size": size,
+            "modified": modified.isoformat(),
+            "type": "file" if is_file else "folder" if is_folder else "other",
+        }
 
     except Exception as e:
 

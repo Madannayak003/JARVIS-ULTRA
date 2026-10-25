@@ -21,13 +21,28 @@ def remember_contact(data):
 
         speak("Please tell me both the alias and the contact name.")
 
-        return True
+        return False
 
-    add_contact(alias, real_name)
+    try:
+        saved = add_contact(alias, real_name)
+    except Exception as error:
+        print(f"[CONTACT ERROR] Save failed: {error}")
+        speak("I couldn't remember that contact.")
+        return False
+
+    if not saved:
+        speak("I couldn't remember that contact.")
+        return False
 
     speak(f"I'll remember {real_name} as {alias}.")
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "remember_contact",
+        "alias": alias.lower(),
+        "real_name": real_name,
+    }
 
 
 # * --------------------------------------------------
@@ -42,17 +57,26 @@ def forget_contact(data):
 
         speak("Which contact should I forget?")
 
-        return True
+        return False
 
-    if remove_contact(alias):
+    try:
+        removed = remove_contact(alias)
+    except Exception as error:
+        print(f"[CONTACT ERROR] Remove failed: {error}")
+        speak(f"I couldn't forget {alias}.")
+        return False
 
-        speak(f"I've forgotten {alias}.")
-
-    else:
-
+    if not removed:
         speak(f"I couldn't find {alias} in your contacts.")
+        return False
 
-    return True
+    speak(f"I've forgotten {alias}.")
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "forget_contact",
+        "alias": alias.lower(),
+    }
 
 
 # * --------------------------------------------------
@@ -67,7 +91,7 @@ def show_contacts(data):
 
         speak("You don't have any saved contacts yet.")
 
-        return True
+        return {"ok": True, "status": "no_results", "action": "show_contacts", "items": {}, "count": 0}
 
     speak(f"You have {len(contacts)} saved contacts.")
 
@@ -79,7 +103,7 @@ def show_contacts(data):
 
     print("\n===================================\n")
 
-    return True
+    return {"ok": True, "status": "reported_success", "action": "show_contacts", "items": dict(contacts), "count": len(contacts)}
 
 
 # * --------------------------------------------------

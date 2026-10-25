@@ -125,7 +125,13 @@ def create_note(data=None):
         "I've saved that note."
     )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "create_note",
+        "item": {"text": text},
+        "count": len(notes),
+    }
 
 
 # * =========================================================
@@ -193,7 +199,12 @@ def clear_notes(data=None):
         "All notes have been cleared."
     )
 
-    return True
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "clear_notes",
+        "count": 0,
+    }
 
 
 # * =========================================================

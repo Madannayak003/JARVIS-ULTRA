@@ -3,8 +3,8 @@
   "side_effects_during_audit": false,
   "configured_module_count": 48,
   "existing_module_count": 48,
-  "callable_action_count": 160,
-  "structured_live_action_count": 76,
+  "callable_action_count": 178,
+  "structured_live_action_count": 129,
   "duplicate_action_names": [],
   "duplicate_action_count": 0,
   "modules": [
@@ -12,7 +12,7 @@
       "module": "memory.memory",
       "source": "skills\\memory\\memory.py",
       "exists": true,
-      "registered_action_count": 0
+      "registered_action_count": 3
     },
     {
       "module": "memory.notes",
@@ -156,7 +156,7 @@
       "module": "files.file_intelligence",
       "source": "skills\\files\\file_intelligence.py",
       "exists": true,
-      "registered_action_count": 0
+      "registered_action_count": 15
     },
     {
       "module": "files.file_info",
@@ -329,10 +329,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -372,10 +374,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -417,10 +421,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -450,10 +456,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -489,10 +497,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects",
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -533,10 +543,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -570,10 +582,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -601,10 +615,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "NOT_TESTED",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -638,10 +654,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -675,10 +693,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -714,10 +734,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -751,10 +773,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -795,10 +819,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -832,10 +858,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -878,10 +906,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -915,10 +945,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -952,10 +984,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -994,10 +1028,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1044,10 +1080,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1088,10 +1126,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1123,10 +1163,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1142,13 +1184,18 @@
       "registration_line": 361,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__assistant_name"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Report the configured JARVIS assistant name.",
+        "properties": {},
+        "expected_result": "The configured assistant name or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_astra_routing.py",
+        "tests\\test_live_non_android_repairs.py",
         "brain\\tests\\test_clarification_flow.py"
       ],
       "router_references": [
@@ -1158,11 +1205,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1176,10 +1225,14 @@
       "registration_line": 7,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__back"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Navigate the existing browser back one page.",
+        "properties": {},
+        "expected_result": "The browser navigation result or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_action_edges.py",
@@ -1193,6 +1246,7 @@
         "tests\\test_file_intelligence.py",
         "tests\\test_gemini_response_contract.py",
         "tests\\test_live_agent.py",
+        "tests\\test_live_non_android_repairs.py",
         "tests\\test_main_lifecycle.py",
         "tests\\test_phase1_status_contract.py",
         "tests\\test_phone_call.py",
@@ -1209,11 +1263,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1239,7 +1295,8 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
-        "tests\\test_live_agent.py"
+        "tests\\test_live_agent.py",
+        "tests\\test_live_batch3_contracts.py"
       ],
       "router_references": [
         "core\\routers\\system_router.py"
@@ -1248,11 +1305,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1268,12 +1327,19 @@
       "registration_line": 119,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__bluetooth_devices"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Open Windows Bluetooth device settings. This does not claim that a device was paired or changed.",
+        "properties": {},
+        "inject_action": true,
+        "expected_result": "The actual settings-launch result or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\network_router.py"
       ],
@@ -1281,11 +1347,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_bluetooth_structured_dispatch_injects_registered_action",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1301,12 +1369,19 @@
       "registration_line": 114,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__bluetooth_status"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Open Windows Bluetooth status/settings. This does not claim a device connection state was changed.",
+        "properties": {},
+        "inject_action": true,
+        "expected_result": "The actual settings-launch result or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\network_router.py"
       ],
@@ -1314,11 +1389,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_bluetooth_structured_dispatch_injects_registered_action",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1361,7 +1438,8 @@
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_brightness_live.py",
-        "tests\\test_live_capability_matrix.py"
+        "tests\\test_live_capability_matrix.py",
+        "tests\\test_live_non_android_inventory.py"
       ],
       "router_references": [
         "core\\routers\\system_router.py"
@@ -1371,6 +1449,7 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "tests/test_brightness_live.py::test_brightness_reports_unavailable_without_backend",
       "mocked_live_boundary_evidence": "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects",
@@ -1378,6 +1457,7 @@
         "root_cause": "The Windows display backend could raise access-denied during module import, preventing the brightness skill from registering and making its Live tool unavailable.",
         "repair": "Brightness backend import is now guarded; the registered capability returns an explicit unavailable result when the display backend cannot be used."
       },
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1412,18 +1492,21 @@
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_browser_followup_references.py",
-        "tests\\test_live_agent.py"
+        "tests\\test_live_agent.py",
+        "tests\\test_live_batch3_contracts.py"
       ],
       "router_references": [],
       "router_status": "NOT_TESTED",
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1456,18 +1539,21 @@
       },
       "dependency_class": "external_service_or_network",
       "test_references": [
-        "tests\\test_live_agent.py"
+        "tests\\test_live_agent.py",
+        "tests\\test_live_batch3_contracts.py"
       ],
       "router_references": [],
       "router_status": "NOT_TESTED",
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1499,10 +1585,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1518,12 +1606,18 @@
       "registration_line": 112,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__camera_close"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Close the configured physical camera through the existing camera manager.",
+        "properties": {},
+        "expected_result": "The camera close result or an honest failure."
+      },
       "dependency_class": "hardware_or_visual_runtime",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\vision_router.py"
       ],
@@ -1531,11 +1625,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1562,6 +1658,7 @@
       "dependency_class": "hardware_or_visual_runtime",
       "test_references": [
         "tests\\test_android_payment_routing.py",
+        "tests\\test_live_non_android_repairs.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -1571,11 +1668,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1601,6 +1700,7 @@
       },
       "dependency_class": "hardware_or_visual_runtime",
       "test_references": [
+        "tests\\test_live_non_android_repairs.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -1610,11 +1710,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1646,10 +1748,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1662,7 +1766,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 464,
+      "registration_line": 470,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -1683,6 +1787,7 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch3_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -1692,11 +1797,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1730,6 +1837,7 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch3_contracts.py",
         "tests\\test_live_routing.py",
         "tests\\test_scheduling_upgrade.py"
       ],
@@ -1740,11 +1848,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1757,7 +1867,7 @@
         "data"
       ],
       "category": "communication",
-      "registration_line": 1047,
+      "registration_line": 1053,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -1778,6 +1888,7 @@
       },
       "dependency_class": "external_service_or_network",
       "test_references": [
+        "tests\\test_live_batch3_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -1787,11 +1898,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1818,6 +1931,7 @@
       "dependency_class": "hardware_or_visual_runtime",
       "test_references": [
         "tests\\test_browser_vision_regressions.py",
+        "tests\\test_live_batch3_contracts.py",
         "tests\\test_live_routing.py",
         "tests\\test_live_voice_regressions.py",
         "tests\\test_phone_call.py"
@@ -1830,10 +1944,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_LIVE_RUNTIME",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": "Owner-reported normal Windows CMD run: photo saved as JPG.",
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1863,10 +1979,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "test_action_edges.ActionEdgeTests.test_chatgpt_search_delegates_to_navigation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1897,10 +2015,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "test_action_edges.ActionEdgeTests.test_clarify_starts_coordinator_and_speaks_question",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1913,13 +2033,13 @@
         "data"
       ],
       "category": null,
-      "registration_line": 213,
+      "registration_line": 219,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__clear_notes"
       },
-      "schema": null,
+      "schema": {"purpose": "Clear all saved JARVIS notes after the user's explicit request.", "properties": {}, "expected_result": "Confirmed note clearing or an honest failure."},
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -1929,11 +2049,14 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch14_safe_contracts.py::test_clear_notes_returns_confirmed_structured_result",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "unit_evidence": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1949,12 +2072,28 @@
       "registration_line": 198,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__clipboard"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Read the current clipboard or request a bounded summary/explanation through the existing clipboard skill.",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "read",
+              "summary",
+              "explain"
+            ],
+            "description": "Read, summarize, or explain the clipboard contents."
+          }
+        },
+        "expected_result": "The actual clipboard result or an honest access/processing failure."
+      },
       "dependency_class": "hardware_or_visual_runtime",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\media_router.py"
       ],
@@ -1962,11 +2101,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_second_batch_read_only_actions_have_live_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -1980,15 +2121,21 @@
       "registration_line": 11,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+    "structured_tool": true,
+    "structured_tool_name": "jarvis_capability__close"
       },
-      "schema": null,
+  "schema": {
+    "purpose": "Close the active browser window through the existing browser controller.",
+    "properties": {},
+    "expected_result": "The browser close result or an honest failure."
+  },
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_conversation_gap_fixes.py",
         "tests\\test_developer_live_integration.py",
         "tests\\test_live_agent.py",
+        "tests\\test_live_batch10_spotify_contracts.py",
+        "tests\\test_live_non_android_repairs.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -2000,10 +2147,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch17_contracts.py::test_batch17_new_schemas_validate_and_dispatch",
+  "mocked_live_boundary_evidence": "Mocked browser close and structured-schema dispatch; no real browser was closed.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2019,10 +2168,10 @@
       "registration_line": 260,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__close_process"
       },
-      "schema": null,
+      "schema": {"purpose": "Close one named Windows process after the user's explicit request.", "properties": {"process": {"type": "string", "description": "Process name or distinctive substring."}}, "required": ["process"], "inject_action": true, "expected_result": "Confirmed process termination, no-match result, or honest permission failure."},
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -2032,11 +2181,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch14_safe_contracts.py::test_process_close_reports_termination_and_no_match_without_real_processes",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2050,12 +2201,18 @@
       "registration_line": 5,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__close_tab"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Close the active browser tab through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser tab close result or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\browser_router.py"
       ],
@@ -2063,11 +2220,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2080,7 +2239,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 527,
+      "registration_line": 528,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": false,
@@ -2089,6 +2248,7 @@
       "schema": null,
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch6_files.py",
         "tests\\test_personal_website_list.py"
       ],
       "router_references": [
@@ -2098,11 +2258,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2115,7 +2277,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 517,
+      "registration_line": 518,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": false,
@@ -2123,7 +2285,9 @@
       },
       "schema": null,
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch6_files.py"
+      ],
       "router_references": [
         "core\\routers\\file_router.py"
       ],
@@ -2131,11 +2295,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2148,7 +2314,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 522,
+      "registration_line": 523,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": false,
@@ -2156,7 +2322,9 @@
       },
       "schema": null,
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch6_files.py"
+      ],
       "router_references": [
         "core\\routers\\file_router.py"
       ],
@@ -2164,11 +2332,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2184,10 +2354,20 @@
       "registration_line": 318,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+    "structured_tool": true,
+    "structured_tool_name": "jarvis_capability__create_image"
       },
-      "schema": null,
+  "schema": {
+    "purpose": "Generate and save an image from a text prompt through the configured image service.",
+    "properties": {
+      "prompt": {
+        "type": "string",
+        "description": "Description of the image to generate."
+      }
+    },
+    "required": ["prompt"],
+    "expected_result": "The saved image location or an honest service, validation, or unavailable failure."
+  },
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -2198,10 +2378,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch17_contracts.py::test_batch17_image_generation_preserves_success_and_failure",
+  "mocked_live_boundary_evidence": "Mocked image-service response and temporary output directory; no external request was made.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2214,7 +2396,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 203,
+      "registration_line": 209,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -2235,7 +2417,8 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
-        "tests\\test_live_agent.py"
+        "tests\\test_live_agent.py",
+        "tests\\test_live_batch9_persistence_results.py"
       ],
       "router_references": [
         "core\\routers\\memory_router.py"
@@ -2244,11 +2427,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch9_persistence_results.py::test_note_and_schedule_results_are_structured",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2261,7 +2446,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 454,
+      "registration_line": 460,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -2287,6 +2472,7 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch3_contracts.py",
         "tests\\test_live_routing.py",
         "tests\\test_reminder_regressions.py"
       ],
@@ -2298,10 +2484,13 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_LIVE_RUNTIME",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": "Owner-reported normal Windows CMD run: reminder persisted, triggered, spoke, and showed a Windows toast.",
-      "unit_evidence": null,
+  "unit_evidence": "tests/test_live_batch17_contracts.py::test_batch17_reminder_live_result_keeps_persisted_item_and_legacy_bool",
+  "mocked_live_boundary_evidence": "Mocked reminder clock, persistence, and speech; no user reminder data was changed.",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2348,6 +2537,7 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch3_contracts.py",
         "tests\\test_live_routing.py",
         "tests\\test_schedule_router_natural.py",
         "tests\\test_scheduling_upgrade.py"
@@ -2359,11 +2549,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2376,7 +2568,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 542,
+      "registration_line": 543,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": false,
@@ -2385,9 +2577,9 @@
       "schema": null,
       "dependency_class": "local_or_deterministic",
       "test_references": [
-        "tests\\test_dashboard_private_network.py",
         "tests\\test_face_vision.py",
-        "tests\\test_remote_event_sync.py"
+        "tests\\test_live_batch6_files.py",
+        "tests\\test_live_non_android_repairs.py"
       ],
       "router_references": [
         "core\\routers\\file_router.py"
@@ -2396,11 +2588,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2432,10 +2626,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2467,10 +2663,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2486,10 +2684,10 @@
       "registration_line": 48,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__extract"
       },
-      "schema": null,
+      "schema": {"purpose": "Extract a specified archive into a destination folder.", "properties": {"zip": {"type": "string", "description": "Archive path."}, "destination": {"type": "string", "description": "Extraction destination folder."}}, "required": ["zip", "destination"], "inject_action": true, "expected_result": "Confirmed extraction destination or honest failure."},
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_astra_routing.py",
@@ -2505,11 +2703,79 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": "tests/test_live_batch14_safe_contracts.py::test_zip_and_extract_return_operation_details_with_mocked_archive_calls",
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_analyze",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_edit",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2522,7 +2788,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 104,
+      "registration_line": 113,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -2544,6 +2810,7 @@
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_live_agent.py",
+        "tests\\test_live_batch7_file_results.py",
         "tests\\test_live_capability_matrix.py"
       ],
       "router_references": [
@@ -2553,11 +2820,530 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch7_file_results.py::test_file_info_and_search_return_structured_results",
       "mocked_live_boundary_evidence": "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects",
       "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_intelligence_info",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_intelligence_request",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__file_intelligence_request"
+      },
+      "schema": {
+        "purpose": "Process the active uploaded file request using the existing file-intelligence service.",
+        "properties": {
+          "request": {
+            "type": "string",
+            "description": "Read, summarize, or ask a question about the active file."
+          }
+        },
+        "required": [
+          "request"
+        ],
+        "inject_action": true,
+        "expected_result": "The actual file-intelligence result or an honest unavailable/error result."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_file_intelligence.py",
+        "tests\\test_live_batch7_file_results.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": "tests/test_live_batch7_file_results.py::test_file_intelligence_request_schemas_inject_action",
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_list",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__file_list"
+      },
+      "schema": {
+        "purpose": "List files currently registered in JARVIS File Intelligence; this is not an arbitrary filesystem-directory listing.",
+        "properties": {},
+        "inject_action": true,
+        "expected_result": "The actual registered-file records, which may be an empty list; a project-folder listing requires a separate supported capability."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": "tests/test_live_agent.py::test_file_list_registry_boundary_uses_file_intelligence_action",
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_open_folder",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_file_intelligence.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_preview",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_question",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_file_intelligence.py",
+        "tests\\test_live_batch7_file_results.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_question_request",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__file_question_request"
+      },
+      "schema": {
+        "purpose": "Ask a question about the active uploaded file using the existing file-intelligence service.",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Question to answer from the active file."
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "inject_action": true,
+        "expected_result": "The actual answer or an honest unavailable/error result."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_file_intelligence.py",
+        "tests\\test_live_batch7_file_results.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": "tests/test_live_batch7_file_results.py::test_file_intelligence_request_schemas_inject_action",
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_read",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_save",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_search",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__file_search"
+      },
+      "schema": {
+        "purpose": "Search extracted text in files registered in JARVIS File Intelligence.",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Text to find in extracted file content."
+          },
+          "file_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional registered file IDs to search; omit to search all registered files."
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "inject_action": true,
+        "expected_result": "Actual matching files and bounded line-match records, or an empty result list."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_agent.py",
+        "tests\\test_live_batch7_file_results.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": "tests/test_live_agent.py::test_file_search_payload_matches_file_intelligence_dispatch",
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_search_request",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__file_search_request"
+      },
+      "schema": {
+        "purpose": "Search the active uploaded file using the existing file-intelligence service.",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Text to find in the active file."
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "inject_action": true,
+        "expected_result": "The actual file matches or an honest unavailable/error result."
+      },
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_batch7_file_results.py"
+      ],
+      "router_references": [
+        "core\\routers\\file_router.py"
+      ],
+      "router_status": "PASS_STATIC",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": "tests/test_live_batch7_file_results.py::test_file_intelligence_request_schemas_inject_action",
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_speak",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "file_summarize",
+      "module": "skills.files.file_intelligence",
+      "source": "skills\\files\\file_intelligence.py",
+      "implementation": "file_intelligence_action",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": "files",
+      "registration_line": 436,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2573,10 +3359,10 @@
       "registration_line": 94,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__forget_contact"
       },
-      "schema": null,
+      "schema": {"purpose": "Remove one saved personal contact by alias.", "properties": {"alias": {"type": "string", "description": "Saved contact alias."}}, "required": ["alias"], "expected_result": "Confirmed removal or an honest not-found/failure result."},
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -2586,11 +3372,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch14_safe_contracts.py::test_contacts_return_truthful_save_and_remove_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2606,10 +3394,10 @@
       "registration_line": 428,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__forget_email_contact"
       },
-      "schema": null,
+      "schema": {"purpose": "Remove one saved email contact by alias.", "properties": {"alias": {"type": "string", "description": "Saved email contact alias."}}, "required": ["alias"], "expected_result": "Confirmed removal or honest not-found/failure result."},
       "dependency_class": "external_service_or_network",
       "test_references": [],
       "router_references": [
@@ -2619,11 +3407,46 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": "tests/test_live_batch16_persistence_contracts.py::test_email_contact_results_are_structured_and_failures_are_truthful",
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "forget_memory",
+      "module": "skills.memory.memory",
+      "source": "skills\\memory\\memory.py",
+      "implementation": "ai_forget",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 452,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2637,12 +3460,18 @@
       "registration_line": 6,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__forward"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Navigate the existing browser forward one page.",
+        "properties": {},
+        "expected_result": "The browser navigation result or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\browser_router.py"
       ],
@@ -2650,11 +3479,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2689,11 +3520,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch13_provider_results.py::test_news_unavailable_and_exception_paths_do_not_report_truthy_text",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2727,18 +3560,21 @@
       },
       "dependency_class": "external_service_or_network",
       "test_references": [
-        "tests\\test_action_edges.py"
+        "tests\\test_action_edges.py",
+        "tests\\test_live_batch3_contracts.py"
       ],
       "router_references": [],
       "router_status": "NOT_TESTED",
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch3_contracts.py::test_batch3_structured_actions_validate_and_propagate",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2754,12 +3590,18 @@
       "registration_line": 363,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__goodbye"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Give JARVIS's local goodbye response without changing application state.",
+        "properties": {},
+        "expected_result": "The local goodbye response or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch4_greetings.py"
+      ],
       "router_references": [
         "core\\routers\\greeting_router.py"
       ],
@@ -2767,11 +3609,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch4_greetings.py::test_greeting_actions_have_live_contracts_and_local_handlers",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2817,11 +3661,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch15_browser_contracts.py::test_google_search_returns_browser_context_results_to_live",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2837,13 +3683,23 @@
       "registration_line": 359,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__greet"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Give a local JARVIS greeting; optionally preserve a supplied good-morning, afternoon, or evening style.",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Optional greeting text supplied by the user."
+          }
+        },
+        "expected_result": "The local greeting result or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_astra_routing.py",
+        "tests\\test_live_batch4_greetings.py",
         "tests\\test_startup_brief.py",
         "brain\\tests\\test_clarification_flow.py"
       ],
@@ -2854,11 +3710,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch4_greetings.py::test_greeting_actions_have_live_contracts_and_local_handlers",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2874,10 +3732,24 @@
       "registration_line": 243,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+    "structured_tool": true,
+    "structured_tool_name": "jarvis_capability__home_automation"
       },
-      "schema": null,
+  "schema": {
+    "purpose": "Control or query a configured home-automation device through the existing ESP32 integration.",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "Device command such as status, turn_on, or turn_off."
+      },
+      "device": {
+        "type": "string",
+        "description": "Configured device such as light, led, or fan; omit for status."
+      }
+    },
+    "required": ["command"],
+    "expected_result": "The actual device/status result or an honest unavailable or invalid-command result."
+  },
       "dependency_class": "external_or_consequential_integration",
       "test_references": [],
       "router_references": [
@@ -2888,10 +3760,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch18_contracts.py::test_batch18_schemas_validate_screenshot_and_home_automation",
+  "mocked_live_boundary_evidence": "Mocked ESP32 control boundary; no hardware command was sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2907,12 +3781,18 @@
       "registration_line": 360,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__how_are_you"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Give JARVIS's local response to a how-are-you question.",
+        "properties": {},
+        "expected_result": "The local response or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch4_greetings.py"
+      ],
       "router_references": [
         "core\\routers\\greeting_router.py"
       ],
@@ -2920,11 +3800,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch4_greetings.py::test_greeting_actions_have_live_contracts_and_local_handlers",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2937,15 +3819,21 @@
         "data"
       ],
       "category": null,
-      "registration_line": 208,
+      "registration_line": 214,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__list_notes"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Read the user's existing saved notes without modifying them.",
+        "properties": {},
+        "expected_result": "The actual saved-note list or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\memory_router.py"
       ],
@@ -2953,11 +3841,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_second_batch_read_only_actions_have_live_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -2970,7 +3860,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 459,
+      "registration_line": 465,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -2983,6 +3873,7 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch5_results.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -2992,11 +3883,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch5_results.py::test_batch5_handlers_return_truthful_structured_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3009,7 +3902,7 @@
         "data"
       ],
       "category": "communication",
-      "registration_line": 1041,
+      "registration_line": 1047,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -3022,6 +3915,7 @@
       },
       "dependency_class": "external_service_or_network",
       "test_references": [
+        "tests\\test_live_batch5_results.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -3031,11 +3925,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch5_results.py::test_batch5_handlers_return_truthful_structured_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3061,6 +3957,7 @@
       },
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch9_persistence_results.py",
         "tests\\test_live_routing.py",
         "tests\\test_scheduling_upgrade.py"
       ],
@@ -3071,11 +3968,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch9_persistence_results.py::test_note_and_schedule_results_are_structured",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3105,6 +4004,7 @@
         "tests\\test_developer_live_integration.py",
         "tests\\test_face_vision.py",
         "tests\\test_live_agent.py",
+        "tests\\test_live_non_android_repairs.py",
         "tests\\test_live_routing.py",
         "tests\\test_reminder_regressions.py",
         "tests\\test_remote_event_sync.py",
@@ -3118,6 +4018,7 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "tests/test_system_live_controls.py::test_lock_calls_lock_handler_without_shutdown",
       "mocked_live_boundary_evidence": null,
@@ -3125,6 +4026,7 @@
         "root_cause": "The Windows lock action was registered only for the legacy dispatcher and had no reviewed structured Live declaration.",
         "repair": "Added a dedicated lock Live schema and regression coverage that keeps it separate from Windows shutdown."
       },
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3156,10 +4058,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3175,12 +4079,31 @@
       "registration_line": 153,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__maps_directions"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Open Google Maps driving directions. Use for destination-only requests or routes from one named place to another. Pass place names exactly as supplied; do not invent coordinates or claim live traffic or GPS verification.",
+        "properties": {
+          "destination": {
+            "type": "string",
+            "description": "Required destination place name or address."
+          },
+          "origin": {
+            "type": "string",
+            "description": "Optional starting place name or address."
+          }
+        },
+        "required": [
+          "destination"
+        ],
+        "expected_result": "A reported Google Maps directions browser-open result or failure."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_maps_live.py",
+        "tests/test_live_batch12_browser_local_contracts.py"
+      ],
       "router_references": [
         "core\\routers\\browser_router.py"
       ],
@@ -3188,11 +4111,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch12_browser_local_contracts.py::test_maps_actions_return_browser_open_results_through_live",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3208,12 +4133,19 @@
       "registration_line": 148,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__maps_open"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Open Google Maps in the browser. Use for requests such as 'open Google Maps' or 'open Maps'.",
+        "properties": {},
+        "expected_result": "A reported Google Maps browser-open result or failure."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_maps_live.py",
+        "tests/test_live_batch12_browser_local_contracts.py"
+      ],
       "router_references": [
         "core\\routers\\browser_router.py"
       ],
@@ -3221,11 +4153,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch12_browser_local_contracts.py::test_maps_actions_return_browser_open_results_through_live",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3257,10 +4191,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3273,7 +4209,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 532,
+      "registration_line": 533,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": false,
@@ -3283,7 +4219,9 @@
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_face_vision.py",
+        "tests\\test_live_batch6_files.py",
         "tests\\test_live_capability_matrix.py",
+        "tests\\test_live_non_android_inventory.py",
         "tests\\test_openai_provider.py",
         "tests\\test_phone_call.py",
         "tests\\test_speech_text.py"
@@ -3295,11 +4233,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3313,12 +4253,19 @@
       "registration_line": 4,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__new_tab"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Open a new tab in the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser new-tab result or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py",
+        "tests\\test_maps_live.py"
+      ],
       "router_references": [
         "core\\routers\\browser_router.py"
       ],
@@ -3326,11 +4273,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_second_batch_read_only_actions_have_live_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3346,10 +4295,10 @@
       "registration_line": 188,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__open"
       },
-      "schema": null,
+      "schema": {"purpose": "Open one supported website or Windows application by its configured name.", "properties": {"app": {"type": "string", "description": "Supported website or Windows application name."}}, "required": ["app"], "expected_result": "The opened target details or an honest unsupported/failure result."},
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_action_edges.py",
@@ -3365,8 +4314,13 @@
         "tests\\test_grok_provider.py",
         "tests\\test_interface_mode_commands.py",
         "tests\\test_live_agent.py",
+        "tests\\test_live_batch10_spotify_contracts.py",
+        "tests\\test_live_batch3_contracts.py",
+        "tests\\test_live_batch6_files.py",
         "tests\\test_live_capability_matrix.py",
+        "tests\\test_live_non_android_repairs.py",
         "tests\\test_live_routing.py",
+        "tests\\test_maps_live.py",
         "tests\\test_openai_provider.py",
         "tests\\test_personal_website_list.py",
         "tests\\test_phase1_status_contract.py",
@@ -3386,11 +4340,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch15_browser_contracts.py::test_open_returns_target_details_and_failure_is_truthful",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3403,7 +4359,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 507,
+      "registration_line": 508,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -3426,6 +4382,7 @@
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_live_agent.py",
+        "tests\\test_live_batch6_files.py",
         "tests\\test_live_capability_matrix.py"
       ],
       "router_references": [
@@ -3436,11 +4393,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects",
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3453,7 +4412,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 512,
+      "registration_line": 513,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -3476,7 +4435,8 @@
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_file_intelligence.py",
-        "tests\\test_live_agent.py"
+        "tests\\test_live_agent.py",
+        "tests\\test_live_batch6_files.py"
       ],
       "router_references": [
         "core\\routers\\file_router.py"
@@ -3485,11 +4445,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3505,10 +4467,17 @@
       "registration_line": 26,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__open_personal_link"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Open one configured personal website by its configured name.",
+        "properties": {
+          "name": {"type": "string", "description": "Configured personal website name."}
+        },
+        "required": ["name"],
+        "expected_result": "A reported browser-open result or an honest missing-configuration failure."
+      },
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_personal_website_list.py"
@@ -3520,11 +4489,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch12_browser_local_contracts.py::test_translate_open_and_personal_link_use_safe_mocked_browser_boundaries",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3554,10 +4525,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": "test_action_edges.ActionEdgeTests.test_phone_confirmation_rejects_invalid_number_without_calling",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3589,10 +4562,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3624,10 +4599,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3652,6 +4629,7 @@
         "tests\\test_action_edges.py",
         "tests\\test_astra_routing.py",
         "tests\\test_browser_vision_regressions.py",
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py",
         "tests\\test_main_lifecycle.py",
         "tests\\test_phase1_status_contract.py",
@@ -3666,10 +4644,47 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "test_action_edges.ActionEdgeTests.test_play_delegates_first_result_without_external_side_effect",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "recall",
+      "module": "skills.memory.memory",
+      "source": "skills\\memory\\memory.py",
+      "implementation": "ai_recall",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 447,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_memory_integration.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3682,15 +4697,21 @@
         "data"
       ],
       "category": null,
-      "registration_line": 36,
+      "registration_line": 43,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__recent_files"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "List the ten most recently modified files in the user's Downloads folder.",
+        "properties": {},
+        "expected_result": "The actual recent-file list or an honest unavailable result."
+      },
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch5_results.py"
+      ],
       "router_references": [
         "core\\routers\\file_router.py"
       ],
@@ -3698,11 +4719,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch5_results.py::test_batch5_handlers_return_truthful_structured_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3718,10 +4741,10 @@
       "registration_line": 16,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__recycle"
       },
-      "schema": null,
+      "schema": {"purpose": "Move one specified local path to the Windows recycle bin.", "properties": {"path": {"type": "string", "description": "Existing file or folder path."}}, "required": ["path"], "expected_result": "Confirmed recycle-bin operation or honest failure."},
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -3731,11 +4754,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch14_safe_contracts.py::test_recycle_uses_mocked_trash_boundary_and_rejects_empty_path",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3749,12 +4774,17 @@
       "registration_line": 10,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__refresh"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Refresh the active browser page through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser refresh result or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
       "test_references": [
+        "tests\\test_live_non_android_repairs.py",
         "tests\\test_live_voice_settings.py"
       ],
       "router_references": [
@@ -3764,11 +4794,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_first_batch_actions_have_live_boundary_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3800,10 +4832,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3835,10 +4869,47 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "EXCLUDED_BY_USER",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "EXCLUDED_BY_USER",
+      "result_contract": "core.live_agent compatibility adapter; execution required for verification"
+    },
+    {
+      "action": "remember",
+      "module": "skills.memory.memory",
+      "source": "skills\\memory\\memory.py",
+      "implementation": "ai_remember",
+      "implementation_defined": true,
+      "parameters": [
+        "data"
+      ],
+      "category": null,
+      "registration_line": 442,
+      "live_exposure": {
+        "generic_dispatcher_tool": true,
+        "structured_tool": false,
+        "structured_tool_name": null
+      },
+      "schema": null,
+      "dependency_class": "local_or_deterministic",
+      "test_references": [
+        "tests\\test_live_memory_integration.py"
+      ],
+      "router_references": [],
+      "router_status": "NOT_TESTED",
+      "static_status": "PASS_STATIC",
+      "execution_status": "NOT_TESTED",
+      "integration_status": "NOT_TESTED",
+      "verification_status": "NOT_TESTED",
+      "scope": "IN_SCOPE_NON_ANDROID",
+      "runtime_evidence": null,
+      "unit_evidence": null,
+      "mocked_live_boundary_evidence": null,
+      "confirmed_finding": null,
+      "audit_classification": "UNTESTED",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3854,10 +4925,10 @@
       "registration_line": 89,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__remember_contact"
       },
-      "schema": null,
+      "schema": {"purpose": "Save one personal contact alias and its real name.", "properties": {"alias": {"type": "string", "description": "Short name used to refer to the contact."}, "real_name": {"type": "string", "description": "Contact's real name."}}, "required": ["alias", "real_name"], "expected_result": "Confirmed saved contact or an honest failure."},
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -3867,11 +4938,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch14_safe_contracts.py::test_contacts_return_truthful_save_and_remove_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3887,10 +4960,10 @@
       "registration_line": 423,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__remember_email_contact"
       },
-      "schema": null,
+      "schema": {"purpose": "Save an email contact alias and address in the existing email-contact store.", "properties": {"alias": {"type": "string", "description": "Name used to refer to the email contact."}, "email": {"type": "string", "description": "Email address."}}, "required": ["alias", "email"], "expected_result": "Confirmed saved email contact or honest failure."},
       "dependency_class": "external_service_or_network",
       "test_references": [],
       "router_references": [
@@ -3900,11 +4973,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch16_persistence_contracts.py::test_email_contact_results_are_structured_and_failures_are_truthful",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3917,7 +4992,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 537,
+      "registration_line": 538,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": false,
@@ -3926,8 +5001,7 @@
       "schema": null,
       "dependency_class": "local_or_deterministic",
       "test_references": [
-        "tests\\test_dashboard_private_network.py",
-        "tests\\test_remote_event_sync.py"
+        "tests\\test_live_batch6_files.py"
       ],
       "router_references": [
         "core\\routers\\file_router.py"
@@ -3936,11 +5010,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch6_files.py::test_file_actions_reach_safe_path_validation",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -3953,7 +5029,7 @@
         "data"
       ],
       "category": "communication",
-      "registration_line": 1053,
+      "registration_line": 1059,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -3988,11 +5064,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch16_persistence_contracts.py::test_whatsapp_schedule_and_reschedule_fail_before_persistence_on_bad_input",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4026,10 +5104,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4067,6 +5147,7 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "test_action_edges.ActionEdgeTests.test_running_apps_reports_processes_without_termination",
       "mocked_live_boundary_evidence": null,
@@ -4074,6 +5155,7 @@
         "root_cause": "Generic Windows running-apps intent was not a structured Live capability, while the Android foreground-app tool had a semantically broad description that could attract the model.",
         "repair": "Added a Windows running_apps Live schema, explicit platform boundaries in both tool descriptions, and exact Windows router aliases using the existing process handler."
       },
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4086,7 +5168,7 @@
         "data"
       ],
       "category": "communication",
-      "registration_line": 1035,
+      "registration_line": 1041,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -4127,11 +5209,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch16_persistence_contracts.py::test_whatsapp_schedule_returns_persisted_item_without_sending",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4168,13 +5252,15 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch17_contracts.py::test_batch17_screen_vision_live_boundary_reports_image_or_capture_failure",
+  "mocked_live_boundary_evidence": "Mocked screen capture image encoding and capture failure; no desktop screen was captured.",
       "confirmed_finding": {
         "root_cause": "Live screen analysis uses scheduled asynchronous work whose failure outcome was not propagated.",
         "repair": "Live tool execution now inspects delayed task outcomes before claiming success."
       },
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4210,10 +5296,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_LIVE_RUNTIME",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": "Owner-reported normal Windows CMD run: screenshot saved as PNG.",
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4229,10 +5317,14 @@
       "registration_line": 151,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+    "structured_tool": true,
+    "structured_tool_name": "jarvis_capability__screenshot_ai"
       },
-      "schema": null,
+  "schema": {
+    "purpose": "Request analysis of an existing screenshot file. Gemini Live reports this capability as unsupported because Live analyzes its own correlated screen image.",
+    "properties": {},
+    "expected_result": "An honest unsupported result inside Gemini Live; never claim screenshot-file analysis occurred."
+  },
       "dependency_class": "hardware_or_visual_runtime",
       "test_references": [],
       "router_references": [
@@ -4243,10 +5335,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch18_contracts.py::test_batch18_schemas_validate_screenshot_and_home_automation",
+  "mocked_live_boundary_evidence": "Mocked screenshot-file boundary; no screenshot was read and Live correctly reports this path unsupported.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4260,12 +5354,18 @@
       "registration_line": 8,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__scroll_down"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Scroll the active browser page down through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser scroll result or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\browser_router.py"
       ],
@@ -4273,11 +5373,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_second_batch_read_only_actions_have_live_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4291,12 +5393,18 @@
       "registration_line": 9,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__scroll_up"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Scroll the active browser page up through the existing browser controller.",
+        "properties": {},
+        "expected_result": "The browser scroll result or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_non_android_repairs.py"
+      ],
       "router_references": [
         "core\\routers\\browser_router.py"
       ],
@@ -4304,11 +5412,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_non_android_repairs.py::test_second_batch_read_only_actions_have_live_contracts",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4321,16 +5431,30 @@
         "data"
       ],
       "category": null,
-      "registration_line": 113,
+      "registration_line": 119,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__search_file"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Search local files using the existing JARVIS file-search service.",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "File name or path text to search for."
+          },
+          "extension": {
+            "type": "string",
+            "description": "Optional file extension filter."
+          }
+        },
+        "expected_result": "The actual matching file paths or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
       "test_references": [
-        "tests\\test_file_intelligence.py"
+        "tests\\test_file_intelligence.py",
+        "tests\\test_live_batch7_file_results.py"
       ],
       "router_references": [
         "core\\routers\\file_router.py"
@@ -4339,11 +5463,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch7_file_results.py::test_file_info_and_search_return_structured_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4359,10 +5485,28 @@
       "registration_line": 418,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+    "structured_tool": true,
+    "structured_tool_name": "jarvis_capability__send_email"
       },
-      "schema": null,
+  "schema": {
+    "purpose": "Send an email through the configured Gmail service, or begin the existing local draft flow when only a recipient is supplied.",
+    "properties": {
+      "recipient": {
+        "type": "string",
+        "description": "Recipient email address or saved email alias."
+      },
+      "subject": {
+        "type": "string",
+        "description": "Optional email subject."
+      },
+      "body": {
+        "type": "string",
+        "description": "Optional email body."
+      }
+    },
+    "required": ["recipient"],
+    "expected_result": "A reported send/draft result or an honest validation or service failure."
+  },
       "dependency_class": "external_service_or_network",
       "test_references": [],
       "router_references": [
@@ -4373,10 +5517,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch17_contracts.py::test_batch17_new_schemas_validate_and_dispatch",
+  "mocked_live_boundary_evidence": "Mocked local draft flow and schema validation; no email was sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4392,12 +5538,18 @@
       "registration_line": 99,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__show_contacts"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "List saved personal contacts without changing them.",
+        "properties": {},
+        "expected_result": "The actual saved contacts or an empty-list response."
+      },
       "dependency_class": "local_or_deterministic",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch8_readonly_lists.py"
+      ],
       "router_references": [
         "core\\routers\\contact_router.py"
       ],
@@ -4405,11 +5557,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch8_readonly_lists.py::test_readonly_list_handlers_return_structured_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4425,12 +5579,18 @@
       "registration_line": 433,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__show_email_contacts"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "List saved email contacts without changing them.",
+        "properties": {},
+        "expected_result": "The actual saved email contacts or an empty-list response."
+      },
       "dependency_class": "external_service_or_network",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch8_readonly_lists.py"
+      ],
       "router_references": [
         "core\\routers\\email_router.py"
       ],
@@ -4438,11 +5598,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch8_readonly_lists.py::test_readonly_list_handlers_return_structured_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4456,12 +5618,17 @@
       "registration_line": 32,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__show_personal_links"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "List configured personal websites without opening one.",
+        "properties": {},
+        "expected_result": "The actual configured-link summary or an honest unavailable result."
+      },
       "dependency_class": "local_or_deterministic",
       "test_references": [
+        "tests\\test_live_batch8_readonly_lists.py",
         "tests\\test_personal_website_list.py"
       ],
       "router_references": [
@@ -4471,11 +5638,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch8_readonly_lists.py::test_readonly_list_handlers_return_structured_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4521,6 +5690,7 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "tests/test_system_live_controls.py::test_windows_shutdown_requires_confirmation_before_handler",
       "mocked_live_boundary_evidence": null,
@@ -4528,6 +5698,7 @@
         "root_cause": "Windows shutdown was absent from structured Live declarations and the legacy exact 'shutdown' route meant application shutdown, creating an ambiguous model path.",
         "repair": "Added a dedicated Windows shutdown schema, spoken variants, and explicit confirmation enforcement before the existing handler runs."
       },
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4560,10 +5731,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4589,6 +5762,7 @@
       },
       "dependency_class": "external_or_consequential_integration",
       "test_references": [
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -4598,11 +5772,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4629,6 +5805,7 @@
       "dependency_class": "external_or_consequential_integration",
       "test_references": [
         "tests\\test_action_edges.py",
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -4638,11 +5815,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4669,6 +5848,7 @@
       "dependency_class": "external_or_consequential_integration",
       "test_references": [
         "tests\\test_android_payment_routing.py",
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -4678,11 +5858,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4708,6 +5890,7 @@
       },
       "dependency_class": "external_or_consequential_integration",
       "test_references": [
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -4717,11 +5900,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4748,6 +5933,7 @@
       "dependency_class": "external_or_consequential_integration",
       "test_references": [
         "tests\\test_action_edges.py",
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -4757,11 +5943,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4795,6 +5983,7 @@
       },
       "dependency_class": "external_or_consequential_integration",
       "test_references": [
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -4804,11 +5993,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4834,6 +6025,7 @@
       },
       "dependency_class": "external_or_consequential_integration",
       "test_references": [
+        "tests\\test_live_batch10_spotify_contracts.py",
         "tests\\test_live_routing.py"
       ],
       "router_references": [
@@ -4843,11 +6035,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4872,7 +6066,9 @@
         "expected_result": "A real media-volume action."
       },
       "dependency_class": "external_or_consequential_integration",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch10_spotify_contracts.py"
+      ],
       "router_references": [
         "core\\routers\\spotify_router.py"
       ],
@@ -4880,11 +6076,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4909,7 +6107,9 @@
         "expected_result": "A real media-volume action."
       },
       "dependency_class": "external_or_consequential_integration",
-      "test_references": [],
+      "test_references": [
+        "tests\\test_live_batch10_spotify_contracts.py"
+      ],
       "router_references": [
         "core\\routers\\spotify_router.py"
       ],
@@ -4917,11 +6117,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch10_spotify_contracts.py::test_spotify_actions_validate_and_reach_executor",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4951,10 +6153,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -4984,10 +6188,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5018,11 +6224,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch11_result_contracts.py::test_taskmanager_returns_measured_usage_to_live",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5059,6 +6267,7 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "tests/test_system_live_controls.py::test_jarvis_shutdown_uses_application_callback_not_windows_shutdown",
       "mocked_live_boundary_evidence": null,
@@ -5066,6 +6275,7 @@
         "root_cause": "Application termination was only available through natural-language dispatch and the system skill could stop the listener without the complete application lifecycle callback.",
         "repair": "Added a distinct Live schema and injected the existing main application shutdown callback alongside the HUD callback, retaining a safe legacy fallback."
       },
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5104,6 +6314,8 @@
         "tests\\test_gemini_response_contract.py",
         "tests\\test_hud_notifications_upgrade.py",
         "tests\\test_live_agent.py",
+        "tests\\test_live_batch3_contracts.py",
+        "tests\\test_live_batch9_persistence_results.py",
         "tests\\test_live_routing.py",
         "tests\\test_main_lifecycle.py",
         "tests\\test_openai_provider.py",
@@ -5123,11 +6335,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch11_result_contracts.py::test_time_returns_the_value_to_live_without_breaking_truthiness",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5143,10 +6357,14 @@
       "registration_line": 189,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__translate_open"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Open Google Translate in the browser.",
+        "properties": {},
+        "expected_result": "A reported Google Translate browser-open result or failure."
+      },
       "dependency_class": "external_service_or_network",
       "test_references": [],
       "router_references": [
@@ -5156,11 +6374,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch12_browser_local_contracts.py::test_translate_open_and_personal_link_use_safe_mocked_browser_boundaries",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5176,10 +6396,18 @@
       "registration_line": 194,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__translate_text"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Translate supplied text with the existing JARVIS translation service.",
+        "properties": {
+          "text": {"type": "string", "description": "Text to translate."},
+          "target": {"type": "string", "description": "Target language name or code."}
+        },
+        "required": ["text", "target"],
+        "expected_result": "The translated text or an honest failure."
+      },
       "dependency_class": "external_service_or_network",
       "test_references": [],
       "router_references": [
@@ -5189,11 +6417,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch11_result_contracts.py::test_translate_text_returns_translation_and_rejects_missing_arguments",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5223,10 +6453,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5256,10 +6488,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5289,10 +6523,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5322,10 +6558,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5355,10 +6593,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5390,10 +6630,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5425,10 +6667,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5461,10 +6705,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5509,7 +6755,9 @@
       "dependency_class": "local_or_deterministic",
       "test_references": [
         "tests\\test_live_agent.py",
-        "tests\\test_live_capability_matrix.py"
+        "tests\\test_live_batch10_spotify_contracts.py",
+        "tests\\test_live_capability_matrix.py",
+        "tests\\test_live_non_android_inventory.py"
       ],
       "router_references": [
         "core\\routers\\media_router.py",
@@ -5520,10 +6768,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects",
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5567,14 +6817,16 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch13_provider_results.py::test_weather_sync_returns_measured_fields_to_live",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": {
         "root_cause": "Live weather work was scheduled asynchronously and task outcomes were previously discarded.",
         "repair": "drain_live_tasks now returns outcomes and voice.agent reports delayed failures honestly."
       },
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5590,10 +6842,14 @@
       "registration_line": 362,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__welcome"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "Respond to a user's thanks with the existing local JARVIS greeting.",
+        "properties": {},
+        "expected_result": "A reported local greeting result."
+      },
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -5603,11 +6859,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch12_browser_local_contracts.py::test_welcome_uses_local_speaker_and_reports_completion",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5620,7 +6878,7 @@
         "data"
       ],
       "category": "communication",
-      "registration_line": 1059,
+      "registration_line": 1065,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5651,10 +6909,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5667,7 +6927,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1006,
+      "registration_line": 1012,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5690,10 +6950,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch18_contracts.py::test_batch18_whatsapp_open_close_preserve_truthful_boundary",
+  "mocked_live_boundary_evidence": "Mocked WhatsApp close boundary; no application was closed.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5706,7 +6968,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1005,
+      "registration_line": 1011,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5729,10 +6991,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch18_contracts.py::test_batch18_whatsapp_open_close_preserve_truthful_boundary",
+  "mocked_live_boundary_evidence": "Mocked WhatsApp launcher success/failure; no application was opened.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5745,7 +7009,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1020,
+      "registration_line": 1026,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5781,10 +7045,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch19_media_contracts.py::test_batch19_whatsapp_media_reports_missing_assets_and_send_failures",
+  "mocked_live_boundary_evidence": "Mocked file lookup and sender failure; no file was sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5797,7 +7063,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1010,
+      "registration_line": 1016,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5828,10 +7094,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch19_media_contracts.py::test_batch19_whatsapp_media_reports_missing_assets_and_send_failures",
+  "mocked_live_boundary_evidence": "Mocked photo lookup and sender failure; no media was sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5844,7 +7112,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1015,
+      "registration_line": 1021,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5875,10 +7143,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch19_media_contracts.py::test_batch19_whatsapp_media_reports_missing_assets_and_send_failures",
+  "mocked_live_boundary_evidence": "Mocked screenshot lookup; no screenshot was read or sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5891,7 +7161,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1007,
+      "registration_line": 1013,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5928,10 +7198,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects",
+  "unit_evidence": "tests/test_live_batch18_contracts.py::test_batch18_whatsapp_send_reports_needs_input_and_send_failure",
+  "mocked_live_boundary_evidence": "Mocked sender with success, failure, and invalid-input paths; no message was sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5944,7 +7216,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1025,
+      "registration_line": 1031,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -5976,10 +7248,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch19_media_contracts.py::test_batch19_whatsapp_file_selection_reports_state_and_success",
+  "mocked_live_boundary_evidence": "Mocked pending-file state and successful sender; no file was sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -5992,7 +7266,7 @@
         "data"
       ],
       "category": "communication",
-      "registration_line": 1065,
+      "registration_line": 1071,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -6023,10 +7297,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": null,
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PARTIAL",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6039,7 +7315,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1030,
+      "registration_line": 1036,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -6061,10 +7337,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "test_action_edges.ActionEdgeTests.test_whatsapp_wait_contact_only_enters_prompt_state",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6077,7 +7355,7 @@
         "data"
       ],
       "category": null,
-      "registration_line": 1008,
+      "registration_line": 1014,
       "live_exposure": {
         "generic_dispatcher_tool": true,
         "structured_tool": true,
@@ -6108,10 +7386,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_STATIC",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
-      "mocked_live_boundary_evidence": null,
+  "unit_evidence": "tests/test_live_batch20_contracts.py::test_batch20_whatsapp_followup_reports_needs_input_and_validates_contact",
+  "mocked_live_boundary_evidence": "Mocked WhatsApp follow-up state; no application was opened and no message was sent.",
       "confirmed_finding": null,
+  "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6127,10 +7407,15 @@
       "registration_line": 274,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__wifi_list"
       },
-      "schema": null,
+      "schema": {
+        "purpose": "List nearby Windows Wi-Fi network names without connecting to any network.",
+        "properties": {},
+        "inject_action": true,
+        "expected_result": "The actual discovered network names or an honest failure."
+      },
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -6140,11 +7425,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch11_result_contracts.py::test_wifi_status_and_list_return_structured_read_only_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6178,11 +7465,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch11_result_contracts.py::test_wifi_enable_and_disable_return_verified_mocked_state",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6216,11 +7505,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch11_result_contracts.py::test_wifi_enable_and_disable_return_verified_mocked_state",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6257,11 +7548,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch11_result_contracts.py::test_wifi_status_and_list_return_structured_read_only_results",
       "mocked_live_boundary_evidence": "tests/test_live_capability_matrix.py::test_high_impact_capabilities_dispatch_real_payload_shape_without_side_effects",
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6277,10 +7570,10 @@
       "registration_line": 477,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__youtube_next"
       },
-      "schema": null,
+      "schema": {"purpose": "Play the next item in the current YouTube result queue.", "properties": {}, "expected_result": "A reported navigation result or honest empty-queue failure."},
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_action_edges.py"
@@ -6292,11 +7585,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch15_browser_contracts.py::test_youtube_queue_navigation_reports_success_and_empty_queue",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6312,10 +7607,10 @@
       "registration_line": 473,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__youtube_pause"
       },
-      "schema": null,
+      "schema": {"purpose": "Pause the active YouTube video in the existing browser.", "properties": {}, "expected_result": "A reported pause result or honest browser failure."},
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_action_edges.py",
@@ -6328,11 +7623,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch15_browser_contracts.py::test_youtube_pause_and_resume_preserve_verified_failure_states",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6348,10 +7645,10 @@
       "registration_line": 471,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__youtube_play_first"
       },
-      "schema": null,
+      "schema": {"purpose": "Play the first result from a YouTube search, or search the supplied query first.", "properties": {"query": {"type": "string", "description": "Optional YouTube search terms."}}, "expected_result": "A YouTube navigation result with playback verification status."},
       "dependency_class": "external_service_or_network",
       "test_references": [],
       "router_references": [
@@ -6361,11 +7658,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch15_browser_contracts.py::test_youtube_play_first_and_previous_return_navigation_details",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6395,10 +7694,12 @@
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
       "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
       "unit_evidence": "test_action_edges.ActionEdgeTests.test_youtube_result_rejects_missing_video_id",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6414,10 +7715,10 @@
       "registration_line": 479,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__youtube_previous"
       },
-      "schema": null,
+      "schema": {"purpose": "Play the previous item in the current YouTube result queue.", "properties": {}, "expected_result": "A reported navigation result or honest empty-queue failure."},
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_action_edges.py"
@@ -6429,11 +7730,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch15_browser_contracts.py::test_youtube_play_first_and_previous_return_navigation_details",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6449,10 +7752,10 @@
       "registration_line": 475,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__youtube_resume"
       },
-      "schema": null,
+      "schema": {"purpose": "Resume the active YouTube video in the existing browser.", "properties": {}, "expected_result": "A reported resume result or honest browser failure."},
       "dependency_class": "external_service_or_network",
       "test_references": [
         "tests\\test_action_edges.py"
@@ -6464,11 +7767,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch15_browser_contracts.py::test_youtube_pause_and_resume_preserve_verified_failure_states",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6512,11 +7817,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch16_persistence_contracts.py::test_youtube_search_live_boundary_preserves_actual_results",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     },
     {
@@ -6532,10 +7839,10 @@
       "registration_line": 47,
       "live_exposure": {
         "generic_dispatcher_tool": true,
-        "structured_tool": false,
-        "structured_tool_name": null
+        "structured_tool": true,
+        "structured_tool_name": "jarvis_capability__zip"
       },
-      "schema": null,
+      "schema": {"purpose": "Create a ZIP archive from a specified folder.", "properties": {"folder": {"type": "string", "description": "Folder to archive."}, "output": {"type": "string", "description": "Output archive path without the .zip suffix."}}, "required": ["folder", "output"], "inject_action": true, "expected_result": "Confirmed archive path or honest failure."},
       "dependency_class": "local_or_deterministic",
       "test_references": [],
       "router_references": [
@@ -6545,11 +7852,13 @@
       "static_status": "PASS_STATIC",
       "execution_status": "NOT_TESTED",
       "integration_status": "NOT_TESTED",
-      "verification_status": "PASS_STATIC",
+      "verification_status": "PASS_UNIT",
+      "scope": "IN_SCOPE_NON_ANDROID",
       "runtime_evidence": null,
-      "unit_evidence": null,
+      "unit_evidence": "tests/test_live_batch14_safe_contracts.py::test_zip_and_extract_return_operation_details_with_mocked_archive_calls",
       "mocked_live_boundary_evidence": null,
       "confirmed_finding": null,
+      "audit_classification": "PASS",
       "result_contract": "core.live_agent compatibility adapter; execution required for verification"
     }
   ]

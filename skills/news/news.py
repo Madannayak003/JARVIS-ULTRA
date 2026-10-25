@@ -23,11 +23,7 @@ def get_news(data=None):
         result = get_morning_brief()
 
         if not result:
-
-            return (
-                "I couldn't retrieve the latest "
-                "news right now."
-            )
+            return False
 
         return result
 
@@ -38,10 +34,7 @@ def get_news(data=None):
             error,
         )
 
-        return (
-            "I couldn't retrieve the latest "
-            "news right now."
-        )
+        return False
 
 
 register(

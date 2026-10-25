@@ -940,6 +940,27 @@ def _build_message(location, weather):
     return message
 
 
+def _weather_result(location, weather_data, message):
+    """Return measured weather fields while retaining the spoken summary."""
+
+    current = weather_data.get("current", {})
+    code = current.get("weather_code")
+    return {
+        "ok": True,
+        "status": "reported_success",
+        "action": "weather",
+        "location": location.get("name"),
+        "temperature": current.get("temperature_2m"),
+        "feels_like": current.get("apparent_temperature"),
+        "humidity": current.get("relative_humidity_2m"),
+        "precipitation": current.get("precipitation"),
+        "wind_speed": current.get("wind_speed_10m"),
+        "weather_code": code,
+        "condition": WEATHER_CODES.get(code),
+        "message": message,
+    }
+
+
 # * =========================================================
 # * Weather Action
 # * =========================================================
@@ -1036,7 +1057,7 @@ def _weather_sync(data=None):
             f"{current.get('relative_humidity_2m')}%"
         )
 
-        return True
+        return _weather_result(resolved, weather_data, message)
 
     except requests.RequestException as e:
 
@@ -1099,7 +1120,7 @@ async def _weather_async(data=None):
             f"Code: {current.get('weather_code')} | Humidity: "
             f"{current.get('relative_humidity_2m')}%"
         )
-        return True
+        return _weather_result(resolved, weather_data, _build_message(resolved, weather_data))
     except requests.RequestException as error:
         print(f"[WEATHER NETWORK ERROR] {error}")
         speak("I couldn't reach the weather service right now.")
