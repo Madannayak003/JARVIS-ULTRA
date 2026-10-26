@@ -64,6 +64,7 @@ from config.settings import (
     GEMINI_LIVE_DEFAULT_VOICE,
     GEMINI_LIVE_FEMALE_VOICE,
 )
+from config.environment import ENV_FILE
 
 from hud.integration import HUDIntegration
 from hud.bus import hud_bus
@@ -452,6 +453,56 @@ VOICE_SETTINGS_FILE = (
     / "settings"
     / "jarvis_settings.json"
 )
+
+GEMINI_API_KEY_MASK = "****************"
+
+
+def _gemini_key_is_configured() -> bool:
+    """Return only whether the existing Gemini key entry has a value."""
+
+    try:
+        from config.environment import get_env
+
+        return bool(get_env("GEMINI_API_KEY").strip())
+    except Exception:
+        return False
+
+
+def _update_gemini_api_key(new_key: str) -> None:
+    """Update only GEMINI_API_KEY in the existing .env file."""
+
+    value = str(new_key).strip()
+    if not value or value == GEMINI_API_KEY_MASK or any(char in value for char in "\r\n\x00"):
+        raise ValueError("Enter a valid Gemini API key.")
+    if len(value) > 4096:
+        raise ValueError("Gemini API key is too long.")
+    if not ENV_FILE.is_file():
+        raise FileNotFoundError("The existing .env file was not found.")
+
+    with ENV_FILE.open("rb") as file:
+        raw = file.read()
+
+    encoding = "utf-8-sig" if raw.startswith(b"\xef\xbb\xbf") else "utf-8"
+    text = raw.decode(encoding)
+    lines = text.splitlines(keepends=True)
+    for index, line in enumerate(lines):
+        content = line.rstrip("\r\n")
+        if content.lstrip().startswith("#"):
+            continue
+        if "=" not in content:
+            continue
+        name, current_value = content.split("=", 1)
+        if name.strip() != "GEMINI_API_KEY":
+            continue
+        newline = line[len(content):]
+        prefix = name + "="
+        lines[index] = prefix + value + newline
+        with ENV_FILE.open("wb") as file:
+            file.write("".join(lines).encode(encoding))
+        os.environ["GEMINI_API_KEY"] = value
+        return
+
+    raise ValueError("The existing GEMINI_API_KEY entry was not found in .env.")
 
 
 def _load_english_voice() -> str:
@@ -2875,6 +2926,27 @@ class DashboardServer:
         # * =====================================================
         # * LOCAL — GEMINI LIVE VOICE SETTINGS
         # * =====================================================
+
+        @app.get("/api/local/gemini-key")
+        async def local_gemini_key_status(request: Request):
+            if not self._authorize_local(request):
+                return JSONResponse({"ok": False, "error": "Local access required."}, status_code=403)
+            return {"ok": True, "configured": _gemini_key_is_configured()}
+
+        @app.post("/api/local/gemini-key")
+        async def local_gemini_key_update(request: Request):
+            if not self._authorize_local(request):
+                return JSONResponse({"ok": False, "error": "Local access required."}, status_code=403)
+            try:
+                body = await request.json()
+                _update_gemini_api_key(body.get("key", ""))
+                return {"ok": True, "restartRequired": True}
+            except ValueError as exc:
+                return JSONResponse({"ok": False, "error": str(exc)}, status_code=400)
+            except FileNotFoundError:
+                return JSONResponse({"ok": False, "error": "The existing .env file was not found."}, status_code=500)
+            except Exception:
+                return JSONResponse({"ok": False, "error": "Could not save the Gemini API key."}, status_code=500)
 
         @app.get("/api/local/live-voice")
         async def local_live_voice_status(request: Request):

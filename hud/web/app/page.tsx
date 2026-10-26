@@ -189,6 +189,7 @@ function resolveHUDActivityState(state: HUDState): HUDActivityState {
 }
 
 type SettingsModal = "remote" | "android" | "customise" | "settings" | null;
+const GEMINI_KEY_MASK = "****************";
 
 type ScheduleCenterTab = "reminders" | "whatsapp" | "schedules";
 type ScheduleCenterData = {
@@ -498,6 +499,20 @@ export default function Home() {
   const [liveVoiceStatus, setLiveVoiceStatus] = useState<"idle" | "switching" | "success" | "error">("idle");
   const [liveVoiceStatusText, setLiveVoiceStatusText] = useState("");
   const liveVoiceRequestRef = useRef(0);
+  const [geminiApiKeyInput, setGeminiApiKeyInput] = useState("");
+  const [geminiApiKeyConfigured, setGeminiApiKeyConfigured] = useState(false);
+  const [geminiApiKeyTouched, setGeminiApiKeyTouched] = useState(false);
+  const [geminiApiKeyStatus, setGeminiApiKeyStatus] = useState<"idle" | "success" | "error">("idle");
+  const [geminiApiKeyStatusText, setGeminiApiKeyStatusText] = useState("");
+
+  useEffect(() => {
+    if (modal !== "settings") {
+      setGeminiApiKeyInput(geminiApiKeyConfigured ? GEMINI_KEY_MASK : "");
+      setGeminiApiKeyTouched(false);
+      setGeminiApiKeyStatus("idle");
+      setGeminiApiKeyStatusText("");
+    }
+  }, [modal, geminiApiKeyConfigured]);
 
   const [assistantName, setAssistantName] = useState(DEFAULT_ASSISTANT_NAME);
   const [userName, setUserName] = useState("");
@@ -927,6 +942,18 @@ export default function Home() {
         const data = await res.json();
         if (data.ok && isMounted) {
           setLiveFemaleVoiceEnabled(Boolean(data.enabled));
+        }
+      }
+    });
+
+    loadWithRetry(async () => {
+      const res = await fetch(`${JARVIS_DASHBOARD_URL}/api/local/gemini-key`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ok && isMounted) {
+          const configured = Boolean(data.configured);
+          setGeminiApiKeyConfigured(configured);
+          setGeminiApiKeyInput(configured ? GEMINI_KEY_MASK : "");
         }
       }
     });
@@ -1713,6 +1740,41 @@ export default function Home() {
         setLiveVoiceStatus("error");
         setLiveVoiceStatusText(error instanceof Error ? error.message : "Could not switch Live voice.");
       }
+    }
+  };
+
+  const saveGeminiApiKey = async () => {
+    if (!geminiApiKeyTouched) return true;
+
+    const replacement = geminiApiKeyInput.trim();
+    if (!replacement || replacement === GEMINI_KEY_MASK) {
+      setGeminiApiKeyStatus("error");
+      setGeminiApiKeyStatusText("ENTER A NEW GEMINI API KEY TO REPLACE THE CURRENT KEY.");
+      return false;
+    }
+
+    setGeminiApiKeyStatus("idle");
+    setGeminiApiKeyStatusText("SAVING SECURELY...");
+    try {
+      const response = await fetch(`${JARVIS_DASHBOARD_URL}/api/local/gemini-key`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({ key: replacement }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result?.error || "Could not save the Gemini API key.");
+
+      setGeminiApiKeyConfigured(true);
+      setGeminiApiKeyInput(GEMINI_KEY_MASK);
+      setGeminiApiKeyTouched(false);
+      setGeminiApiKeyStatus("success");
+      setGeminiApiKeyStatusText("KEY SAVED. RESTART JARVIS ULTRA TO APPLY IT.");
+      return true;
+    } catch (error) {
+      setGeminiApiKeyStatus("error");
+      setGeminiApiKeyStatusText(error instanceof Error ? error.message : "COULD NOT SAVE THE GEMINI API KEY.");
+      return false;
     }
   };
 
@@ -2775,6 +2837,51 @@ export default function Home() {
 
             <div className="settings-form">
 
+              {/* GEMINI API KEY */}
+              <div className="settings-api-key-section">
+                <div className="settings-control-header">
+                  <span className="settings-control-icon">◆</span>
+                  <div>
+                    <div className="settings-control-title">API KEY</div>
+                    <div className="settings-control-description">Configure your API key securely</div>
+                  </div>
+                </div>
+                <input
+                  className="settings-api-key-input"
+                  type="password"
+                  value={geminiApiKeyInput}
+                  placeholder="Enter API key"
+                  autoComplete="new-password"
+                  aria-label="Gemini API key"
+                  onFocus={() => {
+                    if (geminiApiKeyInput === GEMINI_KEY_MASK) {
+                      setGeminiApiKeyInput("");
+                      setGeminiApiKeyTouched(true);
+                    }
+                  }}
+                  onChange={(event) => {
+                    setGeminiApiKeyInput(event.target.value);
+                    setGeminiApiKeyTouched(true);
+                    setGeminiApiKeyStatus("idle");
+                    setGeminiApiKeyStatusText("");
+                  }}
+                  onBlur={() => {
+                    if (geminiApiKeyConfigured && !geminiApiKeyInput.trim()) {
+                      setGeminiApiKeyInput(GEMINI_KEY_MASK);
+                      setGeminiApiKeyTouched(false);
+                    }
+                  }}
+                />
+                <div className="settings-api-key-note">
+                  {geminiApiKeyConfigured ? "Existing key masked. Type to replace it." : "The key stays local and hidden."}
+                </div>
+                {geminiApiKeyStatusText && (
+                  <div className={`settings-api-key-status settings-api-key-status-${geminiApiKeyStatus}`} aria-live="polite">
+                    {geminiApiKeyStatusText}
+                  </div>
+                )}
+              </div>
+
               {/* BOTTOM ACTIONS */}
               <div className="settings-bottom-actions-section">
                 <div className="settings-control-header">
@@ -2877,11 +2984,6 @@ export default function Home() {
                 <label className="settings-toggle-row live-voice-toggle-row">
                   <span className="settings-toggle-icon">♫</span>
                   <span className="settings-toggle-name">VOICE</span>
-                  <span className="settings-toggle-description" aria-hidden="true" />
-                  <span className="settings-toggle-state">{liveFemaleVoiceEnabled ? "FEMALE" : "MALE"}</span>
-                  <span className={`settings-switch ${liveFemaleVoiceEnabled ? "settings-switch-on" : "settings-switch-off"}`}>
-                    <span className="settings-switch-knob" />
-                  </span>
                   <input
                     type="checkbox"
                     checked={liveFemaleVoiceEnabled}
@@ -2891,7 +2993,11 @@ export default function Home() {
                       void applyLiveVoiceSettings(enabled);
                     }}
                     className="settings-hidden-checkbox"
+                    aria-label="Toggle voice gender"
                   />
+                  <span className={`settings-voice-choice ${liveFemaleVoiceEnabled ? "is-female" : "is-male"}`} aria-hidden="true">
+                    {liveFemaleVoiceEnabled ? "FEMALE" : "MALE"}
+                  </span>
                 </label>
                 {liveVoiceStatus !== "idle" && (
                   <div className={`live-voice-status live-voice-status-${liveVoiceStatus}`} aria-live="polite">
@@ -3034,6 +3140,7 @@ export default function Home() {
                   className="settings-modal-button settings-modal-button-primary"
                   onClick={async () => {
                     try {
+                      if (!(await saveGeminiApiKey())) return;
                       try {
                         const saved =
                           window.localStorage.getItem(
