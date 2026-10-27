@@ -245,6 +245,33 @@ LIVE_CAPABILITY_SCHEMAS: dict[str, dict[str, Any]] = {
         "properties": {},
         "expected_result": "The browser close result or an honest failure.",
     },
+    "desktop_click": {
+        "purpose": (
+            "Find and click one uniquely described visible control in the active supported browser page "
+            "or native Windows application. Use a concise target such as search box, Send button, Settings tab, "
+            "or message field. Resolve ambiguity or report failure; never guess a coordinate."
+        ),
+        "properties": {
+            "target": {"type": "string", "description": "Visible control description to resolve and click."},
+            "application": {"type": "string", "description": "Optional application/window name when the target is not in the foreground app."},
+        },
+        "required": ["target"],
+        "expected_result": "A verified click, ambiguity result, unsupported result, or honest failure.",
+    },
+    "desktop_type": {
+        "purpose": (
+            "Enter exact user-provided text into a uniquely identified focused text field in the active supported "
+            "browser page or native Windows application. If target is supplied, focus it first. This only prepares "
+            "text; it never sends, submits, or presses Enter. Preserve punctuation, whitespace, Unicode, and line breaks."
+        ),
+        "properties": {
+            "text": {"type": "string", "description": "Exact text to enter; do not rewrite or summarize it."},
+            "target": {"type": "string", "description": "Optional visible text-field description to focus first."},
+            "application": {"type": "string", "description": "Optional application/window name when the target is not in the foreground app."},
+        },
+        "required": ["text"],
+        "expected_result": "A verified text-entry result or honest focus, ambiguity, unsupported, or failure result.",
+    },
     "create_image": {
         "purpose": "Generate and save an image from a text prompt through the configured image service.",
         "properties": {

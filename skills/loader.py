@@ -29,6 +29,7 @@ SKILLS = [
     "browser.browser_ai",
     "browser.youtube",
     "browser_control.browser_controls",
+    "desktop_control.desktop_controls",
     "navigation.maps",
     "navigation.translate",
     "system.system",

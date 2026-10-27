@@ -506,6 +506,94 @@ class BrowserController:
             timeout_ms,
         )
 
+    # * =====================================================
+    # * UNIVERSAL DOM INTERACTION
+    # * =====================================================
+
+    def click_target(self, target):
+        return self._run_browser(self._click_target_impl, target)
+
+    def _click_target_impl(self, target):
+        wanted = " ".join(str(target or "").lower().split())
+        if not wanted:
+            return {"ok": False, "status": "invalid_arguments", "action": "desktop_click", "message": "A browser control description is required."}
+        with _browser_lock:
+            if not self.page or self.page.is_closed():
+                return {"ok": False, "status": "browser_unavailable", "action": "desktop_click", "message": "No active browser page is available."}
+            try:
+                selectors = "button, a, input, textarea, select, [role], [contenteditable='true'], [aria-label], [placeholder]"
+                elements = self.page.locator(selectors).all()
+                candidates = []
+                words = set(re.findall(r"[a-z0-9]+", wanted))
+                for element in elements:
+                    try:
+                        data = element.evaluate("""node => ({
+                            text: node.innerText || node.textContent || '',
+                            aria: node.getAttribute('aria-label') || '',
+                            placeholder: node.getAttribute('placeholder') || '',
+                            title: node.getAttribute('title') || '',
+                            role: node.getAttribute('role') || node.tagName || '',
+                            visible: !!(node.offsetWidth || node.offsetHeight || node.getClientRects().length),
+                            disabled: !!node.disabled
+                        })""")
+                        if not data.get("visible") or data.get("disabled"):
+                            continue
+                        haystack = " ".join(str(data.get(key, "")) for key in ("text", "aria", "placeholder", "title", "role")).lower()
+                        haystack_words = set(re.findall(r"[a-z0-9]+", haystack))
+                        score = (50 if wanted in haystack else 0) + 10 * len(words & haystack_words)
+                        if words and words <= haystack_words:
+                            score += 25
+                        role = str(data.get("role", "")).lower()
+                        if words & {"search", "field", "box", "input", "message", "composer"} and (
+                            role in {"input", "textarea"} or data.get("placeholder") or data.get("aria")
+                        ):
+                            score += 18
+                        if words & {"button", "tab", "menu", "send", "settings"} and role in {
+                            "button", "tab", "menuitem", "a"
+                        }:
+                            score += 18
+                        if score:
+                            candidates.append((score, element))
+                    except Exception:
+                        continue
+                candidates.sort(key=lambda item: item[0], reverse=True)
+                if not candidates:
+                    return {"ok": False, "status": "target_not_found", "action": "desktop_click", "target": target, "message": "That control was not found on the active browser page."}
+                if len(candidates) > 1 and candidates[0][0] - candidates[1][0] < 12:
+                    return {"ok": False, "status": "ambiguous_target", "action": "desktop_click", "target": target, "message": "More than one browser control matches that description."}
+                element = candidates[0][1]
+                element.click(timeout=5000)
+                self.page.wait_for_timeout(80)
+                return {"ok": True, "status": "completed", "action": "desktop_click", "target": target, "message": "The browser control was clicked.", "verification": "unique visible DOM control resolved and click completed"}
+            except Exception:
+                return {"ok": False, "status": "failed", "action": "desktop_click", "target": target, "message": "The browser control was found, but the click could not be completed."}
+
+    def type_text(self, text, target=""):
+        return self._run_browser(self._type_text_impl, text, target)
+
+    def _type_text_impl(self, text, target=""):
+        if not isinstance(text, str) or not text:
+            return {"ok": False, "status": "invalid_arguments", "action": "desktop_type", "message": "Exact non-empty text is required."}
+        with _browser_lock:
+            if not self.page or self.page.is_closed():
+                return {"ok": False, "status": "browser_unavailable", "action": "desktop_type", "message": "No active browser page is available."}
+            try:
+                if target:
+                    clicked = self._click_target_impl(target)
+                    if not clicked.get("ok"):
+                        return {**clicked, "action": "desktop_type", "message": "The intended browser field could not be focused."}
+                focused = self.page.locator("input:focus, textarea:focus, [contenteditable='true']:focus").first
+                if focused.count() == 0:
+                    return {"ok": False, "status": "unsupported_target", "action": "desktop_type", "target": target, "message": "The intended browser text field is not focused."}
+                existing = focused.input_value() if focused.evaluate("node => 'value' in node") else focused.inner_text()
+                if existing == text:
+                    return {"ok": True, "status": "already_present", "action": "desktop_type", "target": target, "message": "That exact text is already present.", "characters": len(text)}
+                focused.fill(text) if focused.evaluate("node => 'value' in node") else focused.press_sequentially(text)
+                self.page.wait_for_timeout(80)
+                return {"ok": True, "status": "completed", "action": "desktop_type", "target": target, "message": "The exact text was entered in the focused browser field.", "characters": len(text), "verification": "focused field accepted the input"}
+            except Exception:
+                return {"ok": False, "status": "failed", "action": "desktop_type", "target": target, "message": "The text could not be entered into the intended browser field."}
+
     @staticmethod
     def _safe_page_url(url):
         """Remove credentials, query strings, and fragments from a URL."""

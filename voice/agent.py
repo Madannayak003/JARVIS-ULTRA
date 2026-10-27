@@ -440,6 +440,26 @@ PLATFORM-SPECIFIC APPLICATION STATUS
 - Use `taskmanager` for Windows CPU, memory, and disk usage, not for Android
   application state.
 
+UNIVERSAL DESKTOP INTERACTION
+- For requests to locate and click a visible browser or Windows control, use
+  the dedicated `jarvis_capability__desktop_click` capability with a concise
+  target description such as "search box", "Send button", or "Settings tab".
+- For requests to enter dictated text, use
+  `jarvis_capability__desktop_type`. Preserve the exact text, including
+  punctuation, whitespace, Unicode, and line breaks. Include `target` when
+  the user names a field so it can be focused before typing.
+- These capabilities report ambiguity, unavailable applications, and failed
+  focus honestly. Do not guess coordinates or claim success from a request.
+- If a desktop tool returns `ok: false`, `unsupported_target`,
+  `target_not_found`, `application_not_focused`, or any other non-success
+  status, report the failure or limitation plainly; never say that the click
+  or text entry happened.
+- Desktop typing only prepares text. It never presses Enter, submits a form,
+  or sends a message. Sending must use the existing send capability and the
+  existing explicit-confirmation boundary when the action is consequential.
+- For multi-step requests, complete and inspect each click/type result before
+  continuing. Stop or ask a short clarification when a target is ambiguous.
+
 When the user's intent clearly matches a registered structured
 capability, use the matching jarvis_capability__* tool instead of
 routing the request through general conversation. Use the generic
@@ -2474,7 +2494,6 @@ class Agent:
                 if response.tool_call:
 
                     function_responses = []
-                    batch_results = {}
                     scheduled_commands = {
                         str(function_call.args.get("command", "")).strip().casefold()
                         for function_call in response.tool_call.function_calls
@@ -2499,57 +2518,35 @@ class Agent:
                     ):
 
                         invocation_id = str(function_call.id or "").strip()
-                        invocation_status, invocation_value = (
+                        invocation_status, _ = (
                             self._live_invocations.begin(invocation_id)
                         )
                         if invocation_status == "cached":
-                            function_responses.append(invocation_value)
+                            # The protocol has already received the response
+                            # for this call ID.  Do not send a second response
+                            # for a duplicate delivery: the physical action
+                            # and its authoritative result are both exactly
+                            # once per stable Live invocation ID.
+                            debug_print(
+                                "[LIVE TOOL] Duplicate delivery ignored:",
+                                invocation_id,
+                            )
                             continue
                         if invocation_status == "wait":
-                            cached_response = await self._live_invocations.wait(
-                                invocation_value
+                            # A concurrent duplicate waits only long enough to
+                            # be recognized as a duplicate.  The original
+                            # invocation owns the one response; this delivery
+                            # must not dispatch, retry, block, or manufacture
+                            # a second result.
+                            debug_print(
+                                "[LIVE TOOL] In-flight duplicate ignored:",
+                                invocation_id,
                             )
-                            if cached_response is not None:
-                                function_responses.append(cached_response)
-                            else:
-                                function_responses.append(
-                                    build_live_function_response(
-                                        types,
-                                        function_call.id,
-                                        function_call.name,
-                                        {
-                                            "success": False,
-                                            "status": "duplicate_wait_timeout",
-                                            "message": "The original Live invocation did not finish in time.",
-                                        },
-                                    )
-                                )
                             continue
 
                         function_name = (
                             function_call.name
                         )
-
-                        # A single Live response can contain the same command
-                        # more than once. Coalesce only within this response
-                        # batch; separate user turns remain independent.
-                        batch_key = None
-                        if function_name in {"jarvis_command", "jarvis_capability"} or function_name.startswith("jarvis_capability__"):
-                            batch_key = (
-                                function_name,
-                                json.dumps(function_call.args or {}, sort_keys=True, default=str),
-                            )
-                            if batch_key in batch_results:
-                                function_responses.append(
-                                    build_live_function_response(
-                                        types,
-                                        function_call.id,
-                                        function_name,
-                                        batch_results[batch_key],
-                                    )
-                                )
-                                debug_print("[LIVE TOOL] Duplicate command in one response batch; reusing result")
-                                continue
 
                         debug_print(
                             "[LIVE TOOL]",
@@ -2909,9 +2906,6 @@ class Agent:
                                     f"{function_name}"
                                 ),
                             }
-
-                        if batch_key is not None:
-                            batch_results[batch_key] = result
 
                         live_function_response = build_live_function_response(
                             types,
